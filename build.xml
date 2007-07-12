@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="Ada" default="run">
+	<property file="build.properties" />
+	
+	<target name="init" description="initialization">
+		<mkdir dir="${build.classes.directory}" />
+	</target>
+	
+	<target name="compile" depends="init" description="build project">
+		<javac srcdir="${project.source.directory}" destdir="${build.classes.directory}" debug="${compiler.debug}" />
+	</target>
+	
+	<target name="-pre-jar">
+		<mkdir dir="${distribution.directory}" />
+	</target>
+	
+	<target name="jar" depends="compile, -pre-jar" description="build jar">
+		<jar jarfile="${distribution.jar}" basedir="${build.classes.directory}" manifest="${project.manifest}">
+			<fileset dir="." includes="images/**" />
+			<fileset dir="." includes="audio/**" />
+			<fileset dir="." includes="build/**" />
+		</jar>
+	</target>
+	
+	<target name="run" depends="jar" description="run project">
+		<java jar="${distribution.jar}" fork="yes" />
+	</target>
+
+	<target name="install" depends="jar" description="install project">
+		
+	</target>
+	
+	<target name="clean" description="clean build">
+		<delete dir="${build.directory}" />
+		<delete dir="${distribution.directory}" />
+	</target>
+</project>
