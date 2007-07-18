@@ -1,4 +1,4 @@
-package com.divisiblebyzero.chess.models;
+package com.divisiblebyzero.chess.model;
 
 //
 //  chess.models.Piece.java

@@ -9,7 +9,7 @@ package com.divisiblebyzero.ada;
 //
 
 import com.divisiblebyzero.ada.ui.*;
-import com.divisiblebyzero.chess.models.*;
+import com.divisiblebyzero.chess.model.*;
 import com.divisiblebyzero.network.*;
 
 public class Ada {

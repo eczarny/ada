@@ -12,7 +12,7 @@ import java.awt.*;
 import javax.swing.*;
 
 import com.divisiblebyzero.ada.*;
-import com.divisiblebyzero.chess.models.*;
+import com.divisiblebyzero.chess.model.*;
 
 public class Table extends JFrame {
 	private Ada ada;

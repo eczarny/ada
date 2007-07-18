@@ -13,7 +13,7 @@ import java.awt.event.*;
 import javax.swing.*;
 
 import com.divisiblebyzero.ada.*;
-import com.divisiblebyzero.chess.models.*;
+import com.divisiblebyzero.chess.model.*;
 import com.divisiblebyzero.chess.ai.*;
 
 public class Setup extends JFrame {

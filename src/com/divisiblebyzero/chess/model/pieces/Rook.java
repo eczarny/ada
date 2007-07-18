@@ -1,4 +1,4 @@
-package com.divisiblebyzero.chess.models.pieces;
+package com.divisiblebyzero.chess.model.pieces;
 
 //
 //  chess.models.pieces.Rook.java
@@ -8,7 +8,7 @@ package com.divisiblebyzero.chess.models.pieces;
 //  Copyright 2006 Divisible by Zero. All rights reserved.
 //
 
-import com.divisiblebyzero.chess.models.*;
+import com.divisiblebyzero.chess.model.*;
 
 public class Rook extends Piece {
 	public static long getAttackBitmap(Piece piece, Bitboard bitboard) {

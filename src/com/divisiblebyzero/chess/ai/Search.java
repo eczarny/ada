@@ -10,7 +10,7 @@ package com.divisiblebyzero.chess.ai;
 
 import com.divisiblebyzero.utilities.*;
 import com.divisiblebyzero.ada.ui.*;
-import com.divisiblebyzero.chess.models.*;
+import com.divisiblebyzero.chess.model.*;
 
 public class Search extends Thread {
 	private Board board;

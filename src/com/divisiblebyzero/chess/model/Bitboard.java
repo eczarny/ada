@@ -1,4 +1,4 @@
-package com.divisiblebyzero.chess.models;
+package com.divisiblebyzero.chess.model;
 
 //
 //  chess.models.Bitboard.java
@@ -8,7 +8,7 @@ package com.divisiblebyzero.chess.models;
 //  Copyright 2006 Divisible by Zero. All rights reserved.
 //
 
-import com.divisiblebyzero.chess.models.pieces.*;
+import com.divisiblebyzero.chess.model.pieces.*;
 
 public class Bitboard {
 	private long[][] bitmaps;

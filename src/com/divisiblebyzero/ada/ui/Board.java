@@ -15,7 +15,7 @@ import javax.swing.*;
 import com.divisiblebyzero.utilities.*;
 import com.divisiblebyzero.network.*;
 import com.divisiblebyzero.chess.ai.*;
-import com.divisiblebyzero.chess.models.*;
+import com.divisiblebyzero.chess.model.*;
 
 public class Board extends JPanel implements Cloneable {
 	private Table table;

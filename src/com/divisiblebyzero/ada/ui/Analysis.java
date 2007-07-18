@@ -12,7 +12,7 @@ import java.awt.*;
 import javax.swing.*;
 
 import com.divisiblebyzero.chess.ai.*;
-import com.divisiblebyzero.chess.models.*;
+import com.divisiblebyzero.chess.model.*;
 
 public class Analysis extends JFrame {
 	private JLabel depth;
