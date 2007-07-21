@@ -21,7 +21,7 @@ public class Evaluator {
 	private static class Regions {
 		public static long CENTER = 0x0000001818000000L;
 	}
-
+	
 	private static class Strengths {
 		private static final int[][][] Pawn = {
 			{
@@ -62,7 +62,7 @@ public class Evaluator {
 				}
 			}
 		};
-
+		
 		private static final int[][][] Knight = {
 			{
 				{ /* Black */
@@ -102,7 +102,7 @@ public class Evaluator {
 				}
 			}
 		};
-
+		
 		private static final int[][][] Bishop = {
 			{
 				{ /* Black */
@@ -142,7 +142,7 @@ public class Evaluator {
 				}
 			}
 		};
-
+		
 		private static final int[][][] Rook = {
 			{
 				{ /* Black */
@@ -182,7 +182,7 @@ public class Evaluator {
 				}
 			}
 		};
-
+		
 		private static final int[][][] Queen = {
 			{
 				{ /* Black */
@@ -222,7 +222,7 @@ public class Evaluator {
 				}
 			}
 		};
-
+		
 		private static final int[][][] King = {
 			{
 				{ /* Black */
@@ -263,97 +263,97 @@ public class Evaluator {
 			}
 		};
 	}
-
+	
 	public static boolean isCheck(Board board, int color) {
 		long king = board.getBitboard().getBitmap(color, Piece.KING);
 		long result = 0;
-
+		
 		if (color == Piece.WHITE) {
 			color = Piece.BLACK;
 		} else {
 			color = Piece.WHITE;
 		}
-
+		
 		for (int i = 0; i < 8; i++) {
 			for (int j = 0; j < 8; j++) {
 				Piece current = board.getPieceAtPosition(new Position(i, j));
-
+				
 				if ((current != null) && (current.getColor() == color)) {
 					result = king & board.getBitboard().getAttackBitmap(current);
-
+					
 					if (result != 0) {
 						return true;
 					}
 				}
 			}
 		}
-
+		
 		return false;
 	}
 
 	public static int evaluate(Board board, int color) {
 		int result = 0;
-
+		
 		/* Are we in check at this leaf? If so, make it known. */
 		// if (Evaluator.isCheck(board, color)) {
 			// return -10000;
 		// }
-
+		
 		/* Compute score on material, piece positions, and center control. */
 		for (int i = 0; i < 8; i++) {
 			for (int j = 0; j < 8; j++) {
 				Piece current = board.getPiece(i, j);
-
+				
 				if ((current != null) && (current.getColor() == color)) {
 					int value = 0;
-
+					
 					switch (current.getType()) {
 						case Piece.PAWN:
 							value = Pieces.Values.PAWN;
-
+							
 							value = value + Strengths.Pawn[color][i][j];
-
+							
 							break;
 						case Piece.KNIGHT:
 							value = Pieces.Values.KNIGHT;
-
+							
 							value = value + Strengths.Knight[color][i][j];
-
+							
 							break;
 						case Piece.BISHOP:
 							value = Pieces.Values.BISHOP;
-
+							
 							value = value + Strengths.Bishop[color][i][j];
-
+							
 							break;
 						case Piece.ROOK:
 							value = Pieces.Values.ROOK;
-
+							
 							value = value + Strengths.Rook[color][i][j];
-
+							
 							break;
 						case Piece.QUEEN:
 							value = Pieces.Values.QUEEN;
-
+							
 							value = value + Strengths.Queen[color][i][j];
-
+							
 							break;
 						default:
 							value = Strengths.King[color][i][j];
-
+						
 							break;
 					}
-
+					
 					/* Control of center... */
 					if ((board.getBitboard().getAttackBitmap(current) & Regions.CENTER) != 0) {
 						value = value + 1000;
 					}
-
+					
 					result = result + value;
 				}
 			}
 		}
-
+		
 		return result;
 	}
 }

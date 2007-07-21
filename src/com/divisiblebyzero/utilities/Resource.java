@@ -16,9 +16,9 @@ public class Resource {
 	public static Clip getClip(String resource) {
 		try {
 			Clip clip = AudioSystem.getClip();
-
+			
 			clip.open(AudioSystem.getAudioInputStream(new Resource().getResourceURL(resource)));
-
+			
 			return clip;
 		} catch (Exception e) {
 			return null;
@@ -28,7 +28,7 @@ public class Resource {
 	public static Image getImage(String resource) {
 		return Toolkit.getDefaultToolkit().getImage(new Resource().getResourceURL(resource));
 	}
-
+	
 	private URL getResourceURL(String resource) {
 		return this.getClass().getResource(resource);
 	}

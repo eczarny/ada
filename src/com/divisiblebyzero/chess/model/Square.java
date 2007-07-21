@@ -1,7 +1,7 @@
 package com.divisiblebyzero.chess.model;
 
 //
-//  chess.models.Square.java
+//  chess.model.Square.java
 //  Ada Chess
 //
 //  Created by Eric Czarny on February 27, 2006.
@@ -18,14 +18,14 @@ public class Square {
 	private boolean selected;
 	private boolean hovering;
 	private boolean highlighted;
-
+	
 	/* Default square size */
 	public static int SIZE = 50;
-
+	
 	/* Possible background colors */
 	public static Color WHITE = new Color(245, 245, 245);
 	public static Color BLACK = new Color(127, 178, 204);
-
+	
 	public Square() {
 		this.position    = null;
 		this.background  = null;
@@ -33,7 +33,7 @@ public class Square {
 		this.attacked    = false;
 		this.selected    = false;
 	}
-
+	
 	public Square(Position position, Color background) {
 		this.position    = position;
 		this.background  = background;
@@ -41,7 +41,7 @@ public class Square {
 		this.attacked    = false;
 		this.selected    = false;
 	}
-
+	
 	public Square(Position position, Color background, Piece piece) {
 		this.position    = position;
 		this.background  = background;
@@ -49,59 +49,59 @@ public class Square {
 		this.attacked    = false;
 		this.selected    = false;
 	}
-
+	
 	public Position getPosition() {
 		return this.position;
 	}
-
+	
 	public void setPosition(Position position) {
 		this.position = position;
 	}
-
+	
 	public Color getBackgroundColor() {
 		return this.background;
 	}
-
+	
 	public void setBackgroundColor(Color background) {
 		this.background = background;
 	}
-
+	
 	public Piece getPiece() {
 		return this.piece;
 	}
-
+	
 	public void setPiece(Piece piece) {
 		this.piece = piece;
 	}
-
+	
 	public boolean isAttacked() {
 		return this.attacked;
 	}
-
+	
 	public void isAttacked(boolean attacked) {
 		this.attacked = attacked;
 	}
-
+	
 	public boolean isSelected() {
 		return this.selected;
 	}
-
+	
 	public void isSelected(boolean selected) {
 		this.selected = selected;
 	}
-
+	
 	public boolean isHovering() {
 		return this.hovering;
 	}
-
+	
 	public void isHovering(boolean hovering) {
 		this.hovering = hovering;
 	}
-
+	
 	public boolean isHighlighted() {
 		return this.highlighted;
 	}
-
+	
 	public void isHighlighted(boolean highlighted) {
 		this.highlighted = highlighted;
 	}
