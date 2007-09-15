@@ -5,13 +5,7 @@ package com.divisiblebyzero.chess.ai;
 //  Ada Chess
 //
 //  Created by Eric Czarny on October 28, 2006.
-//  Copyright 2006 Divisible by Zero. All rights reserved.
-//
-
-//
-//	== Material Balance Evaluation
-//
-//
+//  Copyright 2007 Divisible by Zero. All rights reserved.
 //
 
 import com.divisiblebyzero.ada.ui.*;

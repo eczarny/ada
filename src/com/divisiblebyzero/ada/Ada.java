@@ -5,11 +5,10 @@ package com.divisiblebyzero.ada;
 //  Ada Chess
 //
 //  Created by Eric Czarny on April 29, 2006.
-//  Copyright 2006 Divisible by Zero. All rights reserved.
+//  Copyright 2007 Divisible by Zero. All rights reserved.
 //
 
 import com.divisiblebyzero.ada.ui.*;
-import com.divisiblebyzero.chess.model.*;
 import com.divisiblebyzero.network.*;
 
 public class Ada {

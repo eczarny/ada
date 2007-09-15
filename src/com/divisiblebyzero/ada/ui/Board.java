@@ -5,7 +5,7 @@ package com.divisiblebyzero.ada.ui;
 //  Ada Chess
 //
 //  Created by Eric Czarny on March 17, 2006.
-//  Copyright 2006 Divisible by Zero. All rights reserved.
+//  Copyright 2007 Divisible by Zero. All rights reserved.
 //
 
 import java.awt.*;
