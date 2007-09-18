@@ -33,11 +33,11 @@ public class Analysis extends JFrame {
 		int y = Toolkit.getDefaultToolkit().getScreenSize().height;
 		
 		if (System.getProperty("os.name").equals("Mac OS X")) {
-			this.setBounds(((x - ((Square.SIZE * 8) + 20)) / 2) + 430, ((y - (((Square.SIZE * 9) + 15) + 15)) / 2),
-					275, 100);
+			this.setBounds(((x - ((Square.SIZE * 8) + 20) + 2) / 2) + 430, ((y - (((Square.SIZE * 9) + 15) + 15)) / 2),
+				275, 100);
 		} else {
-			this.setBounds(((x - ((Square.SIZE * 8) + 2)) / 2) + 430, ((y - (((Square.SIZE * 9) + 15) + 20)) / 2),
-					275, 100);
+			this.setBounds(((x - (Square.SIZE * 8) + 2) / 2) + 430, ((y - (((Square.SIZE * 9) + 15) + 20)) / 2),
+				275, 100);
 		}
 		
 		this.setResizable(false);

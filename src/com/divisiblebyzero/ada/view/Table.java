@@ -35,8 +35,8 @@ public class Table extends JFrame {
 		int y = Toolkit.getDefaultToolkit().getScreenSize().height;
 		
 		if (System.getProperty("os.name").equals("Mac OS X")) {
-			this.setBounds(((x - ((Square.SIZE * 8) + 20)) / 2), ((y - (((Square.SIZE * 9) + 15) + 15)) / 2),
-				((Square.SIZE * 8) + 20), (((Square.SIZE * 9) + 15) + 15));
+			this.setBounds(((x - ((Square.SIZE * 8) + 20) + 1) / 2), ((y - (((Square.SIZE * 9) + 15) + 15)) / 2),
+				(((Square.SIZE * 8) + 20) + 1), (((Square.SIZE * 9) + 15) + 15));
 		} else {
 			this.setBounds(((x - ((Square.SIZE * 8) + 20) + 7) / 2), ((y - (((Square.SIZE * 9) + 20) + 15)) / 2),
 				(((Square.SIZE * 8) + 20) + 7), (((Square.SIZE * 9) + 20) + 15));
