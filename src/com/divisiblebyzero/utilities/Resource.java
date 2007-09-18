@@ -8,9 +8,12 @@ package com.divisiblebyzero.utilities;
 //  Copyright 2007 Divisible by Zero. All rights reserved.
 //
 
-import java.awt.*;
-import java.net.*;
-import javax.sound.sampled.*;
+import java.awt.Image;
+import java.awt.Toolkit;
+import java.net.URL;
+
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 
 public class Resource {
 	public static Clip getClip(String resource) {

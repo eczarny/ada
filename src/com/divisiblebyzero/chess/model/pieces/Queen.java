@@ -8,7 +8,8 @@ package com.divisiblebyzero.chess.model.pieces;
 //  Copyright 2007 Divisible by Zero. All rights reserved.
 //
 
-import com.divisiblebyzero.chess.model.*;
+import com.divisiblebyzero.chess.model.Bitboard;
+import com.divisiblebyzero.chess.model.Piece;
 
 public class Queen extends Piece {
 	public static long getAttackBitmap(Piece piece, Bitboard bitboard) {

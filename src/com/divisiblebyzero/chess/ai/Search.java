@@ -8,9 +8,12 @@ package com.divisiblebyzero.chess.ai;
 //  Copyright 2007 Divisible by Zero. All rights reserved.
 //
 
-import com.divisiblebyzero.utilities.*;
-import com.divisiblebyzero.ada.ui.*;
-import com.divisiblebyzero.chess.model.*;
+import com.divisiblebyzero.ada.view.Analysis;
+import com.divisiblebyzero.ada.view.Board;
+import com.divisiblebyzero.chess.model.Move;
+import com.divisiblebyzero.chess.model.Moves;
+import com.divisiblebyzero.chess.model.Piece;
+import com.divisiblebyzero.utilities.Resource;
 
 public class Search extends Thread {
 	private Board board;

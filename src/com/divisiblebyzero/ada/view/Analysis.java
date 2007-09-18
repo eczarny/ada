@@ -1,18 +1,25 @@
-package com.divisiblebyzero.ada.ui;
+package com.divisiblebyzero.ada.view;
 
 //
-//  ada.ui.Analysis.java
+//  ada.view.Analysis.java
 //  Ada Chess
 //
 //  Created by Eric Czarny on November 5, 2006.
 //  Copyright 2007 Divisible by Zero. All rights reserved.
 //
 
-import java.awt.*;
-import javax.swing.*;
+import java.awt.BorderLayout;
+import java.awt.Container;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Toolkit;
 
-import com.divisiblebyzero.chess.ai.*;
-import com.divisiblebyzero.chess.model.*;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+
+import com.divisiblebyzero.chess.ai.Search;
+import com.divisiblebyzero.chess.model.Square;
 
 public class Analysis extends JFrame {
 	private JLabel depth;

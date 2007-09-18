@@ -8,7 +8,7 @@ package com.divisiblebyzero.chess.model;
 //  Copyright 2007 Divisible by Zero. All rights reserved.
 //
 
-import java.awt.*;
+import java.awt.Image;
 
 import com.divisiblebyzero.utilities.*;
 

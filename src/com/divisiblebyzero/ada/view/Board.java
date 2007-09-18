@@ -1,21 +1,31 @@
-package com.divisiblebyzero.ada.ui;
+package com.divisiblebyzero.ada.view;
 
 //
-//  ada.ui.Board.java
+//  ada.view.Board.java
 //  Ada Chess
 //
 //  Created by Eric Czarny on March 17, 2006.
 //  Copyright 2007 Divisible by Zero. All rights reserved.
 //
 
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.MediaTracker;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 
-import com.divisiblebyzero.utilities.*;
-import com.divisiblebyzero.network.*;
-import com.divisiblebyzero.chess.ai.*;
-import com.divisiblebyzero.chess.model.*;
+import javax.swing.JPanel;
+
+import com.divisiblebyzero.chess.ai.Evaluator;
+import com.divisiblebyzero.chess.model.Bitboard;
+import com.divisiblebyzero.chess.model.Move;
+import com.divisiblebyzero.chess.model.Piece;
+import com.divisiblebyzero.chess.model.Pieces;
+import com.divisiblebyzero.chess.model.Position;
+import com.divisiblebyzero.chess.model.Square;
+import com.divisiblebyzero.network.Notifier;
+import com.divisiblebyzero.utilities.Resource;
 
 public class Board extends JPanel implements Cloneable {
 	private Table table;

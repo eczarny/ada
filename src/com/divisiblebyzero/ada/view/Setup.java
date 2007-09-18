@@ -1,20 +1,29 @@
-package com.divisiblebyzero.ada.ui;
+package com.divisiblebyzero.ada.view;
 
 //
-//  ada.ui.Setup.java
+//  ada.view.Setup.java
 //  Ada Chess
 //
 //  Created by Eric Czarny on April 28, 2006.
 //  Copyright 2007 Divisible by Zero. All rights reserved.
 //
 
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
+import java.awt.BorderLayout;
+import java.awt.Container;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-import com.divisiblebyzero.ada.*;
-import com.divisiblebyzero.chess.model.*;
-import com.divisiblebyzero.chess.ai.*;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+
+import com.divisiblebyzero.ada.Ada;
+import com.divisiblebyzero.chess.ai.Search;
+import com.divisiblebyzero.chess.model.Piece;
 
 public class Setup extends JFrame {
 	private Ada ada;

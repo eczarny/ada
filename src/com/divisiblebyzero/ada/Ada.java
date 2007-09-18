@@ -8,8 +8,9 @@ package com.divisiblebyzero.ada;
 //  Copyright 2007 Divisible by Zero. All rights reserved.
 //
 
-import com.divisiblebyzero.ada.ui.*;
-import com.divisiblebyzero.network.*;
+import com.divisiblebyzero.ada.view.Analysis;
+import com.divisiblebyzero.ada.view.Table;
+import com.divisiblebyzero.network.Notifier;
 
 public class Ada {
 	private Table table;

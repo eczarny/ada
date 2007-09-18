@@ -12,7 +12,7 @@ import java.net.*;
 import javax.swing.*;
 
 import com.divisiblebyzero.ada.*;
-import com.divisiblebyzero.ada.ui.*;
+import com.divisiblebyzero.ada.view.*;
 import com.divisiblebyzero.utilities.*;
 
 public class Host extends Thread {

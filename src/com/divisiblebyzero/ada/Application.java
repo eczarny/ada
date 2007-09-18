@@ -8,7 +8,7 @@ package com.divisiblebyzero.ada;
 //  Copyright 2007 Divisible by Zero. All rights reserved.
 //
 
-import javax.swing.*;
+import javax.swing.UIManager;
 
 class Application {
 	private Application() {

@@ -31,7 +31,7 @@
 	</target>
 	
 	<target name="clean" description="clean build">
-		<delete dir="${build.directory}" />
+		<delete dir="${build.classes.directory}" />
 		<delete dir="${distribution.directory}" />
 	</target>
 </project>

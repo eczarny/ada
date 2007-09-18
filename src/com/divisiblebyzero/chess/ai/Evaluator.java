@@ -8,8 +8,10 @@ package com.divisiblebyzero.chess.ai;
 //  Copyright 2007 Divisible by Zero. All rights reserved.
 //
 
-import com.divisiblebyzero.ada.ui.*;
-import com.divisiblebyzero.chess.model.*;
+import com.divisiblebyzero.ada.view.Board;
+import com.divisiblebyzero.chess.model.Piece;
+import com.divisiblebyzero.chess.model.Pieces;
+import com.divisiblebyzero.chess.model.Position;
 
 public class Evaluator {
 	private static class Regions {
