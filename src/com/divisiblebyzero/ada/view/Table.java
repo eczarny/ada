@@ -38,8 +38,8 @@ public class Table extends JFrame {
 			this.setBounds(((x - ((Square.SIZE * 8) + 20)) / 2), ((y - (((Square.SIZE * 9) + 15) + 15)) / 2),
 				((Square.SIZE * 8) + 20), (((Square.SIZE * 9) + 15) + 15));
 		} else {
-			this.setBounds(((x - ((Square.SIZE * 8) + 25)) / 2), ((y - (((Square.SIZE * 9) + 20) + 15)) / 2),
-				((Square.SIZE * 8) + 25), (((Square.SIZE * 9) + 20) + 15));
+			this.setBounds(((x - ((Square.SIZE * 8) + 20) + 7) / 2), ((y - (((Square.SIZE * 9) + 20) + 15)) / 2),
+				(((Square.SIZE * 8) + 20) + 7), (((Square.SIZE * 9) + 20) + 15));
 		}
 		
 		this.setResizable(false);
