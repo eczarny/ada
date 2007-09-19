@@ -22,8 +22,8 @@
 	
 	<target name="jar" depends="compile, -pre-jar">
 		<jar jarfile="${distribution.jar}" basedir="${build.classes.directory}">
-			<fileset dir="." includes="images/**" />
-			<fileset dir="." includes="audio/**"  />
+			<fileset dir="${project.base.directory}" includes="images/**" />
+			<fileset dir="${project.base.directory}" includes="audio/**"  />
 			<manifest>
 				<attribute name="Main-Class" value="${project.main}" />
 			</manifest>
