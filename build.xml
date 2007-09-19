@@ -2,35 +2,43 @@
 <project name="Ada" default="run">
 	<property file="build.properties" />
 	
-	<target name="init" description="initialization">
+	<target name="init">
 		<mkdir dir="${build.classes.directory}" />
 	</target>
 	
-	<target name="compile" depends="init" description="build project">
-		<javac srcdir="${project.source.directory}" destdir="${build.classes.directory}" debug="${compiler.debug}" />
+	<target name="compile" depends="init">
+		<javac srcdir="${project.source.directory}" destdir="${build.classes.directory}" debug="${compiler.debug}">
+			<!-- <classpath>
+				<fileset dir="lib">
+					<include name="**/*.jar"/>
+				</fileset>
+			</classpath> -->
+		</javac>
 	</target>
 	
 	<target name="-pre-jar">
 		<mkdir dir="${distribution.directory}" />
 	</target>
 	
-	<target name="jar" depends="compile, -pre-jar" description="build jar">
-		<jar jarfile="${distribution.jar}" basedir="${build.classes.directory}" manifest="${project.manifest}">
+	<target name="jar" depends="compile, -pre-jar">
+		<jar jarfile="${distribution.jar}" basedir="${build.classes.directory}">
 			<fileset dir="." includes="images/**" />
 			<fileset dir="." includes="audio/**"  />
-			<fileset dir="." includes="build/**"  />
+			<manifest>
+				<attribute name="Main-Class" value="${project.main}" />
+			</manifest>
 		</jar>
 	</target>
 	
-	<target name="run" depends="jar" description="run project">
+	<target name="run" depends="jar">
 		<java jar="${distribution.jar}" fork="yes" />
 	</target>
 
-	<target name="install" depends="jar" description="install project">
+	<target name="install" depends="jar">
 		
 	</target>
 	
-	<target name="clean" description="clean build">
+	<target name="clean">
 		<delete dir="${build.classes.directory}" />
 		<delete dir="${distribution.directory}" />
 	</target>
