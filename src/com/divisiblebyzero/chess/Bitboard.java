@@ -1,14 +1,14 @@
-package com.divisiblebyzero.chess.model;
+package com.divisiblebyzero.chess;
 
 //
-//  chess.model.Bitboard.java
+//  chess.Bitboard.java
 //  Ada Chess
 //
 //  Created by Eric Czarny on February 26, 2006.
 //  Copyright 2007 Divisible by Zero. All rights reserved.
 //
 
-import com.divisiblebyzero.chess.model.pieces.*;
+import com.divisiblebyzero.chess.pieces.*;
 
 public class Bitboard {
 	private long[][] bitmaps;

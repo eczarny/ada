@@ -19,7 +19,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import com.divisiblebyzero.ada.Ada;
-import com.divisiblebyzero.chess.model.Square;
+import com.divisiblebyzero.chess.Square;
 
 public class Table extends JFrame {
 	private Ada ada;

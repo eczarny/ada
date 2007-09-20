@@ -17,13 +17,13 @@ import java.awt.event.MouseMotionListener;
 
 import javax.swing.JPanel;
 
+import com.divisiblebyzero.chess.Bitboard;
+import com.divisiblebyzero.chess.Move;
+import com.divisiblebyzero.chess.Piece;
+import com.divisiblebyzero.chess.Pieces;
+import com.divisiblebyzero.chess.Position;
+import com.divisiblebyzero.chess.Square;
 import com.divisiblebyzero.chess.ai.Evaluator;
-import com.divisiblebyzero.chess.model.Bitboard;
-import com.divisiblebyzero.chess.model.Move;
-import com.divisiblebyzero.chess.model.Piece;
-import com.divisiblebyzero.chess.model.Pieces;
-import com.divisiblebyzero.chess.model.Position;
-import com.divisiblebyzero.chess.model.Square;
 import com.divisiblebyzero.network.Notifier;
 import com.divisiblebyzero.utilities.Resource;
 

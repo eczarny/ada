@@ -8,7 +8,7 @@ package com.divisiblebyzero.network;
 //  Copyright 2007 Divisible by Zero. All rights reserved.
 //
 
-import com.divisiblebyzero.chess.model.Move;
+import com.divisiblebyzero.chess.Move;
 
 public class Message {
 	private Move move;

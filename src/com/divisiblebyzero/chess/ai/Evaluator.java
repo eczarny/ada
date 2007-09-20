@@ -9,9 +9,9 @@ package com.divisiblebyzero.chess.ai;
 //
 
 import com.divisiblebyzero.ada.view.Board;
-import com.divisiblebyzero.chess.model.Piece;
-import com.divisiblebyzero.chess.model.Pieces;
-import com.divisiblebyzero.chess.model.Position;
+import com.divisiblebyzero.chess.Piece;
+import com.divisiblebyzero.chess.Pieces;
+import com.divisiblebyzero.chess.Position;
 
 public class Evaluator {
 	private static class Regions {

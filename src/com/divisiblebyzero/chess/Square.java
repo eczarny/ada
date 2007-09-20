@@ -1,7 +1,7 @@
-package com.divisiblebyzero.chess.model;
+package com.divisiblebyzero.chess;
 
 //
-//  chess.model.Square.java
+//  chess.Square.java
 //  Ada Chess
 //
 //  Created by Eric Czarny on February 27, 2006.

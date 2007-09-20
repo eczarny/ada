@@ -10,9 +10,9 @@ package com.divisiblebyzero.chess.ai;
 
 import com.divisiblebyzero.ada.view.Analysis;
 import com.divisiblebyzero.ada.view.Board;
-import com.divisiblebyzero.chess.model.Move;
-import com.divisiblebyzero.chess.model.Moves;
-import com.divisiblebyzero.chess.model.Piece;
+import com.divisiblebyzero.chess.Move;
+import com.divisiblebyzero.chess.Moves;
+import com.divisiblebyzero.chess.Piece;
 import com.divisiblebyzero.utilities.Resource;
 
 public class Search extends Thread {

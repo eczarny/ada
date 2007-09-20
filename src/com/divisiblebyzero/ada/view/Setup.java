@@ -22,8 +22,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import com.divisiblebyzero.ada.Ada;
+import com.divisiblebyzero.chess.Piece;
 import com.divisiblebyzero.chess.ai.Search;
-import com.divisiblebyzero.chess.model.Piece;
 
 public class Setup extends JFrame {
 	private Ada ada;

@@ -18,8 +18,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import com.divisiblebyzero.chess.Square;
 import com.divisiblebyzero.chess.ai.Search;
-import com.divisiblebyzero.chess.model.Square;
 
 public class Analysis extends JFrame {
 	private JLabel depth;

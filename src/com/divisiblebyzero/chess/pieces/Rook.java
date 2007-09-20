@@ -1,16 +1,16 @@
-package com.divisiblebyzero.chess.model.pieces;
+package com.divisiblebyzero.chess.pieces;
 
 //
-//  chess.model.pieces.Rook.java
+//  chess.pieces.Rook.java
 //  Ada Chess
 //
 //  Created by Eric Czarny on March 19, 2006.
 //  Copyright 2007 Divisible by Zero. All rights reserved.
 //
 
-import com.divisiblebyzero.chess.model.Bitboard;
-import com.divisiblebyzero.chess.model.Piece;
-import com.divisiblebyzero.chess.model.Position;
+import com.divisiblebyzero.chess.Bitboard;
+import com.divisiblebyzero.chess.Piece;
+import com.divisiblebyzero.chess.Position;
 
 public class Rook extends Piece {
 	public static long getAttackBitmap(Piece piece, Bitboard bitboard) {
