@@ -37,8 +37,6 @@ public class Ada {
 		
 		/* Create and display the computer analysis window. */
 		// this.getAnalysis();
-		
-		// new Setup(this);
 	}
 	
 	public Table getTable() {

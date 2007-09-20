@@ -8,12 +8,12 @@ package com.divisiblebyzero.network;
 //  Copyright 2007 Divisible by Zero. All rights reserved.
 //
 
-import java.net.*;
-import javax.swing.*;
+import java.net.Socket;
 
-import com.divisiblebyzero.ada.*;
-import com.divisiblebyzero.ada.view.*;
-import com.divisiblebyzero.utilities.*;
+import javax.swing.JOptionPane;
+
+import com.divisiblebyzero.ada.Ada;
+import com.divisiblebyzero.utilities.Resource;
 
 public class Client extends Thread {
 	private Socket socket;
@@ -108,8 +108,6 @@ public class Client extends Thread {
 					JOptionPane.ERROR_MESSAGE);
 			
 			this.ada.getTable().setVisible(false);
-			
-			new Setup(this.ada);
 		}
 	}
 	
