@@ -25,7 +25,6 @@ import com.divisiblebyzero.chess.Position;
 import com.divisiblebyzero.chess.Square;
 import com.divisiblebyzero.chess.ai.Evaluator;
 import com.divisiblebyzero.network.Notifier;
-import com.divisiblebyzero.utilities.Resource;
 
 public class Board extends JPanel implements Cloneable {
 	private Table table;
@@ -199,8 +198,6 @@ public class Board extends JPanel implements Cloneable {
 		/* Are we capturing a piece? If so, remove it from the bitboard. */
 		if (squares[y.getRank()][y.getFile()].getPiece() != null) {
 			bitboard.unsetPieceAtPosition(squares[y.getRank()][y.getFile()].getPiece(), y);
-			
-			Resource.getClip("/audio/Pop.aiff").start();
 		}
 		
 		/* Move the piece to new square. */
@@ -365,7 +362,7 @@ public class Board extends JPanel implements Cloneable {
 			this.move = null;
 			
 			if (Board.this.isLocked()) {
-				Resource.getClip("/audio/Funk.aiff").start();
+				
 			} else {
 				if (((x > -1) && (y > -1)) && ((x < 8) && (y < 8))) {
 					if (squares[x][y].getPiece() != null) {
@@ -378,12 +375,10 @@ public class Board extends JPanel implements Cloneable {
 							/* Set the currently selected piece. */
 							this.piece = Board.this.squares[x][y].getPiece();
 							
-							Resource.getClip("/audio/Pop.aiff").start();
-							
 							/* Display the changes... */
 							Board.this.repaint();
 						} else {
-							Resource.getClip("/audio/Funk.aiff").start();
+							
 						}
 					}
 				}
@@ -409,17 +404,13 @@ public class Board extends JPanel implements Cloneable {
 							
 							/* Unmake the previous move. */
 							Board.this.move(new Move(new Position(x, y), this.position), false);
-							
-							Resource.getClip("/audio/Funk.aiff").start();
 						} else {
 							Board.this.move(new Move(new Position(x, y), this.position), false);
 							
 							Board.this.move(this.move, true);
-							
-							Resource.getClip("/audio/Tink.aiff").start();
 						}
 					} else {
-						Resource.getClip("/audio/Funk.aiff").start();
+						
 					}
 				}
 			}

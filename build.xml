@@ -7,13 +7,7 @@
 	</target>
 	
 	<target name="compile" depends="init">
-		<javac srcdir="${project.source.directory}" destdir="${build.classes.directory}" debug="${compiler.debug}">
-			<!-- <classpath>
-				<fileset dir="lib">
-					<include name="**/*.jar"/>
-				</fileset>
-			</classpath> -->
-		</javac>
+		<javac srcdir="${project.source.directory}" destdir="${build.classes.directory}" debug="${compiler.debug}" />
 	</target>
 	
 	<target name="-pre-jar">
@@ -21,11 +15,10 @@
 	</target>
 	
 	<target name="jar" depends="compile, -pre-jar">
-		<jar jarfile="${distribution.jar}" basedir="${build.classes.directory}">
-			<fileset dir="${project.base.directory}" includes="images/**" />
-			<fileset dir="${project.base.directory}" includes="audio/**"  />
+		<jar jarfile="${distribution.jar}" basedir="${build.classes.directory}" compress="${jar.compress}">
 			<manifest>
 				<attribute name="Main-Class" value="${project.main}" />
+				<attribute name="Class-Path" value="." />
 			</manifest>
 		</jar>
 	</target>
@@ -35,7 +28,7 @@
 	</target>
 
 	<target name="install" depends="jar">
-		
+		<echo>Stub for project installation.</echo>
 	</target>
 	
 	<target name="clean">

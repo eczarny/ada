@@ -20,7 +20,7 @@ public class Piece {
 	
 	/* Constants for piece resources */
 	private static final String EXTENSION = ".png";
-	private static final String PATH      = "/images/pieces/";
+	private static final String PATH      = "resources/images/pieces/";
 	private static final String STYLE     = "motif";
 	
 	/* Possible piece types */

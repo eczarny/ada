@@ -29,7 +29,7 @@ public class Resource {
 	}
 	
 	public static Image getImage(String resource) {
-		return Toolkit.getDefaultToolkit().getImage(new Resource().getResourceURL(resource));
+		return Toolkit.getDefaultToolkit().getImage(resource);
 	}
 	
 	private URL getResourceURL(String resource) {

@@ -13,7 +13,6 @@ import com.divisiblebyzero.ada.view.Board;
 import com.divisiblebyzero.chess.Move;
 import com.divisiblebyzero.chess.Moves;
 import com.divisiblebyzero.chess.Piece;
-import com.divisiblebyzero.utilities.Resource;
 
 public class Search extends Thread {
 	private Board board;
@@ -123,8 +122,6 @@ public class Search extends Thread {
 			
 			this.analysis.setMessage("Found: " + result);
 		}
-		
-		Resource.getClip("/audio/Glass.aiff").start();
 	}
 	
 	private static int invertColor(int color) {
