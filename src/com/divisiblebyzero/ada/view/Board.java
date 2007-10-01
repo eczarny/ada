@@ -17,6 +17,8 @@ import java.awt.event.MouseMotionListener;
 
 import javax.swing.JPanel;
 
+import org.apache.log4j.Logger;
+
 import com.divisiblebyzero.chess.Bitboard;
 import com.divisiblebyzero.chess.Move;
 import com.divisiblebyzero.chess.Piece;
@@ -34,6 +36,8 @@ public class Board extends JPanel implements Cloneable {
 	private Controller controller;
 	private int color;
 	private int state;
+	
+	private static Logger logger = Logger.getLogger(Board.class);
 	
 	/* Possible states of the board. */
 	public static final int UNDECIDED = 0;
@@ -64,6 +68,8 @@ public class Board extends JPanel implements Cloneable {
 		this.addMouseMotionListener(this.controller);
 		
 		this.squares = new Square[8][8];
+		
+		logger.info("Constructing the underlying board.");
 		
 		/* construct a new board, no pieces */
 		for (int i = 0; i < 8; i++) {
@@ -186,6 +192,8 @@ public class Board extends JPanel implements Cloneable {
 		Position x = move.getX();
 		Position y = move.getY();
 		
+		logger.info("Moving the selected piece from " + x + " to " + y + ".");
+		
 		/* Get the piece being moved. */
 		Piece piece = this.squares[x.getRank()][x.getFile()].getPiece();
 		
@@ -264,6 +272,8 @@ public class Board extends JPanel implements Cloneable {
 	
 	public void networkUpdateNotification() {
 		Notifier notifier = this.table.getAda().getNotifier();
+		
+		logger.debug("Board just received a network update notification.");
 		
 		if (notifier.isIncoming() && notifier.getMessage().isMove()) {
 			this.move(notifier.getMessage().getMove(), true);
@@ -358,11 +368,13 @@ public class Board extends JPanel implements Cloneable {
 			int x = calculateCoordinate(event.getY());
 			int y = calculateCoordinate(event.getX());
 			
+			logger.info("Mouse pressed at (" + x + ", " + y + ").");
+			
 			/* We haven't made a move yet, reflect it. */
 			this.move = null;
 			
 			if (Board.this.isLocked()) {
-				
+				logger.info("Board is locked, mouse event ignored.");
 			} else {
 				if (((x > -1) && (y > -1)) && ((x < 8) && (y < 8))) {
 					if (squares[x][y].getPiece() != null) {
@@ -378,7 +390,7 @@ public class Board extends JPanel implements Cloneable {
 							/* Display the changes... */
 							Board.this.repaint();
 						} else {
-							
+							logger.info("Color selected is locked, mouse event ignored.");
 						}
 					}
 				}
@@ -388,6 +400,8 @@ public class Board extends JPanel implements Cloneable {
 		public void mouseReleased(MouseEvent event) {
 			int x = calculateCoordinate(event.getY());
 			int y = calculateCoordinate(event.getX());
+			
+			logger.info("Mouse released at (" + x + ", " + y + ").");
 			
 			if ((!Board.this.isLocked()) && (Board.this.getState() != CHECKMATE)) {
 				if (((x > -1) && (y > -1)) && ((x < 8) && (y < 8))) {
@@ -402,6 +416,8 @@ public class Board extends JPanel implements Cloneable {
 								Board.this.table.setStatus("Your King is in check, illegal move!");
 							}
 							
+							logger.info("King encountered check, move is illegal. Undo the previous move.");
+							
 							/* Unmake the previous move. */
 							Board.this.move(new Move(new Position(x, y), this.position), false);
 						} else {
@@ -410,7 +426,7 @@ public class Board extends JPanel implements Cloneable {
 							Board.this.move(this.move, true);
 						}
 					} else {
-						
+						logger.info("No move is available, mouse event ignored.");
 					}
 				}
 			}

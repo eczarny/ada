@@ -8,6 +8,8 @@ package com.divisiblebyzero.ada;
 //  Copyright 2007 Divisible by Zero. All rights reserved.
 //
 
+import org.apache.log4j.Logger;
+
 import com.divisiblebyzero.ada.view.Analysis;
 import com.divisiblebyzero.ada.view.Table;
 import com.divisiblebyzero.network.Notifier;
@@ -17,6 +19,8 @@ public class Ada {
 	private Analysis analysis;
 	private Notifier notifier;
 	private boolean searching;
+	
+	private static Logger logger = Logger.getLogger(Ada.class);
 	
 	public Ada() {
 		this.searching = false;
@@ -37,6 +41,8 @@ public class Ada {
 		
 		/* Create and display the computer analysis window. */
 		// this.getAnalysis();
+		
+		logger.info("Finished initialization of Ada.");
 	}
 	
 	public Table getTable() {

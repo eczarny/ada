@@ -12,14 +12,17 @@ import java.net.Socket;
 
 import javax.swing.JOptionPane;
 
+import org.apache.log4j.Logger;
+
 import com.divisiblebyzero.ada.Ada;
-import com.divisiblebyzero.utilities.Resource;
 
 public class Client extends Thread {
 	private Socket socket;
 	private byte[] buffer;
 	private Ada ada;
 	private Notifier notifier;
+	
+	private static Logger logger = Logger.getLogger(Client.class);
 	
 	public Client(String address, int port, Notifier notifier, Ada ada) throws Exception {
 		this.buffer = new byte[5];
@@ -30,9 +33,11 @@ public class Client extends Thread {
 			this.ada = ada;
 			this.notifier = notifier;
 			
+			logger.info("Client created, attempting to start client thread...");
+			
 			this.start();
 		} catch (Exception e) {
-			Resource.getClip("/audio/Funk.aiff").start();
+			logger.error("Unable to start client (Exception: " + e + ".");
 			
 			JOptionPane.showMessageDialog(null, "Failed connecting to" + address + ":" + port,
 					"Network Error", JOptionPane.ERROR_MESSAGE);
@@ -43,6 +48,8 @@ public class Client extends Thread {
 	
 	public void run() {
 		Message message =  new Message();
+		
+		logger.info("Client started, waiting for client connections...");
 		
 		try {
 			/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
@@ -57,12 +64,14 @@ public class Client extends Thread {
 			/* Parse the buffer, creating a new Message. */
 			message.parseBytes(this.buffer);
 			
+			logger.debug("Network message received by client: " + message + ".");
+			
 			/* Setup request accepted, enter Client loop */
 			if (message.isAccepted()) {
+				logger.info("Network connection between host and client established.");
+				
 				/* Let Ada know we're connected. */
 				this.notifier.isConnected(true);
-				
-				Resource.getClip("/audio/Glass.aiff").start();
 				
 				while (true) {
 					/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
@@ -81,6 +90,8 @@ public class Client extends Thread {
 					
 					/* Parse the buffer, creating a new Message. */
 					message.parseBytes(this.buffer);
+					
+					logger.debug("Network message received by client: " + message + ".");
 					
 					/* If the Client receives an accepted disconnect, tear down connection. */
 					if (message.isAccepted()) {
@@ -102,7 +113,7 @@ public class Client extends Thread {
 			
 			this.socket.close();
 		} catch (Exception e) {
-			Resource.getClip("/audio/Funk.aiff").start();
+			logger.error("Connection with host lost (Exception: " + e + ".");
 			
 			JOptionPane.showMessageDialog(null, "Lost connection with Host!", "Network Error",
 					JOptionPane.ERROR_MESSAGE);

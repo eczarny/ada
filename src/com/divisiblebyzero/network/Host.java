@@ -13,14 +13,17 @@ import java.net.Socket;
 
 import javax.swing.JOptionPane;
 
+import org.apache.log4j.Logger;
+
 import com.divisiblebyzero.ada.Ada;
-import com.divisiblebyzero.utilities.Resource;
 
 public class Host extends Thread {
 	private ServerSocket socket;
 	private byte[] buffer;
 	private Ada ada;
 	private Notifier notifier;
+	
+	private static Logger logger = Logger.getLogger(Host.class);
 	
 	public Host(int port, Notifier notifier, Ada ada) throws Exception {
 		this.buffer = new byte[5];
@@ -31,9 +34,11 @@ public class Host extends Thread {
 			this.ada = ada;
 			this.notifier = notifier;
 			
+			logger.info("Host created, attempting to start server thread...");
+			
 			this.start();
 		} catch (Exception e) {
-			Resource.getClip("/audio/Funk.aiff").start();
+			logger.error("Unable to start server (Exception: " + e + ".");
 			
 			JOptionPane.showMessageDialog(null, "Failed binding to port " + port,
 					"Network Error", JOptionPane.ERROR_MESSAGE);
@@ -45,6 +50,8 @@ public class Host extends Thread {
 	public void run() {
 		Message message =  new Message();
 		
+		logger.info("Server started, waiting for client connections...");
+		
 		try {
 			Socket connection = this.socket.accept();
 			
@@ -54,24 +61,28 @@ public class Host extends Thread {
 			
 			message.parseBytes(this.buffer);
 			
+			logger.debug("Network message received by host: " + message + ".");
+			
 			/* Setup requested, send acceptance, and enter Host loop. */
 			if (message.isConnect()) {
+				logger.info("Network connection between host and client established.");
+				
 				/* Let Ada know we're connected. */
 				this.notifier.isConnected(true);
-				
-				Resource.getClip("/audio/Glass.aiff").start();
 				
 				/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 				
 				write(connection, (new Message(Message.Commands.ACCEPT).toBytes()));
 				
 				while (true) {
-					/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+					/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 					
 					read(connection, this.buffer);
 					
 					/* Parse the buffer, creating a new Message. */
 					message.parseBytes(this.buffer);
+					
+					logger.debug("Network message received by host: " + message + ".");
 					
 					/* If the Host receives a disconnect, tear down connection. */
 					if (message.isDisconnect()) {
@@ -89,7 +100,7 @@ public class Host extends Thread {
 					/* Let the Table and Board know we are updating. */
 					this.ada.getTable().networkUpdateNotification();
 					
-					/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+					/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 					
 					while (!this.notifier.isOutgoing()) {
 						/* Waiting for an outgoing message...  */
@@ -99,13 +110,13 @@ public class Host extends Thread {
 					
 					this.notifier.isOutgoing(false);
 					
-					/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+					/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 				}
 			}
 			
 			this.socket.close();
 		} catch (Exception e) {
-			Resource.getClip("/audio/Funk.aiff").start();
+			logger.error("Connection with client lost (Exception: " + e + ".");
 			
 			JOptionPane.showMessageDialog(null, "Lost connection with Client!", "Network Error",
 					JOptionPane.ERROR_MESSAGE);

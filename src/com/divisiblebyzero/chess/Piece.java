@@ -85,6 +85,41 @@ public class Piece {
 		return this.image;
 	}
 	
+	public String toString() {
+		String result = "Piece (";
+		
+		if (this.color == Piece.WHITE) {
+			result = result + "White/";
+		} else {
+			result = result + "Black/";
+		}
+		
+		switch(this.type) {
+			case Piece.KING:
+				result = result + "King";
+				break;
+			case Piece.QUEEN:
+				result = result + "Queen";
+				break;
+			case Piece.ROOK:
+				result = result + "Rook";
+				break;
+			case Piece.BISHOP:
+				result = result + "Bishop";
+				break;
+			case Piece.KNIGHT:
+				result = result + "Knight";
+				break;
+			case Piece.PAWN:
+				result = result + "Pawn";
+				break;
+		}
+		
+		result = result + ", Image (Style: " + Piece.STYLE + ", Path: " + Piece.PATH + "))";
+		
+		return result;
+	}
+	
 	private String getIdentifier() {
 		return (String.valueOf((char)(66 + ((this.color * 20) + (this.color * 1)))) + String.valueOf(this.type));
 	}

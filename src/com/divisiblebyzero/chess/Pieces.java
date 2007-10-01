@@ -10,8 +10,12 @@ package com.divisiblebyzero.chess;
 
 import java.awt.MediaTracker;
 
+import org.apache.log4j.Logger;
+
 public class Pieces {
 	private Piece[][] pieces;
+	
+	private static Logger logger = Logger.getLogger(Pieces.class);
 	
 	/* Material values, used in evaluation. */
 	public static class Values {
@@ -33,16 +37,20 @@ public class Pieces {
 				5, 5, 5, 5, 5, 5, 5, 5
 		};
 		
+		logger.info("Loading the images of Chess pieces...");
+		
 		for (int i = 0; i < this.pieces.length; i++) {
 			for (int j = 0; j < this.pieces[i].length; j++) {
 				this.pieces[i][j] = new Piece(j, order[i]);
 				
 				tracker.addImage(this.pieces[i][j].getImage(), 0);
 				
+				logger.info(this.pieces[i][j] + " has been loaded.");
+				
 				try {
 					tracker.waitForAll();
 				} catch (Exception e) {
-					
+					logger.error("Loading of image has failed.");
 				}
 			}
 		}

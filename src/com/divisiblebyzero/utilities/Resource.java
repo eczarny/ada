@@ -15,8 +15,14 @@ import java.net.URL;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 
+import org.apache.log4j.Logger;
+
 public class Resource {
+	private static Logger logger = Logger.getLogger(Resource.class);
+	
 	public static Clip getClip(String resource) {
+		logger.info("Attempting to get the " + resource + " audio resource.");
+		
 		try {
 			Clip clip = AudioSystem.getClip();
 			
@@ -24,8 +30,10 @@ public class Resource {
 			
 			return clip;
 		} catch (Exception e) {
-			return null;
+			logger.error("Unable to locate the following audio resource: " + resource + ".");
 		}
+		
+		return null;
 	}
 	
 	public static Image getImage(String resource) {
