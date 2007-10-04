@@ -10,7 +10,7 @@ package com.divisiblebyzero.chess;
 
 import java.awt.Image;
 
-import com.divisiblebyzero.utilities.*;
+import com.divisiblebyzero.utilities.Resource;
 
 public class Piece {
 	private Image image;

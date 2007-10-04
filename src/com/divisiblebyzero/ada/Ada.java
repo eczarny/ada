@@ -8,23 +8,14 @@ package com.divisiblebyzero.ada;
 //  Copyright 2007 Divisible by Zero. All rights reserved.
 //
 
-import org.apache.log4j.Logger;
-
-import com.divisiblebyzero.ada.view.Analysis;
 import com.divisiblebyzero.ada.view.Table;
 import com.divisiblebyzero.network.Notifier;
 
 public class Ada {
 	private Table table;
-	private Analysis analysis;
 	private Notifier notifier;
-	private boolean searching;
-	
-	private static Logger logger = Logger.getLogger(Ada.class);
 	
 	public Ada() {
-		this.searching = false;
-		
 		this.initialize();
 	}
 	
@@ -38,11 +29,6 @@ public class Ada {
 		// this.getTable().getBoard().isLocked(true);
 		
 		// this.getTable().setStatus("...");
-		
-		/* Create and display the computer analysis window. */
-		// this.getAnalysis();
-		
-		logger.info("Finished initialization of Ada.");
 	}
 	
 	public Table getTable() {
@@ -55,29 +41,11 @@ public class Ada {
 		return this.table;
 	}
 	
-	public Analysis getAnalysis() {
-		if (this.analysis == null) {
-			this.analysis = new Analysis();
-		} else {
-			this.analysis.setVisible(true);
-		}
-		
-		return this.analysis;
-	}
-	
 	public Notifier getNotifier() {
 		if (this.notifier == null) {
 			this.notifier = new Notifier();
 		}
 		
 		return this.notifier;
-	}
-	
-	public boolean isSearching() {
-		return this.searching;
-	}
-	
-	public void isSearching(boolean searching) {
-		this.searching = searching;
 	}
 }
