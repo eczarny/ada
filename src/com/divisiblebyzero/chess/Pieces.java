@@ -45,8 +45,6 @@ public class Pieces {
 				
 				tracker.addImage(this.pieces[i][j].getImage(), 0);
 				
-				logger.info(this.pieces[i][j] + " has been loaded.");
-				
 				try {
 					tracker.waitForAll();
 				} catch (Exception e) {

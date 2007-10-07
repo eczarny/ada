@@ -240,13 +240,13 @@ public class Board extends JPanel implements Cloneable {
 			/* Toggle control of the Board. */
 			if (this.getColor() == Piece.WHITE) {
 				if (this.isLocked()) {
-					table.setStatus("Hey white, it's your turn.");
+					table.setStatus("White, it's your turn.");
 					
 					this.isLocked(Piece.BLACK);
 					
 					this.setColor(Piece.WHITE);
 				} else {
-					table.setStatus("Hey black, it's your turn.");
+					table.setStatus("Black, it's your turn.");
 					
 					this.isLocked(Piece.WHITE);
 					
@@ -297,12 +297,22 @@ public class Board extends JPanel implements Cloneable {
 				/* Draw the actual square. */
 				g.fillRect((j * Square.SIZE) + 10, (i * Square.SIZE) + 10, Square.SIZE, Square.SIZE);
 				
+				/* If the current square is selected, highlight it. */
+				if (square.isSelected()) {
+					g.draw3DRect((j * Square.SIZE) + 10, (i * Square.SIZE) + 10, Square.SIZE - 1, Square.SIZE - 1, true);
+				}
+				
 				/* If the current square is a viable attack/move, highlight it. */
 				if (Bitboard.isPositionAttacked(attacks, square.getPosition())) {
 					if (square.getBackgroundColor() == Square.WHITE) {
 						g.setColor(new Color(128, 212, 13));
 					} else {
 						g.setColor(new Color(128, 255, 13));
+					}
+					
+					/* If an enemy piece occupies current square, highlight as attacked. */
+					if ((square.getPiece() != null) && (square.getPiece().getColor() != this.controller.getPiece().getColor())) {
+						g.setColor(new Color(255, 20, 27));
 					}
 					
 					/* Draw the raised highlighted square. */
@@ -312,23 +322,11 @@ public class Board extends JPanel implements Cloneable {
 					square.isAttacked(true);
 				}
 				
-				/* If the current square is selected, highlight it. */
-				if (square.isSelected()) {
-					g.draw3DRect((j * Square.SIZE) + 10, (i * Square.SIZE) + 10, Square.SIZE - 1, Square.SIZE - 1, true);
-				}
-				
 				/* If the current square is hovered over, highlight it. */
 				if (square.isHovering()) {
-					g.setColor(new Color(128, 212, 13));
+					g.setColor(new Color(12, 112, 173));
 
-					g.drawRect((j * Square.SIZE) + 10, (i * Square.SIZE) + 10, Square.SIZE - 1, Square.SIZE - 1);
-				}
-				
-				/* If the current square requires attention, highlight it. */
-				if (square.isHighlighted()) {
-					g.setColor(new Color(173, 255, 47));
-
-					g.fillRect((j * Square.SIZE) + 10, (i * Square.SIZE) + 10, Square.SIZE, Square.SIZE);
+					g.fill3DRect((j * Square.SIZE) + 10, (i * Square.SIZE) + 10, Square.SIZE, Square.SIZE, true);
 				}
 				
 				/* Finally, draw the piece on the board. */
@@ -377,8 +375,8 @@ public class Board extends JPanel implements Cloneable {
 				logger.info("Board is locked, mouse event ignored.");
 			} else {
 				if (((x > -1) && (y > -1)) && ((x < 8) && (y < 8))) {
-					if (squares[x][y].getPiece() != null) {
-						if (!Board.this.isColorLocked(squares[x][y].getPiece().getColor())) {
+					if (Board.this.squares[x][y].getPiece() != null) {
+						if (!Board.this.isColorLocked(Board.this.squares[x][y].getPiece().getColor())) {
 							this.position = Board.getPosition(event.getX(), event.getY());
 							
 							/* Select the current square, show the selection. */
@@ -386,6 +384,13 @@ public class Board extends JPanel implements Cloneable {
 							
 							/* Set the currently selected piece. */
 							this.piece = Board.this.squares[x][y].getPiece();
+							
+							/* Reset all selected squares. Kind of ugly...*/
+							for (int i = 0; i < 8; i++) {
+								for (int j = 0; j < 8; j++) {
+									Board.this.squares[i][j].isHovering(false);
+								}
+							}
 							
 							/* Display the changes... */
 							Board.this.repaint();
@@ -405,7 +410,7 @@ public class Board extends JPanel implements Cloneable {
 			
 			if ((!Board.this.isLocked()) && (Board.this.getState() != CHECKMATE)) {
 				if (((x > -1) && (y > -1)) && ((x < 8) && (y < 8))) {
-					if ((this.piece != null) && (squares[x][y].isAttacked())) {
+					if ((this.piece != null) && (Board.this.squares[x][y].isAttacked())) {
 						this.move = new Move(this.position, new Position(x, y));
 						
 						/* Make the move. */
@@ -418,7 +423,7 @@ public class Board extends JPanel implements Cloneable {
 							
 							logger.info("King encountered check, move is illegal. Undo the previous move.");
 							
-							/* Unmake the previous move. */
+							/* Undo the previous move. */
 							Board.this.move(new Move(new Position(x, y), this.position), false);
 						} else {
 							Board.this.move(new Move(new Position(x, y), this.position), false);
@@ -427,6 +432,16 @@ public class Board extends JPanel implements Cloneable {
 						}
 					} else {
 						logger.info("No move is available, mouse event ignored.");
+						
+						/* Reset all selected squares. Kind of ugly...*/
+						for (int i = 0; i < 8; i++) {
+							for (int j = 0; j < 8; j++) {
+								Board.this.squares[i][j].isHovering(false);
+							}
+						}
+						
+						/* Display the changes... */
+						Board.this.repaint();
 					}
 				}
 			}
@@ -445,7 +460,7 @@ public class Board extends JPanel implements Cloneable {
 			/* Reset all attacked squares. Kind of ugly...*/
 			for (int i = 0; i < 8; i++) {
 				for (int j = 0; j < 8; j++) {
-					squares[i][j].isAttacked(false);
+					Board.this.squares[i][j].isAttacked(false);
 				}
 			}
 			
@@ -472,8 +487,10 @@ public class Board extends JPanel implements Cloneable {
 				}
 			}
 			
-			if (((x > -1) && (y > -1)) && ((x < 8) && (y < 8))) {
-				Board.this.squares[x][y].isHovering(true);
+			if (this.piece != null) {
+				if (((x > -1) && (y > -1)) && ((x < 8) && (y < 8))) {
+					Board.this.squares[x][y].isHovering(true);
+				}
 			}
 			
 			/* Display the changes... */

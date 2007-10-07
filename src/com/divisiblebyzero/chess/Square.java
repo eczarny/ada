@@ -23,8 +23,8 @@ public class Square {
 	public static int SIZE = 50;
 	
 	/* Possible background colors */
-	public static Color WHITE = new Color(245, 245, 245);
-	public static Color BLACK = new Color(127, 178, 204);
+	public static Color WHITE = new Color(255, 255, 255);
+	public static Color BLACK = new Color(  0,   0,   0);
 	
 	public Square() {
 		this.position    = null;
