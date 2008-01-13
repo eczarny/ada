@@ -385,12 +385,15 @@ public class Board extends JPanel implements Cloneable {
 							/* Set the currently selected piece. */
 							this.piece = Board.this.squares[x][y].getPiece();
 							
-							/* Reset all selected squares. Kind of ugly...*/
+							/* Reset previously highlighted squares. */
 							for (int i = 0; i < 8; i++) {
 								for (int j = 0; j < 8; j++) {
 									Board.this.squares[i][j].isHovering(false);
 								}
 							}
+							
+							/* Now highlight the currently selected piece. */
+							Board.this.squares[x][y].isHovering(true);
 							
 							/* Display the changes... */
 							Board.this.repaint();
