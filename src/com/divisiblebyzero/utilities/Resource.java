@@ -20,7 +20,15 @@ import org.apache.log4j.Logger;
 public class Resource {
 	private static Logger logger = Logger.getLogger(Resource.class);
 	
-	public static Clip getClip(String resource) {
+	public static Image getImage(String resource) {
+		return Toolkit.getDefaultToolkit().getImage(resource);
+	}
+	
+	public static void playAudioFile(String resource) {
+		Resource.getClip(resource).start();
+	}
+	
+	private static Clip getClip(String resource) {
 		logger.info("Attempting to get the " + resource + " audio resource.");
 		
 		try {
@@ -34,10 +42,6 @@ public class Resource {
 		}
 		
 		return null;
-	}
-	
-	public static Image getImage(String resource) {
-		return Toolkit.getDefaultToolkit().getImage(resource);
 	}
 	
 	private URL getResourceURL(String resource) {
