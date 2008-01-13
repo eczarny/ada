@@ -41,7 +41,7 @@ public class Search extends Thread {
 		
 		moves.reset();
 		
-		/* */
+		/* While there are still moves to evaluate... */
 		while (moves.getCurrentMove() != null) {
 			Piece current, capture;
 			
@@ -90,7 +90,6 @@ public class Search extends Thread {
 		
 		result = moves.getCurrentMove();
 		
-		/* */
 		while (moves.getCurrentMove() != null) {
 			moves.next();
 			

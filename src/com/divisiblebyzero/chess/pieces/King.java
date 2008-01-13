@@ -19,7 +19,7 @@ public class King extends Piece {
 		/* The squares directly above, and below, the King. */
 		result = result | (bitmap << 8) | (bitmap >>> 8);
 		
-		/* The three squares to the ri ght of the King. */
+		/* The three squares to the right of the King. */
 		result = result | ((bitmap <<  1) & ~Bitboard.getFile(Bitboard.File.A));
 		result = result | ((bitmap <<  9) & ~Bitboard.getFile(Bitboard.File.A));
 		result = result | ((bitmap <<  7) & ~Bitboard.getFile(Bitboard.File.H));
