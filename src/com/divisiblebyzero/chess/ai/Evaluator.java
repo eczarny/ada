@@ -8,7 +8,7 @@ package com.divisiblebyzero.chess.ai;
 //  Copyright 2007 Divisible by Zero. All rights reserved.
 //
 
-import com.divisiblebyzero.ada.view.Board;
+import com.divisiblebyzero.ada.view.component.Board;
 import com.divisiblebyzero.chess.Piece;
 import com.divisiblebyzero.chess.Pieces;
 import com.divisiblebyzero.chess.Position;

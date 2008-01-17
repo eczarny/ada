@@ -1,4 +1,4 @@
-package com.divisiblebyzero.ada.view;
+package com.divisiblebyzero.ada.view.component;
 
 //
 //  ada.view.Board.java
@@ -19,6 +19,7 @@ import javax.swing.JPanel;
 
 import org.apache.log4j.Logger;
 
+import com.divisiblebyzero.ada.view.Table;
 import com.divisiblebyzero.chess.Bitboard;
 import com.divisiblebyzero.chess.Move;
 import com.divisiblebyzero.chess.Piece;

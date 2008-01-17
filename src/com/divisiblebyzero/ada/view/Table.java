@@ -19,6 +19,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import com.divisiblebyzero.ada.Ada;
+import com.divisiblebyzero.ada.view.component.Board;
 import com.divisiblebyzero.chess.Square;
 
 public class Table extends JFrame {

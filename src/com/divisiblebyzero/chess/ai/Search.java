@@ -8,23 +8,20 @@ package com.divisiblebyzero.chess.ai;
 //  Copyright 2007 Divisible by Zero. All rights reserved.
 //
 
-import com.divisiblebyzero.ada.view.Analysis;
-import com.divisiblebyzero.ada.view.Board;
+import com.divisiblebyzero.ada.view.component.Board;
 import com.divisiblebyzero.chess.Move;
 import com.divisiblebyzero.chess.Moves;
 import com.divisiblebyzero.chess.Piece;
 
 public class Search extends Thread {
 	private Board board;
-	private Analysis analysis;
 	private int color;
 	private int nodes;
 	
 	public static int DEPTH = 0;
 	
-	public Search(Board board, Analysis analysis, int color) {
+	public Search(Board board, int color) {
 		this.board = board;
-		this.analysis = analysis;
 		this.color = color;
 		
 		this.nodes = 0;
@@ -36,8 +33,6 @@ public class Search extends Thread {
 		Move result;
 		
 		Moves moves = Generator.generateLegalMoves(this.board, this.color);
-		
-		this.analysis.setMessage("Evaluating " + moves.getLength() + " Moves...");
 		
 		moves.reset();
 		
@@ -60,7 +55,7 @@ public class Search extends Thread {
 			
 			this.board.setPieceAtPosition(current, move.getY());
 			
-			int value = -this.search(this.board, this.analysis, Search.invertColor(this.color), Search.DEPTH, -10000, 10000);
+			int value = -this.search(this.board, Search.invertColor(this.color), Search.DEPTH, -10000, 10000);
 			
 			board.getBitboard().unsetPieceAtPosition(current, move.getY());
 			
@@ -78,8 +73,6 @@ public class Search extends Thread {
 			board.setPieceAtPosition(current, move.getX());
 			
 			move.setScore(value);
-			
-			this.analysis.setMessage("Evaluated: " + move);
 			
 			moves.next();
 		}
@@ -110,16 +103,12 @@ public class Search extends Thread {
 			}
 		}
 		
-		this.analysis.setAnalysis("Total Evaluated: " + this.getNodes());
-		
 		if (score == -10000) {
-			this.analysis.setMessage("Checkmate...");
+			
 		} else {
 			if (result != null) {
 				this.board.move(result, true);
 			}
-			
-			this.analysis.setMessage("Found: " + result);
 		}
 	}
 	
@@ -131,10 +120,8 @@ public class Search extends Thread {
 		}
 	}
 	
-	public int search(Board board, Analysis analysis, int color, int depth, int alpha, int beta) {
+	public int search(Board board, int color, int depth, int alpha, int beta) {
 		this.nodes++;
-		
-		this.update();
 		
 		if (Evaluator.isCheck(board, color)) {
 			return -10000;
@@ -167,7 +154,7 @@ public class Search extends Thread {
 			
 			board.setPieceAtPosition(current, move.getY());
 			
-			int value = -search(board, analysis, Search.invertColor(color), depth - 1, -beta, -alpha);
+			int value = -search(board, Search.invertColor(color), depth - 1, -beta, -alpha);
 			
 			board.getBitboard().unsetPieceAtPosition(current, move.getY());
 			
@@ -200,9 +187,5 @@ public class Search extends Thread {
 	
 	public int getNodes() {
 		return this.nodes;
-	}
-	
-	public void update() {
-		this.analysis.setAnalysis("Nodes Evaluated: " + this.getNodes());
 	}
 }

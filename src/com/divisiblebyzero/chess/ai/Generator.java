@@ -8,52 +8,12 @@ package com.divisiblebyzero.chess.ai;
 //  Copyright 2007 Divisible by Zero. All rights reserved.
 //
 
-import com.divisiblebyzero.ada.view.Board;
+import com.divisiblebyzero.ada.view.component.Board;
 import com.divisiblebyzero.chess.Bitboard;
 import com.divisiblebyzero.chess.Move;
 import com.divisiblebyzero.chess.Moves;
 import com.divisiblebyzero.chess.Piece;
 import com.divisiblebyzero.chess.Position;
-
-//
-//  == Move Generation
-//
-//  define generateLegalMoves: Bitboard board, int color
-//  	define Moves as result, int as piece
-//  	define int[] as quantities
-//
-//  	quantities is { 1, 1, 2, 2, 2, 8 }
-//
-//  	for each type of Piece(i), i is 0, i to 5
-//  		define long as current, current is Bitboard of Piece(i) and color
-//
-//  		for each Piece in current Board of quantities
-//  			define Piece as origin, origin is the first Piece in current
-//  			define long as moves
-//
-//  			set Position of origin at next Position in current
-//
-//  			moves is all legal moves origin can make
-//
-//  			while moves still exist (not equal to 0)
-//  				define Position as destination, attack is Position from Board(attacks)
-//  				define Move as move
-//
-//  				destination is Position from Board(moves)
-//
-//  				move.setX as origin, setY as destination
-//  				result.insert(move)
-//
-//  				unset move in moves
-//  			end while
-//
-//  			unset Piece in current
-//  		end for
-//  	end for
-//
-//  	return result
-//  end define
-//
 
 public class Generator {
 	private static int quantityOf(Board board, int type, int color) {
