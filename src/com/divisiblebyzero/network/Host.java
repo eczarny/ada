@@ -5,13 +5,11 @@ package com.divisiblebyzero.network;
 //  Ada Chess
 //
 //  Created by Eric Czarny on April 29, 2006.
-//  Copyright 2007 Divisible by Zero. All rights reserved.
+//  Copyright 2008 Divisible by Zero. All rights reserved.
 //
 
 import java.net.ServerSocket;
 import java.net.Socket;
-
-import javax.swing.JOptionPane;
 
 import org.apache.log4j.Logger;
 
@@ -40,10 +38,7 @@ public class Host extends Thread {
 		} catch (Exception e) {
 			logger.error("Unable to start server (Exception: " + e + ".");
 			
-			JOptionPane.showMessageDialog(null, "Failed binding to port " + port,
-					"Network Error", JOptionPane.ERROR_MESSAGE);
-			
-			throw new Exception("Failed binding to port " + port);
+			throw new Exception("Failed binding to port " + port + ", " + e.getMessage());
 		}
 	}
 	
@@ -54,8 +49,6 @@ public class Host extends Thread {
 		
 		try {
 			Socket connection = this.socket.accept();
-			
-			/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 			
 			read(connection, this.buffer);
 			
@@ -70,13 +63,9 @@ public class Host extends Thread {
 				/* Let Ada know we're connected. */
 				this.notifier.isConnected(true);
 				
-				/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
-				
 				write(connection, (new Message(Message.Commands.ACCEPT).toBytes()));
 				
 				while (true) {
-					/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
-					
 					read(connection, this.buffer);
 					
 					/* Parse the buffer, creating a new Message. */
@@ -100,28 +89,19 @@ public class Host extends Thread {
 					/* Let the Table and Board know we are updating. */
 					this.ada.getTable().networkUpdateNotification();
 					
-					/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
-					
 					while (!this.notifier.isOutgoing()) {
-						/* Waiting for an outgoing message...  */
+						/* Waiting for an outgoing message... */
 					}
 					
 					write(connection, this.notifier.getMessage().toBytes());
 					
 					this.notifier.isOutgoing(false);
-					
-					/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 				}
 			}
 			
 			this.socket.close();
 		} catch (Exception e) {
-			logger.error("Connection with client lost (Exception: " + e + ".");
-			
-			JOptionPane.showMessageDialog(null, "Lost connection with Client!", "Network Error",
-					JOptionPane.ERROR_MESSAGE);
-			
-			this.ada.getTable().setVisible(false);
+			logger.error("Connection with client lost!");
 		}
 	}
 	

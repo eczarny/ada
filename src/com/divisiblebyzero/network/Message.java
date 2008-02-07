@@ -5,7 +5,7 @@ package com.divisiblebyzero.network;
 //  Ada Chess
 //
 //  Created by Eric Czarny on April 29, 2006.
-//  Copyright 2007 Divisible by Zero. All rights reserved.
+//  Copyright 2008 Divisible by Zero. All rights reserved.
 //
 
 import com.divisiblebyzero.chess.Move;
