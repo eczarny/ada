@@ -32,7 +32,7 @@ public class Search extends Thread {
 	public void run() {
 		Move result;
 		
-		Moves moves = Generator.generateLegalMoves(this.board, this.color);
+		Moves moves = Generator.generateMovesForColor(this.board, this.color);
 		
 		moves.reset();
 		
@@ -132,7 +132,7 @@ public class Search extends Thread {
 			return Evaluator.evaluate(board, color);
 		}
 		
-		Moves available = Generator.generateLegalMoves(board, color);
+		Moves available = Generator.generateMovesForColor(board, color);
 		
 		available.reset();
 		

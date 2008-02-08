@@ -255,13 +255,13 @@ public class Board extends JPanel implements Cloneable {
 				}
 			} else {
 				if (this.isLocked()) {
-					table.setStatus("Hey black, it's your turn.");
+					table.setStatus("Black, it's your turn.");
 					
 					this.isLocked(Piece.WHITE);
 					
 					this.setColor(Piece.BLACK);
 				} else {
-					table.setStatus("Hey white, it's your turn.");
+					table.setStatus("White, it's your turn.");
 					
 					this.isLocked(Piece.BLACK);
 					
@@ -274,7 +274,7 @@ public class Board extends JPanel implements Cloneable {
 	public void networkUpdateNotification() {
 		Notifier notifier = this.table.getAda().getNotifier();
 		
-		logger.debug("Board just received a network update notification.");
+		logger.debug("The Chess board received a network update notification.");
 		
 		if (notifier.isIncoming() && notifier.getMessage().isMove()) {
 			this.move(notifier.getMessage().getMove(), true);

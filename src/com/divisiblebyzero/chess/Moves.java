@@ -44,6 +44,24 @@ public class Moves {
 		return true;
 	}
 	
+	public boolean insert(Moves moves) {
+		if (moves.front.next == null) {
+			return false;
+		}
+		
+		Node p = this.front;
+		
+		while (p.next != null) {
+			p = p.next;
+		}
+		
+		p.next = moves.front.next;
+		
+		this.length = this.length + moves.getLength();
+		
+		return true;
+	}
+	
 	public boolean remove() {
 		if (this.current == null) {
 			return false;
