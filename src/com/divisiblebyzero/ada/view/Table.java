@@ -19,8 +19,10 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import com.divisiblebyzero.ada.Ada;
+import com.divisiblebyzero.ada.common.LocalizedConstants;
 import com.divisiblebyzero.ada.view.component.Board;
 import com.divisiblebyzero.chess.Square;
+import com.divisiblebyzero.utilities.Localization;
 
 public class Table extends JFrame {
 	private Ada ada;
@@ -28,7 +30,8 @@ public class Table extends JFrame {
 	private JLabel status;
 	
 	public Table(Ada ada) {
-		super("Welcome to Ada!");
+		super(Localization.getInstance().getLocalizedString(
+				LocalizedConstants.Table.WINDOW_TITLE));
 		
 		this.ada = ada;
 		
@@ -66,7 +69,7 @@ public class Table extends JFrame {
 		this.status = new JLabel();
 		
 		this.status.setFont(new Font("Monospaced", Font.PLAIN,  14));
-		this.setStatus("Welcome to Ada!");
+		this.setStatus("...");
 		
 		south.add(this.status);
 		

@@ -8,7 +8,7 @@
 		</layout>
 	</appender>
 	<root>
-		<priority value ="trace" />
+		<priority value="trace" />
 		<appender-ref ref="Ada" />
 	</root>
 </log4j:configuration>

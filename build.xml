@@ -25,6 +25,9 @@
 			<fileset dir="${resources.directory}">
 				<include name="log4j.xml" />
 			</fileset>
+			<fileset dir="${i18n.directory}">
+				<include name="**/*.properties" />
+			</fileset>
 			<manifest>
 				<attribute name="Main-Class" value="${project.main}" />
 				<attribute name="Class-Path" value=". ${project.libraries}" />
