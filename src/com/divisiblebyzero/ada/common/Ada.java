@@ -1,7 +1,7 @@
-package com.divisiblebyzero.ada;
+package com.divisiblebyzero.ada.common;
 
 //
-//  ada.Ada.java
+//  ada.common.Ada.java
 //  Ada Chess
 //
 //  Created by Eric Czarny on April 29, 2006.

@@ -12,6 +12,8 @@ import javax.swing.UIManager;
 
 import org.apache.log4j.Logger;
 
+import com.divisiblebyzero.ada.common.Ada;
+
 class Application {
 	private static Logger logger = Logger.getLogger(Application.class);
 	

@@ -18,8 +18,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import com.divisiblebyzero.ada.Ada;
-import com.divisiblebyzero.ada.common.LocalizedConstants;
+import com.divisiblebyzero.ada.common.Ada;
+import com.divisiblebyzero.ada.i18n.LocalizedConstants;
 import com.divisiblebyzero.ada.view.component.Board;
 import com.divisiblebyzero.chess.Square;
 import com.divisiblebyzero.utilities.Localization;

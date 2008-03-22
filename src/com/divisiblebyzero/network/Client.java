@@ -12,7 +12,7 @@ import java.net.Socket;
 
 import org.apache.log4j.Logger;
 
-import com.divisiblebyzero.ada.Ada;
+import com.divisiblebyzero.ada.common.Ada;
 
 public class Client extends Thread {
 	private Socket socket;
