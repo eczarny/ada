@@ -12,7 +12,7 @@ import com.divisiblebyzero.chess.Bitboard;
 import com.divisiblebyzero.chess.Piece;
 
 public class Queen extends Piece {
-	public static long getAttackBitmap(Piece piece, Bitboard bitboard) {
-		return Rook.getAttackBitmap(piece, bitboard) | Bishop.getAttackBitmap(piece, bitboard);
-	}
+    public static long getAttackBitmap(Piece piece, Bitboard bitboard) {
+        return Rook.getAttackBitmap(piece, bitboard) | Bishop.getAttackBitmap(piece, bitboard);
+    }
 }

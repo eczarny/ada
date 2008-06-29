@@ -9,7 +9,7 @@ package com.divisiblebyzero.ada.i18n;
 //
 
 public class LocalizedConstants {
-	public static class Table {
-		public static final String WINDOW_TITLE  = "table.window.title";
-	}
+    public static class Table {
+        public static final String WINDOW_TITLE  = "table.window.title";
+    }
 }
