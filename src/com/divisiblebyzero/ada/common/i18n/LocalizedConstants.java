@@ -1,4 +1,4 @@
-package com.divisiblebyzero.ada.i18n;
+package com.divisiblebyzero.ada.common.i18n;
 
 //
 //  ada.i18n.LocalizedConstants.java
