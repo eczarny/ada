@@ -57,7 +57,7 @@ public class Client extends Thread {
             
             logger.debug("Network message received by client: " + message + ".");
             
-            /* Setup request accepted, enter Client loop */
+            /* Setup request accepted, enter Client loop. */
             if (message.isAccepted()) {
                 logger.info("Network connection between host and client established.");
                 

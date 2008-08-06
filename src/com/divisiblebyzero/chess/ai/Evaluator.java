@@ -286,16 +286,11 @@ public class Evaluator {
         
         return false;
     }
-
+    
     public static int evaluate(Board board, int color) {
         int result = 0;
         
-        /* Are we in check at this leaf? If so, make it known. */
-        // if (Evaluator.isCheck(board, color)) {
-            // return -10000;
-        // }
-        
-        /* Compute score on material, piece positions, and center control. */
+        /* Compute score on material and piece positioning. */
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
                 Piece current = board.getPiece(i, j);
@@ -340,7 +335,7 @@ public class Evaluator {
                             break;
                     }
                     
-                    /* Control of center... */
+                    /* Control of center bonus. */
                     if ((board.getBitboard().getAttackBitmap(current) & Regions.CENTER) != 0) {
                         value = value + 1000;
                     }

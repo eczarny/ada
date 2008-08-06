@@ -66,7 +66,7 @@ public class Generator {
         
         return result;
     }
-
+    
     public static Moves generateDecentCaptures(Board board, int color) {
         Moves result = Generator.generateMovesForColor(board, color);
         

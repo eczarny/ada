@@ -54,7 +54,7 @@ public class Table extends JFrame {
         
         this.setVisible(true);
     }
-
+    
     private void initialize() {
         Container container = this.getContentPane();
         

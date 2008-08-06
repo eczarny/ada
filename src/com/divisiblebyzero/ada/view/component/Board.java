@@ -218,11 +218,10 @@ public class Board extends JPanel implements Cloneable {
         /* And place it at the new position on the bitboard. */
         bitboard.setPieceAtPosition(piece, y);
         
+        /* Relinquish control of the board, searches won't allow this to happen. */
         if (relinquish) {
-            if (this.getColor() == Piece.BLACK) {
-                if (Evaluator.isCheck(this, Piece.WHITE)) {
-                    Board.this.setState(CHECK);
-                }
+        	if (Evaluator.isCheck(this, this.getColor())) {
+            	Board.this.setState(Board.CHECK);
             }
             
             for (int i = 0; i < 8; i++) {
@@ -238,7 +237,7 @@ public class Board extends JPanel implements Cloneable {
             
             this.repaint();
             
-            /* Toggle control of the Board. */
+            /* Toggle control of the board. */
             if (this.getColor() == Piece.WHITE) {
                 if (this.isLocked()) {
                     table.setStatus("White, it's your turn.");
@@ -360,7 +359,7 @@ public class Board extends JPanel implements Cloneable {
         }
         
         public void mouseClicked(MouseEvent event) {
-
+            
         }
         
         public void mousePressed(MouseEvent event) {
@@ -422,7 +421,9 @@ public class Board extends JPanel implements Cloneable {
                         
                         if (Evaluator.isCheck(Board.this, piece.getColor())) {
                             if (piece.getColor() == Piece.WHITE) {
-                                Board.this.table.setStatus("Your King is in check, illegal move!");
+                                Board.this.table.setStatus("The white King is in check!");
+                            } else {
+                            	Board.this.table.setStatus("The black King is in check!");
                             }
                             
                             logger.info("King encountered check, move is illegal. Undo the previous move.");
@@ -475,11 +476,11 @@ public class Board extends JPanel implements Cloneable {
         public void mouseEntered(MouseEvent event) {
             
         }
-
+        
         public void mouseExited(MouseEvent event) {
             
         }
-
+        
         public void mouseDragged(MouseEvent event) {
             int x = calculateCoordinate(event.getY());
             int y = calculateCoordinate(event.getX());

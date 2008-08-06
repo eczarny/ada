@@ -15,7 +15,7 @@ public class Move {
     public Move() {
         this.x = new Position();
         this.y = new Position();
-
+        
         this.score = 0;
     }
     
