@@ -1,16 +1,19 @@
 package com.divisiblebyzero.chess;
 
 //
-//  chess.Square.java
-//  Ada Chess
+// chess.Square.java
+// Ada Chess
 //
-//  Created by Eric Czarny on February 27, 2006.
-//  Copyright 2008 Divisible by Zero. All rights reserved.
+// Created by Eric Czarny on February 27, 2006.
+// Copyright 2009 Divisible by Zero. All rights reserved.
 //
 
 import java.awt.Color;
+import java.io.Serializable;
 
-public class Square {
+public class Square implements Serializable {
+    private static final long serialVersionUID = -7614199741224409815L;
+    
     private Position position;
     private Color background;
     private Piece piece;
@@ -20,11 +23,11 @@ public class Square {
     private boolean highlighted;
     
     /* Default square size */
-    public static int SIZE = 50;
+    public static final int SIZE = 50;
     
     /* Possible background colors */
-    public static Color WHITE = new Color(255, 255, 255);
-    public static Color BLACK = new Color(  0,   0,   0);
+    public static final Color WHITE = new Color(255, 255, 255);
+    public static final Color BLACK = new Color(  0,   0,   0);
     
     public Square() {
         this.position    = null;

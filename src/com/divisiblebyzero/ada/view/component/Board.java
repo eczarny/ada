@@ -1,11 +1,11 @@
 package com.divisiblebyzero.ada.view.component;
 
 //
-//  ada.view.Board.java
-//  Ada Chess
+// ada.view.Board.java
+// Ada Chess
 //
-//  Created by Eric Czarny on March 17, 2006.
-//  Copyright 2008 Divisible by Zero. All rights reserved.
+// Created by Eric Czarny on March 17, 2006.
+// Copyright 2009 Divisible by Zero. All rights reserved.
 //
 
 import java.awt.Color;
@@ -19,7 +19,7 @@ import javax.swing.JPanel;
 
 import org.apache.log4j.Logger;
 
-import com.divisiblebyzero.ada.view.Table;
+import com.divisiblebyzero.ada.player.ComputerPlayer;
 import com.divisiblebyzero.chess.Bitboard;
 import com.divisiblebyzero.chess.Move;
 import com.divisiblebyzero.chess.Piece;
@@ -27,11 +27,11 @@ import com.divisiblebyzero.chess.Pieces;
 import com.divisiblebyzero.chess.Position;
 import com.divisiblebyzero.chess.Square;
 import com.divisiblebyzero.chess.ai.Evaluator;
-import com.divisiblebyzero.network.Notifier;
 
-public class Board extends JPanel implements Cloneable {
-    private Table table;
-    private Bitboard bitboard;
+public class Board extends JPanel {
+    private static final long serialVersionUID = -4785349736776306753L;
+    
+    private long[][] bitmaps;
     private Square[][] squares;
     private Pieces pieces;
     private Controller controller;
@@ -47,16 +47,15 @@ public class Board extends JPanel implements Cloneable {
     
     /* Board lock object, nothing really special. */
     private static class Lock {
-        public static boolean locked;
-        public static int color;
+        private static boolean locked;
+        private static int color;
     }
     
-    public Board(Table table) {
-        this.table    = table;
-        this.bitboard = new Bitboard();
-        this.pieces   = new Pieces();
-        this.color    = Piece.WHITE;
-        this.state    = UNDECIDED;
+    public Board() {
+        this.bitmaps = Bitboard.generateBitmaps();
+        this.pieces  = new Pieces();
+        this.color   = Piece.WHITE;
+        this.state   = UNDECIDED;
         
         this.initialize();
     }
@@ -127,12 +126,12 @@ public class Board extends JPanel implements Cloneable {
         return 15 + ((Square.SIZE * (offset + 1)) - Square.SIZE);
     }
     
-    private static int calculateCoordinate(int coordinate) {
+    private static int getRankOrFile(int coordinate) {
         return (((coordinate + (Square.SIZE - 10)) / Square.SIZE) - 1);
     }
     
     private static Position getPosition(int x, int y) {
-        return new Position(calculateCoordinate(y), calculateCoordinate(x));
+        return new Position(getRankOrFile(y), getRankOrFile(x));
     }
     
     public boolean isLocked() {
@@ -161,8 +160,8 @@ public class Board extends JPanel implements Cloneable {
         return this.state;
     }
     
-    public Bitboard getBitboard() {
-        return this.bitboard;
+    public long[][] getBitmaps() {
+        return this.bitmaps;
     }
     
     public Piece getPieceAtPosition(Position position) {
@@ -189,11 +188,9 @@ public class Board extends JPanel implements Cloneable {
         this.color = color;
     }
     
-    public void move(Move move, boolean relinquish) {
+    public void move(Move move, boolean relinquishControl) {
         Position x = move.getX();
         Position y = move.getY();
-        
-        logger.info("Moving the selected piece from " + x + " to " + y + ".");
         
         /* Get the piece being moved. */
         Piece piece = this.squares[x.getRank()][x.getFile()].getPiece();
@@ -206,22 +203,22 @@ public class Board extends JPanel implements Cloneable {
         
         /* Are we capturing a piece? If so, remove it from the bitboard. */
         if (squares[y.getRank()][y.getFile()].getPiece() != null) {
-            bitboard.unsetPieceAtPosition(squares[y.getRank()][y.getFile()].getPiece(), y);
+            this.bitmaps = Bitboard.unsetPieceAtPosition(this.bitmaps, squares[y.getRank()][y.getFile()].getPiece(), y);
         }
         
         /* Move the piece to new square. */
         this.setPieceAtPosition(piece, y);
         
         /* Remove the piece from the bitboard... */
-        bitboard.unsetPieceAtPosition(piece, x);
+        this.bitmaps = Bitboard.unsetPieceAtPosition(this.bitmaps, piece, x);
         
         /* And place it at the new position on the bitboard. */
-        bitboard.setPieceAtPosition(piece, y);
+        this.bitmaps = Bitboard.setPieceAtPosition(this.bitmaps, piece, y);
         
         /* Relinquish control of the board, searches won't allow this to happen. */
-        if (relinquish) {
-        	if (Evaluator.isCheck(this, this.getColor())) {
-            	Board.this.setState(Board.CHECK);
+        if (relinquishControl) {
+            if (Evaluator.isCheck(this.bitmaps, this.getColor())) {
+                Board.this.setState(Board.CHECK);
             }
             
             for (int i = 0; i < 8; i++) {
@@ -239,29 +236,25 @@ public class Board extends JPanel implements Cloneable {
             
             /* Toggle control of the board. */
             if (this.getColor() == Piece.WHITE) {
+                ComputerPlayer computerPlayer = new ComputerPlayer();
+                
                 if (this.isLocked()) {
-                    table.setStatus("White, it's your turn.");
-                    
                     this.isLocked(Piece.BLACK);
                     
                     this.setColor(Piece.WHITE);
                 } else {
-                    table.setStatus("Black, it's your turn.");
-                    
                     this.isLocked(Piece.WHITE);
                     
                     this.setColor(Piece.BLACK);
                 }
+                
+                computerPlayer.makeMove(this, Piece.BLACK);
             } else {
                 if (this.isLocked()) {
-                    table.setStatus("Black, it's your turn.");
-                    
                     this.isLocked(Piece.WHITE);
                     
                     this.setColor(Piece.BLACK);
                 } else {
-                    table.setStatus("White, it's your turn.");
-                    
                     this.isLocked(Piece.BLACK);
                     
                     this.setColor(Piece.WHITE);
@@ -270,27 +263,16 @@ public class Board extends JPanel implements Cloneable {
         }
     }
     
-    public void networkUpdateNotification() {
-        Notifier notifier = this.table.getAda().getNotifier();
-        
-        logger.debug("The Chess board received a network update notification.");
-        
-        if (notifier.isIncoming() && notifier.getMessage().isMove()) {
-            this.move(notifier.getMessage().getMove(), true);
-        }
-        
-        this.repaint();
-    }
-    
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         
         /* Use the bitboard to discover all legal moves for the selected piece. */
-        long attacks = this.bitboard.getAttackBitmap(this.controller.getPiece());
+        long attacks = Bitboard.getAttackBitmap(this.bitmaps, this.controller.getSelectedPiece());
         
         for (int i = 0; i < this.squares.length; i++) {
             for (int j = 0; j < this.squares[i].length; j++) {
                 Square square = this.squares[i][j];
+                Piece selectedPiece = this.controller.getSelectedPiece();
                 
                 g.setColor(square.getBackgroundColor());
                 
@@ -311,7 +293,7 @@ public class Board extends JPanel implements Cloneable {
                     }
                     
                     /* If an enemy piece occupies current square, highlight as attacked. */
-                    if ((square.getPiece() != null) && (square.getPiece().getColor() != this.controller.getPiece().getColor())) {
+                    if ((square.getPiece() != null) && (square.getPiece().getColor() != this.controller.getSelectedPiece().getColor())) {
                         g.setColor(new Color(255, 20, 27));
                     }
                     
@@ -322,15 +304,17 @@ public class Board extends JPanel implements Cloneable {
                     square.isAttacked(true);
                 }
                 
-                /* If the current square is hovered over, highlight it. */
-                if (square.isHovering()) {
-                    g.setColor(new Color(12, 112, 173));
-
-                    g.fill3DRect((j * Square.SIZE) + 10, (i * Square.SIZE) + 10, Square.SIZE, Square.SIZE, true);
+                /* If the current square is hovered over, and a piece is currently selected, draw it. */
+                if (square.isHovering() && (selectedPiece != null)) {
+                    g.drawImage(selectedPiece.getImage(), getCoordinate(j), getCoordinate(i), null);
                 }
                 
                 /* Finally, draw the piece on the board. */
                 if (square.getPiece() != null) {
+                    if ((selectedPiece != null) && selectedPiece.getPosition().equals(square.getPosition())) {
+                        continue;
+                    }
+                    
                     g.drawImage(square.getPiece().getImage(), getCoordinate(j), getCoordinate(i), null);
                 }
             }
@@ -342,9 +326,11 @@ public class Board extends JPanel implements Cloneable {
     }
     
     class Controller extends JPanel implements MouseListener, MouseMotionListener {
+        private static final long serialVersionUID = -2076001089265149020L;
+        
         private Position position;
         private Move move;
-        private Piece piece;
+        private Piece selectedPiece;
         
         public Controller(JPanel panel) {
             this.add(panel);
@@ -354,8 +340,8 @@ public class Board extends JPanel implements Cloneable {
             return this.move;
         }
         
-        public Piece getPiece() {
-            return this.piece;
+        public Piece getSelectedPiece() {
+            return this.selectedPiece;
         }
         
         public void mouseClicked(MouseEvent event) {
@@ -363,8 +349,8 @@ public class Board extends JPanel implements Cloneable {
         }
         
         public void mousePressed(MouseEvent event) {
-            int x = calculateCoordinate(event.getY());
-            int y = calculateCoordinate(event.getX());
+            int x = getRankOrFile(event.getY());
+            int y = getRankOrFile(event.getX());
             
             logger.info("Mouse pressed at (" + x + ", " + y + ").");
             
@@ -383,7 +369,7 @@ public class Board extends JPanel implements Cloneable {
                             Board.this.squares[x][y].isSelected(true);
                             
                             /* Set the currently selected piece. */
-                            this.piece = Board.this.squares[x][y].getPiece();
+                            this.selectedPiece = Board.this.squares[x][y].getPiece();
                             
                             /* Reset previously highlighted squares. */
                             for (int i = 0; i < 8; i++) {
@@ -406,26 +392,20 @@ public class Board extends JPanel implements Cloneable {
         }
         
         public void mouseReleased(MouseEvent event) {
-            int x = calculateCoordinate(event.getY());
-            int y = calculateCoordinate(event.getX());
+            int x = getRankOrFile(event.getY());
+            int y = getRankOrFile(event.getX());
             
             logger.info("Mouse released at (" + x + ", " + y + ").");
             
             if ((!Board.this.isLocked()) && (Board.this.getState() != CHECKMATE)) {
                 if (((x > -1) && (y > -1)) && ((x < 8) && (y < 8))) {
-                    if ((this.piece != null) && (Board.this.squares[x][y].isAttacked())) {
+                    if ((this.selectedPiece != null) && (Board.this.squares[x][y].isAttacked())) {
                         this.move = new Move(this.position, new Position(x, y));
                         
                         /* Make the move. */
                         Board.this.move(this.move, false);
                         
-                        if (Evaluator.isCheck(Board.this, piece.getColor())) {
-                            if (piece.getColor() == Piece.WHITE) {
-                                Board.this.table.setStatus("The white King is in check!");
-                            } else {
-                            	Board.this.table.setStatus("The black King is in check!");
-                            }
-                            
+                        if (Evaluator.isCheck(Board.this.bitmaps, selectedPiece.getColor())) {
                             logger.info("King encountered check, move is illegal. Undo the previous move.");
                             
                             /* Undo the previous move. */
@@ -452,7 +432,7 @@ public class Board extends JPanel implements Cloneable {
             }
             
             /* Always make sure we aren't holding a piece. */
-            this.piece = null;
+            this.selectedPiece = null;
             
             /* Hide the selection, if one was made. */
             if (this.position != null) {
@@ -482,8 +462,8 @@ public class Board extends JPanel implements Cloneable {
         }
         
         public void mouseDragged(MouseEvent event) {
-            int x = calculateCoordinate(event.getY());
-            int y = calculateCoordinate(event.getX());
+            int x = getRankOrFile(event.getY());
+            int y = getRankOrFile(event.getX());
             
             /* Reset all selected squares. Kind of ugly...*/
             for (int i = 0; i < 8; i++) {
@@ -492,7 +472,7 @@ public class Board extends JPanel implements Cloneable {
                 }
             }
             
-            if (this.piece != null) {
+            if (this.selectedPiece != null) {
                 if (((x > -1) && (y > -1)) && ((x < 8) && (y < 8))) {
                     Board.this.squares[x][y].isHovering(true);
                 }

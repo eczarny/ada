@@ -1,18 +1,19 @@
 package com.divisiblebyzero.chess.pieces;
 
 //
-//  chess.pieces.Queen.java
-//  Ada Chess
+// chess.pieces.Queen.java
+// Ada Chess
 //
-//  Created by Eric Czarny on March 19, 2006.
-//  Copyright 2008 Divisible by Zero. All rights reserved.
+// Created by Eric Czarny on March 19, 2006.
+// Copyright 2009 Divisible by Zero. All rights reserved.
 //
 
-import com.divisiblebyzero.chess.Bitboard;
 import com.divisiblebyzero.chess.Piece;
 
 public class Queen extends Piece {
-    public static long getAttackBitmap(Piece piece, Bitboard bitboard) {
-        return Rook.getAttackBitmap(piece, bitboard) | Bishop.getAttackBitmap(piece, bitboard);
+    private static final long serialVersionUID = 808262123282008413L;
+
+	public static long getAttackBitmap(long[][] bitmaps, Piece piece) {
+        return Rook.getAttackBitmap(bitmaps, piece) | Bishop.getAttackBitmap(bitmaps, piece);
     }
 }

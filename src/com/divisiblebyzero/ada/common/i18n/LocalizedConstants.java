@@ -1,11 +1,11 @@
 package com.divisiblebyzero.ada.common.i18n;
 
 //
-//  ada.i18n.LocalizedConstants.java
-//  Ada Chess
+// ada.i18n.LocalizedConstants.java
+// Ada Chess
 //
-//  Created by Eric Czarny on March 19, 2008.
-//  Copyright 2008 Divisible by Zero. All rights reserved.
+// Created by Eric Czarny on March 19, 2008.
+// Copyright 2009 Divisible by Zero. All rights reserved.
 //
 
 public class LocalizedConstants {

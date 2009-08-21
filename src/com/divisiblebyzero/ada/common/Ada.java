@@ -1,17 +1,21 @@
 package com.divisiblebyzero.ada.common;
 
 //
-//  ada.common.Ada.java
-//  Ada Chess
+// ada.common.Ada.java
+// Ada Chess
 //
-//  Created by Eric Czarny on April 29, 2006.
-//  Copyright 2008 Divisible by Zero. All rights reserved.
+// Created by Eric Czarny on April 29, 2006.
+// Copyright 2009 Divisible by Zero. All rights reserved.
 //
+
+import java.io.Serializable;
 
 import com.divisiblebyzero.ada.view.Table;
 import com.divisiblebyzero.network.Notifier;
 
-public class Ada {
+public class Ada implements Serializable {
+    private static final long serialVersionUID = -4131304847689842562L;
+    
     private Table table;
     private Notifier notifier;
     
@@ -21,14 +25,6 @@ public class Ada {
     
     private void initialize() {
         this.getTable();
-        
-        /* White will be the initial owner of the Board. */
-        // this.getTable().getBoard().setColor(Piece.WHITE);
-        
-        /* For development reasons leave the Board unlocked. */
-        // this.getTable().getBoard().isLocked(true);
-        
-        // this.getTable().setStatus("...");
     }
     
     public Table getTable() {

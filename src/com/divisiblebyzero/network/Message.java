@@ -1,24 +1,28 @@
 package com.divisiblebyzero.network;
 
 //
-//  network.Message.java
-//  Ada Chess
+// network.Message.java
+// Ada Chess
 //
-//  Created by Eric Czarny on April 29, 2006.
-//  Copyright 2008 Divisible by Zero. All rights reserved.
+// Created by Eric Czarny on April 29, 2006.
+// Copyright 2009 Divisible by Zero. All rights reserved.
 //
+
+import java.io.Serializable;
 
 import com.divisiblebyzero.chess.Move;
 
-public class Message {
+public class Message implements Serializable {
+    private static final long serialVersionUID = 25177896777329389L;
+    
     private Move move;
     private byte command;
     
     public static class Commands {
-        public static byte CONNECT    = 1;
-        public static byte DISCONNECT = 2;
-        public static byte ACCEPT     = 3;
-        public static byte MOVE       = 4;
+        public static final byte CONNECT    = 1;
+        public static final byte DISCONNECT = 2;
+        public static final byte ACCEPT     = 3;
+        public static final byte MOVE       = 4;
     }
     
     public Message() {

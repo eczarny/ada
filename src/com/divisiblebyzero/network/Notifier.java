@@ -1,14 +1,18 @@
 package com.divisiblebyzero.network;
 
 //
-//  network.Notifier.java
-//  Ada Chess
+// network.Notifier.java
+// Ada Chess
 //
-//  Created by Eric Czarny on April 30, 2006.
-//  Copyright 2008 Divisible by Zero. All rights reserved.
+// Created by Eric Czarny on April 30, 2006.
+// Copyright 2009 Divisible by Zero. All rights reserved.
 //
 
-public class Notifier {
+import java.io.Serializable;
+
+public class Notifier implements Serializable {
+    private static final long serialVersionUID = -6714255866242683456L;
+    
     private boolean incoming, outgoing;
     private boolean connected;
     private Message message;

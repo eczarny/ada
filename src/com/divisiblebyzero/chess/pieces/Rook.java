@@ -1,11 +1,11 @@
 package com.divisiblebyzero.chess.pieces;
 
 //
-//  chess.pieces.Rook.java
-//  Ada Chess
+// chess.pieces.Rook.java
+// Ada Chess
 //
-//  Created by Eric Czarny on March 19, 2006.
-//  Copyright 2008 Divisible by Zero. All rights reserved.
+// Created by Eric Czarny on March 19, 2006.
+// Copyright 2009 Divisible by Zero. All rights reserved.
 //
 
 import com.divisiblebyzero.chess.Bitboard;
@@ -13,8 +13,10 @@ import com.divisiblebyzero.chess.Piece;
 import com.divisiblebyzero.chess.Position;
 
 public class Rook extends Piece {
-    public static long getAttackBitmap(Piece piece, Bitboard bitboard) {
-        long bitmap = bitboard.getBitmapAtPosition(piece.getPosition());
+    private static final long serialVersionUID = -5523276415522998967L;
+
+	public static long getAttackBitmap(long[][] bitmaps, Piece piece) {
+        long bitmap = Bitboard.getBitmapAtPosition(bitmaps, piece.getPosition());
         long result = 0;
         
         int rank = piece.getPosition().getRank() + 1;
@@ -24,7 +26,7 @@ public class Rook extends Piece {
         for (int i = 1; i < (8 - piece.getPosition().getRank()); i++) {
             result = result | (bitmap << (8 * i));
             
-            if (bitboard.getBitmapAtPosition((new Position(rank, file))) > 0) {
+            if (Bitboard.getBitmapAtPosition(bitmaps, (new Position(rank, file))) > 0) {
                 break;
             }
             
@@ -38,7 +40,7 @@ public class Rook extends Piece {
         for (int i = 1; i < (piece.getPosition().getRank() + 1); i++) {
             result = result | (bitmap >>> (8 * i));
             
-            if (bitboard.getBitmapAtPosition((new Position(rank, file))) > 0) {
+            if (Bitboard.getBitmapAtPosition(bitmaps, (new Position(rank, file))) > 0) {
                 break;
             }
             
@@ -52,7 +54,7 @@ public class Rook extends Piece {
         for (int i = 1; i < (8 - piece.getPosition().getFile()); i++) {
             result = result | (bitmap << (1 * i));
             
-            if (bitboard.getBitmapAtPosition((new Position(rank, file))) > 0) {
+            if (Bitboard.getBitmapAtPosition(bitmaps, (new Position(rank, file))) > 0) {
                 break;
             }
             
@@ -66,7 +68,7 @@ public class Rook extends Piece {
         for (int i = 1; i < (piece.getPosition().getFile() + 1); i++) {
             result = result | (bitmap >>> (1 * i));
             
-            if (bitboard.getBitmapAtPosition((new Position(rank, file))) > 0) {
+            if (Bitboard.getBitmapAtPosition(bitmaps, (new Position(rank, file))) > 0) {
                 break;
             }
             

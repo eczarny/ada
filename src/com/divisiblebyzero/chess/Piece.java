@@ -1,19 +1,25 @@
 package com.divisiblebyzero.chess;
 
 //
-//  chess.Piece.java
-//  Ada Chess
+// chess.Piece.java
+// Ada Chess
 //
-//  Created by Eric Czarny on February 27, 2006.
-//  Copyright 2008 Divisible by Zero. All rights reserved.
+// Created by Eric Czarny on February 27, 2006.
+// Copyright 2009 Divisible by Zero. All rights reserved.
 //
 
 import java.awt.Image;
+import java.io.IOException;
+import java.io.Serializable;
 
-import com.divisiblebyzero.utilities.Resource;
+import org.apache.log4j.Logger;
 
-public class Piece {
-    private Image image;
+import com.divisiblebyzero.utilities.ResourceUtility;
+
+public class Piece implements Serializable {
+    private static final long serialVersionUID = -890551245339740761L;
+    
+	private transient Image image;
     private Position position;
     private int color;
     private int type;
@@ -34,6 +40,8 @@ public class Piece {
     /*Possible piece colors */
     public static final int BLACK = 0;
     public static final int WHITE = 1;
+    
+    private static Logger logger = Logger.getLogger(Piece.class);
     
     public Piece() {
         this.position = null;
@@ -79,7 +87,11 @@ public class Piece {
     
     public Image getImage() {
         if (this.image == null) {
-            this.image = this.getImage(STYLE, this.getIdentifier());
+            try {
+                this.image = this.getImage(STYLE, this.getIdentifier());
+            } catch (IOException e) {
+                logger.error("Unable to load artwork from location: " + STYLE + "/" + this.getIdentifier(), e);
+            }
         }
         
         return this.image;
@@ -97,21 +109,29 @@ public class Piece {
         switch(this.type) {
             case Piece.KING:
                 result = result + "King";
+                
                 break;
             case Piece.QUEEN:
                 result = result + "Queen";
+                
                 break;
             case Piece.ROOK:
                 result = result + "Rook";
+                
                 break;
             case Piece.BISHOP:
                 result = result + "Bishop";
+                
                 break;
             case Piece.KNIGHT:
                 result = result + "Knight";
+                
                 break;
             case Piece.PAWN:
                 result = result + "Pawn";
+                
+                break;
+            default:
                 break;
         }
         
@@ -124,8 +144,8 @@ public class Piece {
         return (String.valueOf((char)(66 + ((this.color * 20) + (this.color * 1)))) + String.valueOf(this.type));
     }
     
-    private Image getImage(String style, String identifier) {
-        return Resource.getImage(this.getImagePath(style, identifier));
+    private Image getImage(String style, String identifier) throws IOException {
+        return ResourceUtility.getImage(this.getImagePath(style, identifier));
     }
     
     private String getImagePath(String style, String identifier) {

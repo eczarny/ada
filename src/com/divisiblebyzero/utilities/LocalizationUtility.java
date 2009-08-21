@@ -1,11 +1,11 @@
 package com.divisiblebyzero.utilities;
 
 //
-//  utilities.Localization.java
-//  Ada Chess
+// utilities.Localization.java
+// Ada Chess
 //
-//  Created by Eric Czarny on November 18, 2007.
-//  Copyright 2008 Divisible by Zero. All rights reserved.
+// Created by Eric Czarny on November 18, 2007.
+// Copyright 2009 Divisible by Zero. All rights reserved.
 //
 
 import java.util.Locale;
@@ -14,9 +14,9 @@ import java.util.ResourceBundle;
 
 import org.apache.log4j.Logger;
 
-public class Localization {
-    private static Logger logger = Logger.getLogger(Localization.class);
-    private static Localization instance = null;
+public class LocalizationUtility {
+    private static Logger logger = Logger.getLogger(LocalizationUtility.class);
+    private static LocalizationUtility instance = null;
     
     private ResourceBundle bundle;
     private Locale locale;
@@ -26,25 +26,23 @@ public class Localization {
         Locale.US
     };
     
-    public static Localization getInstance() throws MissingResourceException {
+    public static synchronized LocalizationUtility getInstance() throws MissingResourceException {
         if (instance == null) {
-            synchronized (Localization.class) {
-                Locale locale = Locale.getDefault();
+            Locale locale = Locale.getDefault();
+            
+            if (!LocalizationUtility.isLocaleSupported(locale)) {
+                logger.error("The default locale, " + locale + ", is unsupported.");
                 
-                if (!Localization.isLocaleSupported(locale)) {
-                    logger.error("The default locale, " + locale + ", is unsupported.");
-                    
-                    locale = Locale.US;
-                }
-                
-                instance = new Localization("LocalizedStrings", locale);
+                locale = Locale.US;
             }
+            
+            instance = new LocalizationUtility("LocalizedStrings", locale);
         }
         
         return instance;
     }
     
-    private Localization(String bundle, Locale locale) throws MissingResourceException {
+    private LocalizationUtility(String bundle, Locale locale) throws MissingResourceException {
         this.bundle = ResourceBundle.getBundle(bundle, locale);
         
         this.locale = locale;

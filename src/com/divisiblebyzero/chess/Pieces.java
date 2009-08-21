@@ -1,18 +1,21 @@
 package com.divisiblebyzero.chess;
 
 //
-//  chess.Pieces.java
-//  Ada Chess
+// chess.Pieces.java
+// Ada Chess
 //
-//  Created by Eric Czarny on March 23, 2006.
-//  Copyright 2008 Divisible by Zero. All rights reserved.
+// Created by Eric Czarny on March 23, 2006.
+// Copyright 2009 Divisible by Zero. All rights reserved.
 //
 
 import java.awt.MediaTracker;
+import java.io.Serializable;
 
 import org.apache.log4j.Logger;
 
-public class Pieces {
+public class Pieces implements Serializable {
+    private static final long serialVersionUID = 2217117961210308284L;
+
     private Piece[][] pieces;
     
     private static Logger logger = Logger.getLogger(Pieces.class);
@@ -37,7 +40,7 @@ public class Pieces {
                 5, 5, 5, 5, 5, 5, 5, 5
         };
         
-        logger.info("Loading the images of Chess pieces...");
+        logger.info("Loading artwork for Chess pieces...");
         
         for (int i = 0; i < this.pieces.length; i++) {
             for (int j = 0; j < this.pieces[i].length; j++) {

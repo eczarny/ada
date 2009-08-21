@@ -1,15 +1,19 @@
 package com.divisiblebyzero.chess;
 
+import java.io.Serializable;
+
 //
-//  chess.Position.java
-//  Ada Chess
+// chess.Position.java
+// Ada Chess
 //
-//  Created by Eric Czarny on February 28, 2006.
-//  Copyright 2008 Divisible by Zero. All rights reserved.
+// Created by Eric Czarny on February 28, 2006.
+// Copyright 2009 Divisible by Zero. All rights reserved.
 //
 
-public class Position {
-    private int rank, file;
+public class Position implements Serializable {
+    private static final long serialVersionUID = -9142730880358796774L;
+    
+	private int rank, file;
     
     public Position() {
         this.rank = 0;
@@ -38,7 +42,30 @@ public class Position {
     }
     
     public boolean equals(Object object) {
-        return (((Position)object).getRank() == this.rank) && (((Position)object).getFile() == this.file);
+        if (object == this) {
+            return true;
+        }
+        
+        if (object == null) {
+            return false;
+        }
+        
+        if (object instanceof Position) {
+            Position position = (Position)object;
+            
+            return (position.getRank() == this.rank) && (position.getFile() == this.file);
+        }
+        
+        return false;
+    }
+    
+    public int hashCode() {
+        int hash = 42;
+        
+        hash = 31 * hash + rank;
+        hash = 31 * hash + file;
+        
+        return hash;
     }
     
     public String toString() {
@@ -77,6 +104,8 @@ public class Position {
                 result = result + "h";
                 
                 break;
+            default:
+                break;
         }
         
         switch (this.rank) {
@@ -111,6 +140,8 @@ public class Position {
             case 7:
                 result = result + "1";
                 
+                break;
+            default:
                 break;
         }
         

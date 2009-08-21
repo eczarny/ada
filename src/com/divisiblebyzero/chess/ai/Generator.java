@@ -1,28 +1,29 @@
 package com.divisiblebyzero.chess.ai;
 
 //
-//  chess.ai.Generator.java
-//  Ada Chess
+// chess.ai.Generator.java
+// Ada Chess
 //
-//  Created by Eric Czarny on November 6, 2006.
-//  Copyright 2008 Divisible by Zero. All rights reserved.
+// Created by Eric Czarny on November 6, 2006.
+// Copyright 2009 Divisible by Zero. All rights reserved.
 //
 
-import com.divisiblebyzero.ada.view.component.Board;
+import java.util.LinkedList;
+
 import com.divisiblebyzero.chess.Bitboard;
 import com.divisiblebyzero.chess.Move;
-import com.divisiblebyzero.chess.Moves;
 import com.divisiblebyzero.chess.Piece;
 import com.divisiblebyzero.chess.Position;
 
 public class Generator {
-    public static Moves generateMovesForPiece(Board board, Piece piece) {
-        Moves result = new Moves();
+    
+    public static LinkedList<Move> generateMovesForPiece(long[][] bitmaps, Piece piece) {
+        LinkedList<Move> result = new LinkedList<Move>();
         long moves;
         
-        piece.setPosition(Bitboard.getPositionFromBitmap(board.getBitboard().getBitmap(piece)));
+        piece.setPosition(Bitboard.getPositionFromBitmap(Bitboard.getBitmap(bitmaps, piece)));
         
-        moves = board.getBitboard().getAttackBitmap(piece);
+        moves = Bitboard.getAttackBitmap(bitmaps, piece);
         
         while (moves != 0) {
             Position destination = Bitboard.getPositionFromBitmap(moves);
@@ -35,64 +36,57 @@ public class Generator {
                 continue;
             }
             
-            if (board.getPieceAtPosition(move.getX()) != null) {
-                result.insert(move);
+            if (Bitboard.getBitmapAtPosition(bitmaps, move.getX()) > 0) {
+                result.add(move);
             }
             
-            moves = moves & ~board.getBitboard().getMaskAtPosition(destination);
+            moves = moves & ~Bitboard.getMaskAtPosition(destination);
         }
         
         return result;
     }
     
-    public static Moves generateMovesForColor(Board board, int color) {
-        Moves result = new Moves();
+    public static LinkedList<Move> generateMovesForColor(long[][] bitmaps, int color) {
+        LinkedList<Move> result = new LinkedList<Move>();
         
         for (int i = 0; i < 6; i++) {
-            long current = board.getBitboard().getBitmap(color, i);
+            long current = Bitboard.getBitmap(bitmaps, color, i);
             
-            for (int j = 0; j < Generator.quantityOf(board, i, color); j++) {
+            for (int j = 0; j < Generator.quantityOf(bitmaps, i, color); j++) {
                 Piece origin = new Piece(color, i);
                 
-                result.insert(Generator.generateMovesForPiece(board, origin));
+                result.addAll(Generator.generateMovesForPiece(bitmaps, origin));
                 
                 if ((origin.getPosition().getRank() > 7) || (origin.getPosition().getFile() > 7)) {
                     continue;
                 }
                 
-                current = current & ~board.getBitboard().getMaskAtPosition(origin.getPosition());
+                current = current & ~Bitboard.getMaskAtPosition(origin.getPosition());
             }
         }
         
         return result;
     }
     
-    public static Moves generateDecentCaptures(Board board, int color) {
-        Moves result = Generator.generateMovesForColor(board, color);
+    public static LinkedList<Move> generateDecentCaptures(long[][] bitmaps, int color) {
+        LinkedList<Move> moves = Generator.generateMovesForColor(bitmaps, color);
+        LinkedList<Move> result = new LinkedList<Move>();
         
-        result.reset();
-        
-        while (result.getCurrentMove() != null) {
-            Move move = result.getCurrentMove();
-            
-            if (board.getPieceAtPosition(move.getY()) == null) {
-                result.remove();
-                
-                continue;
+        for (Move move : moves) {
+            if (Bitboard.getBitmapAtPosition(bitmaps, move.getY()) > 0) {
+                result.add(move);
             }
-            
-            result.next();
         }
         
         return result;
     }
     
-    private static int quantityOf(Board board, int type, int color) {
+    private static int quantityOf(long[][] bitmaps, int type, int color) {
         int result = 0;
         
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
-                Piece current = board.getPiece(i, j);
+                Piece current = Bitboard.getPieceAtPosition(bitmaps, new Position(i, j));
                 
                 if (current == null) {
                     continue;

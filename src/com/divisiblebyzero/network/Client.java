@@ -1,14 +1,16 @@
 package com.divisiblebyzero.network;
 
 //
-//  network.Client.java
-//  Ada Chess
+// network.Client.java
+// Ada Chess
 //
-//  Created by Eric Czarny on April 29, 2006.
-//  Copyright 2008 Divisible by Zero. All rights reserved.
+// Created by Eric Czarny on April 29, 2006.
+// Copyright 2009 Divisible by Zero. All rights reserved.
 //
 
+import java.io.IOException;
 import java.net.Socket;
+import java.net.UnknownHostException;
 
 import org.apache.log4j.Logger;
 
@@ -17,28 +19,18 @@ import com.divisiblebyzero.ada.common.Ada;
 public class Client extends Thread {
     private Socket socket;
     private byte[] buffer;
-    private Ada ada;
+    // private Ada ada;
     private Notifier notifier;
     
     private static Logger logger = Logger.getLogger(Client.class);
     
-    public Client(String address, int port, Notifier notifier, Ada ada) throws Exception {
+    public Client(String address, int port, Notifier notifier, Ada ada) throws UnknownHostException, IOException {
         this.buffer = new byte[5];
         
-        try {
-            this.socket = new Socket(address, port);
-            
-            this.ada = ada;
-            this.notifier = notifier;
-            
-            logger.info("Client created, attempting to start client thread...");
-            
-            this.start();
-        } catch (Exception e) {
-            logger.error("Unable to start client.");
-            
-            throw new Exception("Failed connecting to" + address + ":" + port + ", " + e.getMessage());
-        }
+        this.socket = new Socket(address, port);
+        
+        // this.ada = ada;
+        this.notifier = notifier;
     }
     
     public void run() {
@@ -92,21 +84,21 @@ public class Client extends Thread {
                     this.notifier.isIncoming(true);
                     
                     /* Let the Table and Board know we are updating. */
-                    this.ada.getTable().networkUpdateNotification();
+                    // this.ada.getTable().getBoard().networkUpdateNotification();
                 }
             }
             
             this.socket.close();
-        } catch (Exception e) {
+        } catch (IOException e) {
             logger.error("Connection with host lost!");
         }
     }
     
-    private static void read(Socket connection, byte buffer[]) throws Exception {
-        connection.getInputStream().read(buffer);
+    private static int read(Socket connection, byte buffer[]) throws IOException {
+        return connection.getInputStream().read(buffer);
     }
     
-    private static void write(Socket connection, byte buffer[]) throws Exception {
+    private static void write(Socket connection, byte buffer[]) throws IOException {
         connection.getOutputStream().write(buffer);
     }
 }

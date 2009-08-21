@@ -1,19 +1,21 @@
 package com.divisiblebyzero.chess.pieces;
 
 //
-//  chess.pieces.King.java
-//  Ada Chess
+// chess.pieces.King.java
+// Ada Chess
 //
-//  Created by Eric Czarny on March 19, 2006.
-//  Copyright 2008 Divisible by Zero. All rights reserved.
+// Created by Eric Czarny on March 19, 2006.
+// Copyright 2009 Divisible by Zero. All rights reserved.
 //
 
 import com.divisiblebyzero.chess.Bitboard;
 import com.divisiblebyzero.chess.Piece;
 
 public class King extends Piece {
-    public static long getAttackBitmap(Piece piece, Bitboard bitboard) {
-        long bitmap = bitboard.getBitmapAtPosition(piece.getPosition());
+    private static final long serialVersionUID = 8277991081370155149L;
+
+	public static long getAttackBitmap(long[][] bitmaps, Piece piece) {
+        long bitmap = Bitboard.getBitmapAtPosition(bitmaps, piece.getPosition());
         long result = 0;
         
         /* The squares directly above, and below, the King. */

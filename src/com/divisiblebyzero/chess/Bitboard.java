@@ -1,18 +1,21 @@
 package com.divisiblebyzero.chess;
 
 //
-//  chess.Bitboard.java
-//  Ada Chess
+// chess.Bitboard.java
+// Ada Chess
 //
-//  Created by Eric Czarny on February 26, 2006.
-//  Copyright 2008 Divisible by Zero. All rights reserved.
+// Created by Eric Czarny on February 26, 2006.
+// Copyright 2009 Divisible by Zero. All rights reserved.
 //
+
+import java.io.Serializable;
 
 import com.divisiblebyzero.chess.pieces.*;
 
-public class Bitboard {
-    private long[][] bitmaps;
-    private long[] masks;
+public class Bitboard implements Serializable {
+    private static final long serialVersionUID = -7010213843321142548L;
+    
+    private static long[] masks = null;
     
     /* Letter representations of board's files. */
     public static class File {
@@ -29,7 +32,7 @@ public class Bitboard {
     /* All of the important bitmaps used by the Bitboard. */
     private static class Bitmaps {
         /* Bitmaps for white pieces */
-        private static final long[] W_PIECES = {
+        private static final long[] WHITE_PIECES = {
                 0x1000000000000000L, /* KING   */
                 0x0800000000000000L, /* QUEEN  */
                 0x8100000000000000L, /* ROOK   */
@@ -39,7 +42,7 @@ public class Bitboard {
         };
         
         /* Bitmaps for black pieces */
-        private static final long[] B_PIECES = {
+        private static final long[] BLACK_PIECES = {
                 0x0000000000000010L, /* KING   */
                 0x0000000000000008L, /* QUEEN  */
                 0x0000000000000081L, /* ROOK   */
@@ -74,73 +77,81 @@ public class Bitboard {
     }
     
     public Bitboard() {
-        this.masks = new long[64];
+        masks = new long[64];
         
-        for (int i = 0; i < this.masks.length; i++) {
-            this.masks[i] = 1L << i;
-        }
-        
-        this.initialize();
-    }
-    
-    private void initialize() {
-        this.bitmaps = new long[6][2];
-        
-        for (int i = 0; i < this.bitmaps.length; i++) {
-            this.bitmaps[i][Piece.WHITE] = Bitmaps.W_PIECES[i];
-            this.bitmaps[i][Piece.BLACK] = Bitmaps.B_PIECES[i];
+        for (int i = 0; i < masks.length; i++) {
+            masks[i] = 1L << i;
         }
     }
     
-    public synchronized long getBitmap() {
+    public static long[][] generateBitmaps() {
+        long[][] bitmaps = new long[6][2];
+        
+        for (int i = 0; i < bitmaps.length; i++) {
+            bitmaps[i][Piece.WHITE] = Bitmaps.WHITE_PIECES[i];
+            bitmaps[i][Piece.BLACK] = Bitmaps.BLACK_PIECES[i];
+        }
+        
+        if (Bitboard.masks == null) {
+            Bitboard.masks = new long[64];
+            
+            for (int i = 0; i < Bitboard.masks.length; i++) {
+                Bitboard.masks[i] = 1L << i;
+            }
+        }
+        
+        return bitmaps;
+    }
+    
+    public static long getBitmap(long[][] bitmaps) {
         long result = 0;
         
-        for (int i = 0; i < this.bitmaps.length; i++) {
-            result = result | this.bitmaps[i][Piece.WHITE] | this.bitmaps[i][Piece.BLACK];
+        for (int i = 0; i < bitmaps.length; i++) {
+            result = result | bitmaps[i][Piece.WHITE] | bitmaps[i][Piece.BLACK];
         }
         
         return result;
     }
     
-    public synchronized long getBitmap(int color, int type) {
-        return this.bitmaps[type][color];
+    public static long getBitmap(long[][] bitmaps, int color, int type) {
+        return bitmaps[type][color];
     }
     
-    public synchronized long getBitmap(Piece piece) {
-        return this.getBitmap(piece.getColor(), piece.getType());
+    public static long getBitmap(long[][] bitmaps, Piece piece) {
+        return getBitmap(bitmaps, piece.getColor(), piece.getType());
     }
     
-    public synchronized long getBitmap(int color) {
+    public static long getBitmap(long[][] bitmaps, int color) {
         long result = 0;
         
-        for (int i = 0; i < this.bitmaps.length; i++) {
-            result = result | this.bitmaps[i][color];
+        for (int i = 0; i < bitmaps.length; i++) {
+            result = result | bitmaps[i][color];
         }
         
         return result;
     }
     
-    public synchronized long getBitmapAtPosition(Position position) {
+    public static long getBitmapAtPosition(long[][] bitmaps, Position position) {
         long result = 0;
         
         if ((getIndexAtPosition(position) < 64) && (getIndexAtPosition(position) > -1)) {
-            result = this.getBitmap() & this.masks[getIndexAtPosition(position)];
+            result = Bitboard.getBitmap(bitmaps) & Bitboard.masks[getIndexAtPosition(position)];
         }
         
         return result;
     }
     
-    public synchronized long getBitmapAtPosition(int color, Position position) {
+    public static long getBitmapAtPosition(long[][] bitmaps, int color, Position position) {
         long result = 0;
         
         if ((getIndexAtPosition(position) < 64) && (getIndexAtPosition(position) > -1)) {
-            result = this.getBitmap(color) & this.masks[getIndexAtPosition(position)];
+            result = Bitboard.getBitmap(bitmaps, color) & Bitboard.masks[getIndexAtPosition(position)];
         }
         
         return result;
     }
     
-    public synchronized static Position getPositionFromBitmap(long bitmap) {
+    public static Position getPositionFromBitmap(long bitmap) {
         Position result = new Position(0, 0);
         
         for (int i = 1; i < 65; i++) {
@@ -160,7 +171,52 @@ public class Bitboard {
         return result;
     }
     
-    public synchronized long getAttackBitmap(Piece piece) {
+    public static int getColorFromBitmap(long[][] bitmaps, long bitmap) {
+        int result = -1;
+        
+        for (int i = 0; i < bitmaps.length; i++) {
+            if ((bitmaps[i][Piece.WHITE] & bitmap) > 0) {
+                result = Piece.WHITE;
+                
+                break;
+            } else if ((bitmaps[i][Piece.BLACK] & bitmap) > 0) {
+                result = Piece.BLACK;
+                
+                break;
+            }
+        }
+        
+        return result;
+    }
+    
+    public static int getTypeFromBitmap(long[][] bitmaps, long bitmap) {
+        int result = -1;
+        
+        for (int i = 0; i < bitmaps.length; i++) {
+            if ((bitmaps[i][Piece.WHITE] & bitmap) > 0) {
+                result = i;
+                
+                break;
+            } else if ((bitmaps[i][Piece.BLACK] & bitmap) > 0) {
+                result = i;
+                
+                break;
+            }
+        }
+        
+        return result;
+    }
+    
+    public static Piece getPieceAtPosition(long[][] bitmaps, Position position) {
+        long bitmap = Bitboard.getBitmapAtPosition(bitmaps, position);
+        Piece result = new Piece(Bitboard.getColorFromBitmap(bitmaps, bitmap), Bitboard.getTypeFromBitmap(bitmaps, bitmap));
+        
+        result.setPosition(position);
+        
+        return result;
+    }
+    
+    public static long getAttackBitmap(long[][] bitmaps, Piece piece) {
         long result = 0;
         
         if (piece == null) {
@@ -170,27 +226,35 @@ public class Bitboard {
         /* What piece are we looking for? */
         switch (piece.getType()) {
             case Piece.PAWN:
-                result = Pawn.getAttackBitmap(piece, this);
+                result = Pawn.getAttackBitmap(bitmaps, piece);
+                
                 break;
             case Piece.KNIGHT:
-                result = Knight.getAttackBitmap(piece, this);
+                result = Knight.getAttackBitmap(bitmaps, piece);
+                
                 break;
             case Piece.BISHOP:
-                result = Bishop.getAttackBitmap(piece, this);
+                result = Bishop.getAttackBitmap(bitmaps, piece);
+                
                 break;
             case Piece.ROOK:
-                result = Rook.getAttackBitmap(piece, this);
+                result = Rook.getAttackBitmap(bitmaps, piece);
+                
                 break;
             case Piece.QUEEN:
-                result = Queen.getAttackBitmap(piece, this);
+                result = Queen.getAttackBitmap(bitmaps, piece);
+                
                 break;
             case Piece.KING:
-                result = King.getAttackBitmap(piece, this);
+                result = King.getAttackBitmap(bitmaps, piece);
+                
+                break;
+            default:
                 break;
         }
         
         /* Blocks squares held by a piece of the same color. */
-        result = result & ~this.getBitmap(piece.getColor());
+        result = result & ~Bitboard.getBitmap(bitmaps, piece.getColor());
         
         return result;
     }
@@ -203,16 +267,20 @@ public class Bitboard {
         return Bitmaps.RANKS[rank];
     }
     
-    public long getMaskAtPosition(Position position) {
-        return this.masks[getIndexAtPosition(position)];
+    public static long getMaskAtPosition(Position position) {
+        return Bitboard.masks[getIndexAtPosition(position)];
     }
     
-    public synchronized void setPieceAtPosition(Piece piece, Position position) {
-        this.bitmaps[piece.getType()][piece.getColor()] = this.getBitmap(piece) | this.getMaskAtPosition(position);
+    public static long[][] setPieceAtPosition(long[][] bitmaps, Piece piece, Position position) {
+        bitmaps[piece.getType()][piece.getColor()] = Bitboard.getBitmap(bitmaps, piece) | Bitboard.getMaskAtPosition(position);
+        
+        return bitmaps;
     }
     
-    public synchronized void unsetPieceAtPosition(Piece piece, Position position) {
-        this.bitmaps[piece.getType()][piece.getColor()] = this.getBitmap(piece) & ~this.getMaskAtPosition(position);
+    public static long[][] unsetPieceAtPosition(long[][] bitmaps, Piece piece, Position position) {
+        bitmaps[piece.getType()][piece.getColor()] = Bitboard.getBitmap(bitmaps, piece) & ~Bitboard.getMaskAtPosition(position);
+        
+        return bitmaps;
     }
     
     public static boolean isPositionAttacked(long bitmap, Position position) {
