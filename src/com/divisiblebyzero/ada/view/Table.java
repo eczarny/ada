@@ -57,7 +57,7 @@ public class Table extends JFrame {
         
         container.setLayout(new BorderLayout(10, 10));
         
-        this.board = new Board();
+        this.board = new Board(this.ada);
         
         container.add(this.board, BorderLayout.CENTER);
     }

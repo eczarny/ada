@@ -98,13 +98,15 @@ public class Piece implements Serializable {
     }
     
     public String toString() {
-        String result = "Piece (";
+        String result = "Piece (Color: ";
         
         if (this.color == Piece.WHITE) {
-            result = result + "White/";
+            result = result + "White";
         } else {
-            result = result + "Black/";
+            result = result + "Black";
         }
+        
+        result = result + ", Type: ";
         
         switch(this.type) {
             case Piece.KING:
@@ -132,10 +134,12 @@ public class Piece implements Serializable {
                 
                 break;
             default:
+                result = result + "Unknown";
+                
                 break;
         }
         
-        result = result + ", Image (Style: " + Piece.STYLE + ", Path: " + Piece.PATH + "))";
+        result = result + ", Position: " + this.position + ")";
         
         return result;
     }

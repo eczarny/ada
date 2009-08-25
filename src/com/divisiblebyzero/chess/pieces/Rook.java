@@ -26,7 +26,7 @@ public class Rook extends Piece {
         for (int i = 1; i < (8 - piece.getPosition().getRank()); i++) {
             result = result | (bitmap << (8 * i));
             
-            if (Bitboard.getBitmapAtPosition(bitmaps, (new Position(rank, file))) > 0) {
+            if (Bitboard.isPositionOccupied(bitmaps, new Position(rank, file))) {
                 break;
             }
             
@@ -40,7 +40,7 @@ public class Rook extends Piece {
         for (int i = 1; i < (piece.getPosition().getRank() + 1); i++) {
             result = result | (bitmap >>> (8 * i));
             
-            if (Bitboard.getBitmapAtPosition(bitmaps, (new Position(rank, file))) > 0) {
+            if (Bitboard.isPositionOccupied(bitmaps, new Position(rank, file))) {
                 break;
             }
             
@@ -54,7 +54,7 @@ public class Rook extends Piece {
         for (int i = 1; i < (8 - piece.getPosition().getFile()); i++) {
             result = result | (bitmap << (1 * i));
             
-            if (Bitboard.getBitmapAtPosition(bitmaps, (new Position(rank, file))) > 0) {
+            if (Bitboard.isPositionOccupied(bitmaps, new Position(rank, file))) {
                 break;
             }
             
@@ -68,7 +68,7 @@ public class Rook extends Piece {
         for (int i = 1; i < (piece.getPosition().getFile() + 1); i++) {
             result = result | (bitmap >>> (1 * i));
             
-            if (Bitboard.getBitmapAtPosition(bitmaps, (new Position(rank, file))) > 0) {
+            if (Bitboard.isPositionOccupied(bitmaps, new Position(rank, file))) {
                 break;
             }
             

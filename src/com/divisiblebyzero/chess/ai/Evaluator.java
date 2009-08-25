@@ -273,9 +273,16 @@ public class Evaluator {
         
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
-                Piece current = Bitboard.getPieceAtPosition(bitmaps, new Position(i, j));
+            	Position position = new Position(i, j);
+            	Piece current = null;
+            	
+            	if (!Bitboard.isPositionOccupied(bitmaps, position)) {
+            		continue;
+            	}
+            	
+            	current = Bitboard.getPieceAtPosition(bitmaps, position);
                 
-                if ((current != null) && (current.getColor() == color)) {
+                if (current.getColor() == color) {
                     result = king & Bitboard.getAttackBitmap(bitmaps, current);
                     
                     if (result != 0) {

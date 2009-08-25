@@ -14,8 +14,8 @@ import java.io.Serializable;
 public class Square implements Serializable {
     private static final long serialVersionUID = -7614199741224409815L;
     
+    private int color;
     private Position position;
-    private Color background;
     private Piece piece;
     private boolean attacked;
     private boolean selected;
@@ -27,30 +27,38 @@ public class Square implements Serializable {
     
     /* Possible background colors */
     public static final Color WHITE = new Color(255, 255, 255);
-    public static final Color BLACK = new Color(  0,   0,   0);
+    public static final Color BLACK = new Color(0, 0, 0);
     
     public Square() {
+        this.color       = -1;
         this.position    = null;
-        this.background  = null;
         this.piece       = null;
         this.attacked    = false;
         this.selected    = false;
     }
     
-    public Square(Position position, Color background) {
+    public Square(int color, Position position) {
+        this.color       = color;
         this.position    = position;
-        this.background  = background;
         this.piece       = null;
         this.attacked    = false;
         this.selected    = false;
     }
     
-    public Square(Position position, Color background, Piece piece) {
+    public Square(int color, Position position, Piece piece) {
+        this.color       = color;
         this.position    = position;
-        this.background  = background;
         this.piece       = piece;
         this.attacked    = false;
         this.selected    = false;
+    }
+    
+    public int getColor() {
+        return this.color;
+    }
+    
+    public void setColor(int color) {
+        this.color = color;
     }
     
     public Position getPosition() {
@@ -59,14 +67,6 @@ public class Square implements Serializable {
     
     public void setPosition(Position position) {
         this.position = position;
-    }
-    
-    public Color getBackgroundColor() {
-        return this.background;
-    }
-    
-    public void setBackgroundColor(Color background) {
-        this.background = background;
     }
     
     public Piece getPiece() {
@@ -107,5 +107,15 @@ public class Square implements Serializable {
     
     public void isHighlighted(boolean highlighted) {
         this.highlighted = highlighted;
+    }
+    
+    public Color getBackgroundColor() {
+        Color backgroundColor = Square.WHITE;
+        
+        if (this.color == Piece.BLACK) {
+            backgroundColor = Square.BLACK;
+        }
+        
+        return backgroundColor;
     }
 }

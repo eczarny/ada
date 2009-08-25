@@ -26,10 +26,10 @@ public class Pawn extends Piece {
             
             /* If at a position of origin, allow the Pawn to advance two squares. */
             if (Bitboard.getPositionFromBitmap(bitmap).getRank() == 6) {
-                if (Bitboard.getBitmapAtPosition(bitmaps, new Position(rank - 1, file)) != 0) {
+                if (Bitboard.isPositionOccupied(bitmaps, new Position(rank - 1, file))) {
                     result = (bitmap >>> 8);
                 } else {
-                    if (Bitboard.getBitmapAtPosition(bitmaps, new Position(rank - 2, file)) != 0) {
+                    if (Bitboard.isPositionOccupied(bitmaps, new Position(rank - 2, file))) {
                         result = (bitmap >>> 8);
                     } else {
                         result = (bitmap >>> 8) | (bitmap >>> 16);
@@ -65,10 +65,10 @@ public class Pawn extends Piece {
             
             /* If at a position of origin, allow the Pawn to advance two squares. */
             if (Bitboard.getPositionFromBitmap(bitmap).getRank() == 1) {
-                if (Bitboard.getBitmapAtPosition(bitmaps, new Position(rank + 1, file)) != 0) {
+                if (Bitboard.isPositionOccupied(bitmaps, new Position(rank + 1, file))) {
                     result = (bitmap << 8);
                 } else {
-                    if (Bitboard.getBitmapAtPosition(bitmaps, new Position(rank + 2, file)) != 0) {
+                    if (Bitboard.isPositionOccupied(bitmaps, new Position(rank + 2, file))) {
                         result = (bitmap << 8);
                     } else {
                         result = (bitmap << 8) | (bitmap << 16);
