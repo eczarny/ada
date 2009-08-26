@@ -57,7 +57,7 @@ public class Board extends JPanel {
         this.ada      = ada;
         this.bitboard = Bitboard.generateBitboard();
         this.pieces   = new Pieces();
-        this.color    = Piece.WHITE;
+        this.color    = Piece.Color.WHITE;
         this.state    = UNDECIDED;
         
         this.initialize();
@@ -79,15 +79,15 @@ public class Board extends JPanel {
             for (int j = 0; j < 8; j++) {
                 if ((i % 2) == 0) {
                     if ((j % 2) == 0) {
-                        this.squares[i][j] = new Square(Piece.WHITE, new Position(i, j));
+                        this.squares[i][j] = new Square(Piece.Color.WHITE, new Position(i, j));
                     } else {
-                        this.squares[i][j] = new Square(Piece.BLACK, new Position(i, j));
+                        this.squares[i][j] = new Square(Piece.Color.BLACK, new Position(i, j));
                     }
                 } else {
                     if ((j % 2) == 0) {
-                        this.squares[i][j] = new Square(Piece.BLACK, new Position(i, j));
+                        this.squares[i][j] = new Square(Piece.Color.BLACK, new Position(i, j));
                     } else {
-                        this.squares[i][j] = new Square(Piece.WHITE, new Position(i, j));
+                        this.squares[i][j] = new Square(Piece.Color.WHITE, new Position(i, j));
                     }
                 }
             }
@@ -104,15 +104,15 @@ public class Board extends JPanel {
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
                 if (i == 0) {
-                    this.squares[i][j].setPiece(this.pieces.getPiece(Piece.BLACK, j));
+                    this.squares[i][j].setPiece(this.pieces.getPiece(Piece.Color.BLACK, j));
                 } else if (i == 1) {
-                    this.squares[i][j].setPiece(this.pieces.getPiece(Piece.BLACK, j + 8));
+                    this.squares[i][j].setPiece(this.pieces.getPiece(Piece.Color.BLACK, j + 8));
                 }
                 
                 if (i == 7) {
-                    this.squares[i][j].setPiece(this.pieces.getPiece(Piece.WHITE, j));
+                    this.squares[i][j].setPiece(this.pieces.getPiece(Piece.Color.WHITE, j));
                 } else if (i == 6) {
-                    this.squares[i][j].setPiece(this.pieces.getPiece(Piece.WHITE, j + 8));
+                    this.squares[i][j].setPiece(this.pieces.getPiece(Piece.Color.WHITE, j + 8));
                 }
                 
                 if (this.squares[i][j].getPiece() != null) {
@@ -122,7 +122,7 @@ public class Board extends JPanel {
         }
         
         /* Make sure that white can move first. */
-        this.isLocked(Piece.BLACK);
+        this.isLocked(Piece.Color.BLACK);
     }
     
     private static int getCoordinate(int offset) {
@@ -241,28 +241,28 @@ public class Board extends JPanel {
         this.setPieceAtPosition(piece, y);
         
         /* Highlight the prior move... */
-        this.squares[x.getRank()][x.getFile()].isHighlighted(true);
-        this.squares[y.getRank()][y.getFile()].isHighlighted(true);
+        this.squares[x.getRank()][x.getFile()].setHighlighted(true);
+        this.squares[y.getRank()][y.getFile()].setHighlighted(true);
         
         this.repaint();
         
         /* Toggle control of the board. */
-        if (this.getColor() == Piece.WHITE) {
+        if (this.getColor() == Piece.Color.WHITE) {
             Player currentPlayer = this.ada.getBlackPlayer();
             
-        	this.isLocked(Piece.WHITE);
+        	this.isLocked(true);
             
-            this.setColor(Piece.BLACK);
+            this.setColor(Piece.Color.BLACK);
             
-            currentPlayer.makeMove(this, Piece.BLACK);
+            currentPlayer.makeMove(this, Piece.Color.BLACK);
         } else {
             Player currentPlayer = this.ada.getWhitePlayer();
             
-            this.isLocked(Piece.BLACK);
+            this.isLocked(Piece.Color.BLACK);
             
-            this.setColor(Piece.WHITE);
+            this.setColor(Piece.Color.WHITE);
             
-            currentPlayer.makeMove(this, Piece.WHITE);
+            currentPlayer.makeMove(this, Piece.Color.WHITE);
         }
     }
     
@@ -289,14 +289,14 @@ public class Board extends JPanel {
                 
                 /* If the current square is a viable attack/move, highlight it. */
                 if (Bitboard.isPositionAttacked(attacks, square.getPosition())) {
-                    if (square.getColor() == Piece.WHITE) {
+                    if (square.getColor() == Piece.Color.WHITE) {
                         g.setColor(new Color(128, 212, 13));
                     } else {
                         g.setColor(new Color(128, 255, 13));
                     }
                     
                     /* If an enemy piece occupies current square, highlight as attacked. */
-                    if ((square.getPiece() != null) && (square.getPiece().getColor() != this.controller.getSelectedPiece().getColor())) {
+                    if (!square.isEmpty() && (square.getPiece().getColor() != selectedPiece.getColor())) {
                         g.setColor(new Color(255, 20, 27));
                     }
                     
@@ -307,25 +307,16 @@ public class Board extends JPanel {
                     square.isAttacked(true);
                 }
                 
-                if (square.isHighlighted()) {
-                    g.setColor(new Color(180, 180, 180));
+                if (square.isHovering() || square.isHighlighted()) {
+                    g.setColor(new Color(58, 172, 216));
                     
                     g.fill3DRect((j * Square.SIZE) + 10, (i * Square.SIZE) + 10, Square.SIZE, Square.SIZE, true);
                     
-                    square.isHighlighted(false);
+                    square.setHighlighted(false);
                 }
                 
-                /* If the current square is hovered over, and a piece is currently selected, draw it. */
-                if (square.isHovering() && (selectedPiece != null)) {
-                    g.drawImage(selectedPiece.getImage(), getCoordinate(j), getCoordinate(i), null);
-                }
-                
-                /* Finally, draw the piece on the board. */
-                if (square.getPiece() != null) {
-                    if ((selectedPiece != null) && selectedPiece.getPosition().equals(square.getPosition())) {
-                        continue;
-                    }
-                    
+                /* Draw the piece on the board. */
+                if (!square.isEmpty()) {
                     g.drawImage(square.getPiece().getImage(), getCoordinate(j), getCoordinate(i), null);
                 }
             }
@@ -373,7 +364,7 @@ public class Board extends JPanel {
                             this.position = Board.getPosition(event.getX(), event.getY());
                             
                             /* Select the current square, show the selection. */
-                            Board.this.squares[x][y].isSelected(true);
+                            Board.this.squares[x][y].setSelected(true);
                             
                             /* Set the currently selected piece. */
                             this.selectedPiece = Board.this.squares[x][y].getPiece();
@@ -381,12 +372,12 @@ public class Board extends JPanel {
                             /* Reset previously highlighted squares. */
                             for (int i = 0; i < 8; i++) {
                                 for (int j = 0; j < 8; j++) {
-                                    Board.this.squares[i][j].isHovering(false);
+                                    Board.this.squares[i][j].setHovering(false);
                                 }
                             }
                             
                             /* Now highlight the currently selected piece. */
-                            Board.this.squares[x][y].isHovering(true);
+                            Board.this.squares[x][y].setHovering(true);
                             
                             /* Display the changes... */
                             Board.this.repaint();
@@ -413,7 +404,7 @@ public class Board extends JPanel {
                         /* Reset all selected squares. Kind of ugly... */
                         for (int i = 0; i < 8; i++) {
                             for (int j = 0; j < 8; j++) {
-                                Board.this.squares[i][j].isHovering(false);
+                                Board.this.squares[i][j].setHovering(false);
                             }
                         }
                         
@@ -428,7 +419,7 @@ public class Board extends JPanel {
             
             /* Hide the selection, if one was made. */
             if (this.position != null) {
-                squares[this.position.getRank()][this.position.getFile()].isSelected(false);
+                squares[this.position.getRank()][this.position.getFile()].setSelected(false);
             }
             
             /* Also, it would be a good idea to release the focused position. */
@@ -460,13 +451,13 @@ public class Board extends JPanel {
             /* Reset all selected squares. Kind of ugly...*/
             for (int i = 0; i < 8; i++) {
                 for (int j = 0; j < 8; j++) {
-                    Board.this.squares[i][j].isHovering(false);
+                    Board.this.squares[i][j].setHovering(false);
                 }
             }
             
             if (this.selectedPiece != null) {
                 if (((x > -1) && (y > -1)) && ((x < 8) && (y < 8))) {
-                    Board.this.squares[x][y].isHovering(true);
+                    Board.this.squares[x][y].setHovering(true);
                 }
             }
             

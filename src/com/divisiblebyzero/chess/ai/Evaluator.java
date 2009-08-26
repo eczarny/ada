@@ -10,7 +10,6 @@ package com.divisiblebyzero.chess.ai;
 
 import com.divisiblebyzero.chess.Bitboard;
 import com.divisiblebyzero.chess.Piece;
-import com.divisiblebyzero.chess.Pieces;
 import com.divisiblebyzero.chess.Position;
 
 public class Evaluator {
@@ -20,6 +19,7 @@ public class Evaluator {
     }
     
     private static class Strengths {
+        
         private static final int[][][] Pawn = {
             {
                 { /* Black */
@@ -262,13 +262,13 @@ public class Evaluator {
     }
     
     public static boolean isCheck(long[][] bitboard, int color) {
-        long king = Bitboard.getBitmap(bitboard, color, Piece.KING);
+        long king = Bitboard.getBitmap(bitboard, color, Piece.Type.KING);
         long result = 0;
         
-        if (color == Piece.WHITE) {
-            color = Piece.BLACK;
+        if (color == Piece.Color.WHITE) {
+            color = Piece.Color.BLACK;
         } else {
-            color = Piece.WHITE;
+            color = Piece.Color.WHITE;
         }
         
         for (int i = 0; i < 8; i++) {
@@ -295,8 +295,49 @@ public class Evaluator {
         return false;
     }
     
+    public static int getMaterialValue(Piece piece) {
+        int result = 0;
+        
+        if (piece != null) {
+            switch (piece.getType()) {
+                case Piece.Type.PAWN:
+                    result = 250;
+                    
+                    break;
+                case Piece.Type.KNIGHT:
+                    result = 500;
+                    
+                    break;
+                case Piece.Type.BISHOP:
+                    result = 650;
+                    
+                    break;
+                case Piece.Type.ROOK:
+                    result = 750;
+                    
+                    break;
+                case Piece.Type.QUEEN:
+                    result = 900;
+                    
+                    break;
+                case Piece.Type.KING:
+                    result = 1000;
+                    
+                    break;
+                default:
+                    break;
+            }
+        }
+        
+        return result;
+    }
+    
     public static int evaluate(long[][] bitboard, int color) {
         int result = 0;
+        
+        /* if (Evaluator.isCheck(bitboard, color)) {
+            return 0;
+        } */
         
         /* Compute score on material and piece positioning. */
         for (int i = 0; i < 8; i++) {
@@ -304,41 +345,31 @@ public class Evaluator {
                 Piece current = Bitboard.getPieceAtPosition(bitboard, new Position(i, j));
                 
                 if ((current != null) && (current.getColor() == color)) {
-                    int value = 0;
+                    int value = Evaluator.getMaterialValue(current);
                     
                     switch (current.getType()) {
-                        case Piece.PAWN:
-                            value = Pieces.Values.PAWN;
-                            
-                            value = value + Strengths.Pawn[color][i][j];
+                        case Piece.Type.PAWN:
+                            value = value + (Strengths.Pawn[color][i][j] * 100);
                             
                             break;
-                        case Piece.KNIGHT:
-                            value = Pieces.Values.KNIGHT;
-                            
-                            value = value + Strengths.Knight[color][i][j];
+                        case Piece.Type.KNIGHT:
+                            value = value + (Strengths.Knight[color][i][j] * 100);
                             
                             break;
-                        case Piece.BISHOP:
-                            value = Pieces.Values.BISHOP;
-                            
-                            value = value + Strengths.Bishop[color][i][j];
+                        case Piece.Type.BISHOP:
+                            value = value + (Strengths.Bishop[color][i][j] * 100);
                             
                             break;
-                        case Piece.ROOK:
-                            value = Pieces.Values.ROOK;
-                            
-                            value = value + Strengths.Rook[color][i][j];
+                        case Piece.Type.ROOK:
+                            value = value + (Strengths.Rook[color][i][j] * 100);
                             
                             break;
-                        case Piece.QUEEN:
-                            value = Pieces.Values.QUEEN;
-                            
-                            value = value + Strengths.Queen[color][i][j];
+                        case Piece.Type.QUEEN:
+                            value = value + (Strengths.Queen[color][i][j] * 100);
                             
                             break;
                         default:
-                            value = Strengths.King[color][i][j];
+                            value = value + (Strengths.King[color][i][j] * 100);
                         
                             break;
                     }

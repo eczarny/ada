@@ -89,8 +89,8 @@ public class Bitboard implements Serializable {
         long[][] bitboard = new long[6][2];
         
         for (int i = 0; i < bitboard.length; i++) {
-        	bitboard[i][Piece.WHITE] = Bitmaps.WHITE_PIECES[i];
-        	bitboard[i][Piece.BLACK] = Bitmaps.BLACK_PIECES[i];
+        	bitboard[i][Piece.Color.WHITE] = Bitmaps.WHITE_PIECES[i];
+        	bitboard[i][Piece.Color.BLACK] = Bitmaps.BLACK_PIECES[i];
         }
         
         if (Bitboard.masks == null) {
@@ -108,7 +108,7 @@ public class Bitboard implements Serializable {
         long result = 0;
         
         for (int i = 0; i < bitboard.length; i++) {
-            result = result | bitboard[i][Piece.WHITE] | bitboard[i][Piece.BLACK];
+            result = result | bitboard[i][Piece.Color.WHITE] | bitboard[i][Piece.Color.BLACK];
         }
         
         return result;
@@ -166,12 +166,12 @@ public class Bitboard implements Serializable {
         int result = -1;
         
         for (int i = 0; i < bitboard.length; i++) {
-            if ((bitboard[i][Piece.WHITE] & bitmap) != 0) {
-                result = Piece.WHITE;
+            if ((bitboard[i][Piece.Color.WHITE] & bitmap) != 0) {
+                result = Piece.Color.WHITE;
                 
                 break;
-            } else if ((bitboard[i][Piece.BLACK] & bitmap) != 0) {
-                result = Piece.BLACK;
+            } else if ((bitboard[i][Piece.Color.BLACK] & bitmap) != 0) {
+                result = Piece.Color.BLACK;
                 
                 break;
             }
@@ -184,11 +184,11 @@ public class Bitboard implements Serializable {
         int result = -1;
         
         for (int i = 0; i < bitboard.length; i++) {
-            if ((bitboard[i][Piece.WHITE] & bitmap) != 0) {
+            if ((bitboard[i][Piece.Color.WHITE] & bitmap) != 0) {
                 result = i;
                 
                 break;
-            } else if ((bitboard[i][Piece.BLACK] & bitmap) != 0) {
+            } else if ((bitboard[i][Piece.Color.BLACK] & bitmap) != 0) {
                 result = i;
                 
                 break;
@@ -221,27 +221,27 @@ public class Bitboard implements Serializable {
         
         /* What piece are we looking for? */
         switch (piece.getType()) {
-            case Piece.PAWN:
+            case Piece.Type.PAWN:
                 result = Pawn.getAttackBitmap(bitboard, piece);
                 
                 break;
-            case Piece.KNIGHT:
+            case Piece.Type.KNIGHT:
                 result = Knight.getAttackBitmap(bitboard, piece);
                 
                 break;
-            case Piece.BISHOP:
+            case Piece.Type.BISHOP:
                 result = Bishop.getAttackBitmap(bitboard, piece);
                 
                 break;
-            case Piece.ROOK:
+            case Piece.Type.ROOK:
                 result = Rook.getAttackBitmap(bitboard, piece);
                 
                 break;
-            case Piece.QUEEN:
+            case Piece.Type.QUEEN:
                 result = Queen.getAttackBitmap(bitboard, piece);
                 
                 break;
-            case Piece.KING:
+            case Piece.Type.KING:
                 result = King.getAttackBitmap(bitboard, piece);
                 
                 break;

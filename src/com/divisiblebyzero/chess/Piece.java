@@ -24,22 +24,26 @@ public class Piece implements Serializable {
     private int color;
     private int type;
     
-    /* Constants for piece resources */
+    /* Constants for piece resources. */
     private static final String EXTENSION = ".png";
     private static final String PATH      = "resources/images/pieces/";
     private static final String STYLE     = "alpha";
     
-    /* Possible piece types */
-    public static final int KING   = 0;
-    public static final int QUEEN  = 1;
-    public static final int ROOK   = 2;
-    public static final int BISHOP = 3;
-    public static final int KNIGHT = 4;
-    public static final int PAWN   = 5;
+    /* Possible piece types. */
+    public static class Type {
+        public static final int KING   = 0;
+        public static final int QUEEN  = 1;
+        public static final int ROOK   = 2;
+        public static final int BISHOP = 3;
+        public static final int KNIGHT = 4;
+        public static final int PAWN   = 5;
+    }
     
-    /*Possible piece colors */
-    public static final int BLACK = 0;
-    public static final int WHITE = 1;
+    /* Possible piece colors. */
+    public static class Color {
+        public static final int BLACK = 0;
+        public static final int WHITE = 1;
+    }
     
     private static Logger logger = Logger.getLogger(Piece.class);
     
@@ -100,7 +104,7 @@ public class Piece implements Serializable {
     public String toString() {
         String result = "Piece (Color: ";
         
-        if (this.color == Piece.WHITE) {
+        if (this.color == Piece.Color.WHITE) {
             result = result + "White";
         } else {
             result = result + "Black";
@@ -109,27 +113,27 @@ public class Piece implements Serializable {
         result = result + ", Type: ";
         
         switch(this.type) {
-            case Piece.KING:
+            case Piece.Type.KING:
                 result = result + "King";
                 
                 break;
-            case Piece.QUEEN:
+            case Piece.Type.QUEEN:
                 result = result + "Queen";
                 
                 break;
-            case Piece.ROOK:
+            case Piece.Type.ROOK:
                 result = result + "Rook";
                 
                 break;
-            case Piece.BISHOP:
+            case Piece.Type.BISHOP:
                 result = result + "Bishop";
                 
                 break;
-            case Piece.KNIGHT:
+            case Piece.Type.KNIGHT:
                 result = result + "Knight";
                 
                 break;
-            case Piece.PAWN:
+            case Piece.Type.PAWN:
                 result = result + "Pawn";
                 
                 break;

@@ -30,7 +30,7 @@ public class ComputerPlayer implements Player {
         }
         
         public void run() {
-            Search search = new Search(3);
+            Search search = new Search();
             Move move = search.searchForMove(this.board.getBitboard(), this.color);
             
             this.board.makeMove(move);

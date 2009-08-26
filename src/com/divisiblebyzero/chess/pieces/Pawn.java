@@ -20,7 +20,7 @@ public class Pawn extends Piece {
         long result;
         
         /* For Pawns we need to know their color. */
-        if (piece.getColor() == Piece.WHITE) {
+        if (piece.getColor() == Piece.Color.WHITE) {
             int rank = piece.getPosition().getRank();
             int file = piece.getPosition().getFile();
             
@@ -42,17 +42,17 @@ public class Pawn extends Piece {
             long opponents = 0;
             
             /* Gather enemies in attackable positions... */
-            opponents = opponents | Bitboard.getBitmapAtPosition(bitboard, Piece.BLACK, new Position(rank - 1, file + 1));
-            opponents = opponents | Bitboard.getBitmapAtPosition(bitboard, Piece.BLACK, new Position(rank - 1, file - 1));
+            opponents = opponents | Bitboard.getBitmapAtPosition(bitboard, Piece.Color.BLACK, new Position(rank - 1, file + 1));
+            opponents = opponents | Bitboard.getBitmapAtPosition(bitboard, Piece.Color.BLACK, new Position(rank - 1, file - 1));
             
             /* Determine whether the Pawn can advance ahead, or attack... */
-            if ((opponents > 0) && (Bitboard.getBitmapAtPosition(bitboard, Piece.BLACK,
+            if ((opponents > 0) && (Bitboard.getBitmapAtPosition(bitboard, Piece.Color.BLACK,
                     new Position(rank, file - 1)) > 0)) {
                 result = 0;
             }
             
             /* Make sure we can't advance when we're being blocked... */
-            if (Bitboard.getBitmapAtPosition(bitboard, Piece.BLACK, new Position(rank - 1, file)) > 0) {
+            if (Bitboard.getBitmapAtPosition(bitboard, Piece.Color.BLACK, new Position(rank - 1, file)) > 0) {
                 result = 0;
             }
             
@@ -79,16 +79,16 @@ public class Pawn extends Piece {
             long opponents = 0;
             
             /* Gather enemies in attackable positions... */
-            opponents = opponents | Bitboard.getBitmapAtPosition(bitboard, Piece.WHITE, new Position(rank + 1, file + 1));
-            opponents = opponents | Bitboard.getBitmapAtPosition(bitboard, Piece.WHITE, new Position(rank + 1, file - 1));
+            opponents = opponents | Bitboard.getBitmapAtPosition(bitboard, Piece.Color.WHITE, new Position(rank + 1, file + 1));
+            opponents = opponents | Bitboard.getBitmapAtPosition(bitboard, Piece.Color.WHITE, new Position(rank + 1, file - 1));
             
             /* Determine whether the Pawn can advance ahead, or attack... */
-            if ((opponents > 0) && (Bitboard.getBitmapAtPosition(bitboard, Piece.WHITE, new Position(rank, file + 1)) > 0)) {
+            if ((opponents > 0) && (Bitboard.getBitmapAtPosition(bitboard, Piece.Color.WHITE, new Position(rank, file + 1)) > 0)) {
                 result = 0;
             }
             
             /* Make sure we can't advance when we're being blocked... */
-            if (Bitboard.getBitmapAtPosition(bitboard, Piece.WHITE, new Position(rank + 1, file)) > 0) {
+            if (Bitboard.getBitmapAtPosition(bitboard, Piece.Color.WHITE, new Position(rank + 1, file)) > 0) {
                 result = 0;
             }
             

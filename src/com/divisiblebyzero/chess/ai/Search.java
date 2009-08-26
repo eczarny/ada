@@ -16,7 +16,7 @@ import com.divisiblebyzero.chess.Piece;
 
 public class Search {
     private int depth;
-    private int nodes;
+    private long nodes;
     
     public Search() {
         this.depth = 3;
@@ -32,10 +32,6 @@ public class Search {
         LinkedList<Move> availableMoves = MoveGenerator.generateMovesForColor(bitboard, color);
         Move result = null;
         
-        if (this.depth == 0) {
-        	return result;
-        }
-        
         /* While there are still moves to evaluate... */
         for (Move move : availableMoves) {
             Piece current, capture;
@@ -49,7 +45,7 @@ public class Search {
             
             bitboard = Bitboard.setPieceAtPosition(bitboard, current, move.getY());
             
-            int score = -this.search(bitboard, Search.invertColor(color), this.depth, -10000, 10000);
+            long score = -this.search(bitboard, Search.invertColor(color), this.depth, -100000, 100000);
             
             bitboard = Bitboard.unsetPieceAtPosition(bitboard, current, move.getY());
             
@@ -63,11 +59,13 @@ public class Search {
             move.setScore(score);
         }
         
-        int score = availableMoves.getFirst().getScore();
+        long score = availableMoves.getFirst().getScore();
         
         result = availableMoves.getFirst();
         
         for (Move move : availableMoves) {
+            System.out.print("    Potential Move: " + move + "\n");
+            
             if (move.getScore() == -10000) {
                 continue;
             }
@@ -79,19 +77,13 @@ public class Search {
             }
         }
         
-        if (score == -10000) {
-            result = null;
-        }
+        System.out.print("Move: " + result + ", Nodes: " + this.nodes + "\n");
         
         return result;
     }
     
-    private int search(long[][] bitboard, int color, int depth, int alpha, int beta) {
+    private long search(long[][] bitboard, int color, int depth, long alpha, long beta) {
         this.nodes++;
-        
-        if (Evaluator.isCheck(bitboard, color)) {
-            return -10000;
-        }
         
         /* We are at a leaf, evaluate position. */
         if (depth <= 0) {
@@ -112,23 +104,23 @@ public class Search {
             
             bitboard = Bitboard.setPieceAtPosition(bitboard, current, move.getY());
             
-            int score = -search(bitboard, Search.invertColor(color), depth - 1, -beta, -alpha);
+            long score = -search(bitboard, Search.invertColor(color), depth - 1, -beta, -alpha);
+            
+            if (score > alpha) {
+                alpha = score;
+            }
             
             bitboard = Bitboard.unsetPieceAtPosition(bitboard, current, move.getY());
             
             /* Ada tested a capture, make sure to put the piece back. */
             if (capture != null) {
-            	bitboard = Bitboard.setPieceAtPosition(bitboard, capture, move.getY());
+                bitboard = Bitboard.setPieceAtPosition(bitboard, capture, move.getY());
             }
             
             bitboard = Bitboard.setPieceAtPosition(bitboard, current, move.getX());
             
-            if (score >= beta) {
-                return beta;
-            }
-            
-            if (score > alpha) {
-                alpha = score;
+            if (beta <= alpha) {
+                break;
             }
         }
         
@@ -136,10 +128,10 @@ public class Search {
     }
     
     private static int invertColor(int color) {
-        if (color != Piece.WHITE) {
-            return Piece.WHITE;
+        if (color != Piece.Color.WHITE) {
+            return Piece.Color.WHITE;
         } else {
-            return Piece.BLACK;
+            return Piece.Color.BLACK;
         }
     }
 }

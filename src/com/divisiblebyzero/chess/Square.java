@@ -89,7 +89,7 @@ public class Square implements Serializable {
         return this.selected;
     }
     
-    public void isSelected(boolean selected) {
+    public void setSelected(boolean selected) {
         this.selected = selected;
     }
     
@@ -97,7 +97,7 @@ public class Square implements Serializable {
         return this.hovering;
     }
     
-    public void isHovering(boolean hovering) {
+    public void setHovering(boolean hovering) {
         this.hovering = hovering;
     }
     
@@ -105,14 +105,18 @@ public class Square implements Serializable {
         return this.highlighted;
     }
     
-    public void isHighlighted(boolean highlighted) {
+    public void setHighlighted(boolean highlighted) {
         this.highlighted = highlighted;
+    }
+    
+    public boolean isEmpty() {
+        return this.piece == null;
     }
     
     public Color getBackgroundColor() {
         Color backgroundColor = Square.WHITE;
         
-        if (this.color == Piece.BLACK) {
+        if (this.color == Piece.Color.BLACK) {
             backgroundColor = Square.BLACK;
         }
         

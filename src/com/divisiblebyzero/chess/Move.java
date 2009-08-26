@@ -14,7 +14,7 @@ public class Move implements Serializable {
     private static final long serialVersionUID = 8308554798560064235L;
     
     private Position x, y;
-    private int score;
+    private long score;
     
     public Move() {
         this.x = new Position();
@@ -49,11 +49,11 @@ public class Move implements Serializable {
         this.y = y;
     }
     
-    public int getScore() {
+    public long getScore() {
         return this.score;
     }
     
-    public void setScore(int score) {
+    public void setScore(long score) {
         this.score = score;
     }
     

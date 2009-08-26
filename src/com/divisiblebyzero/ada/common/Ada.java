@@ -11,6 +11,7 @@ package com.divisiblebyzero.ada.common;
 import java.io.Serializable;
 
 import com.divisiblebyzero.ada.player.ComputerPlayer;
+import com.divisiblebyzero.ada.player.HumanPlayer;
 import com.divisiblebyzero.ada.player.Player;
 import com.divisiblebyzero.ada.view.Table;
 import com.divisiblebyzero.chess.Piece;
@@ -29,8 +30,8 @@ public class Ada implements Serializable {
     }
     
     private void initialize() {
-        this.players[Piece.WHITE] = new ComputerPlayer();
-        this.players[Piece.BLACK] = new ComputerPlayer();
+        this.players[Piece.Color.WHITE] = new HumanPlayer();
+        this.players[Piece.Color.BLACK] = new ComputerPlayer();
         
         this.table.setVisible(true);
     }
@@ -40,11 +41,11 @@ public class Ada implements Serializable {
     }
     
     public Player getWhitePlayer() {
-        return this.getPlayerForColor(Piece.WHITE);
+        return this.getPlayerForColor(Piece.Color.WHITE);
     }
     
     public Player getBlackPlayer() {
-        return this.getPlayerForColor(Piece.BLACK);
+        return this.getPlayerForColor(Piece.Color.BLACK);
     }
     
     private Player getPlayerForColor(int color) {

@@ -20,16 +20,6 @@ public class Pieces implements Serializable {
     
     private static Logger logger = Logger.getLogger(Pieces.class);
     
-    /* Material values, used in evaluation. */
-    public static class Values {
-        public static final int KING   = 999;
-        public static final int QUEEN  = 900;
-        public static final int ROOK   = 500;
-        public static final int BISHOP = 350;
-        public static final int KNIGHT = 300;
-        public static final int PAWN   = 100;
-    }
-    
     public Pieces() {
         this.pieces = new Piece[16][2];
     }
@@ -40,7 +30,7 @@ public class Pieces implements Serializable {
                 5, 5, 5, 5, 5, 5, 5, 5
         };
         
-        logger.info("Loading artwork for Chess pieces...");
+        logger.info("Loading artwork for Chess pieces.");
         
         for (int i = 0; i < this.pieces.length; i++) {
             for (int j = 0; j < this.pieces[i].length; j++) {
@@ -51,7 +41,7 @@ public class Pieces implements Serializable {
                 try {
                     tracker.waitForAll();
                 } catch (Exception e) {
-                    logger.error("Loading of image has failed.");
+                    logger.error("Loading the image has failed for the following piece: " + this.pieces[i][j]);
                 }
             }
         }
