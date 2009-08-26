@@ -1,7 +1,7 @@
 package com.divisiblebyzero.ada.common;
 
 //
-// ada.common.Ada.java
+// Ada.java
 // Ada Chess
 //
 // Created by Eric Czarny on April 29, 2006.
@@ -11,7 +11,6 @@ package com.divisiblebyzero.ada.common;
 import java.io.Serializable;
 
 import com.divisiblebyzero.ada.player.ComputerPlayer;
-import com.divisiblebyzero.ada.player.HumanPlayer;
 import com.divisiblebyzero.ada.player.Player;
 import com.divisiblebyzero.ada.view.Table;
 import com.divisiblebyzero.chess.Piece;
@@ -30,7 +29,7 @@ public class Ada implements Serializable {
     }
     
     private void initialize() {
-        this.players[Piece.WHITE] = new HumanPlayer();
+        this.players[Piece.WHITE] = new ComputerPlayer();
         this.players[Piece.BLACK] = new ComputerPlayer();
         
         this.table.setVisible(true);

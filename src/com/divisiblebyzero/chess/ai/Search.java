@@ -1,7 +1,7 @@
 package com.divisiblebyzero.chess.ai;
 
 //
-// chess.ai.Search.java
+// Search.java
 // Ada Chess
 //
 // Created by Eric Czarny on October 28, 2006.
@@ -28,8 +28,8 @@ public class Search {
         this.nodes = 0;
     }
     
-    public Move searchForMove(long[][] bitmaps, int color) {
-        LinkedList<Move> availableMoves = MoveGenerator.generateMovesForColor(bitmaps, color);
+    public Move searchForMove(long[][] bitboard, int color) {
+        LinkedList<Move> availableMoves = MoveGenerator.generateMovesForColor(bitboard, color);
         Move result = null;
         
         if (this.depth == 0) {
@@ -40,25 +40,25 @@ public class Search {
         for (Move move : availableMoves) {
             Piece current, capture;
             
-            current = Bitboard.getPieceAtPosition(bitmaps, move.getX());
+            current = Bitboard.getPieceAtPosition(bitboard, move.getX());
             
-            bitmaps = Bitboard.unsetPieceAtPosition(bitmaps, current, move.getX());
+            bitboard = Bitboard.unsetPieceAtPosition(bitboard, current, move.getX());
             
             /* Remember any possible captures... */
-            capture = Bitboard.getPieceAtPosition(bitmaps, move.getY());
+            capture = Bitboard.getPieceAtPosition(bitboard, move.getY());
             
-            bitmaps = Bitboard.setPieceAtPosition(bitmaps, current, move.getY());
+            bitboard = Bitboard.setPieceAtPosition(bitboard, current, move.getY());
             
-            int score = -this.search(bitmaps, Search.invertColor(color), this.depth, -10000, 10000);
+            int score = -this.search(bitboard, Search.invertColor(color), this.depth, -10000, 10000);
             
-            bitmaps = Bitboard.unsetPieceAtPosition(bitmaps, current, move.getY());
+            bitboard = Bitboard.unsetPieceAtPosition(bitboard, current, move.getY());
             
             /* Ada tested a capture, make sure to put the piece back. */
             if (capture != null) {
-                bitmaps = Bitboard.setPieceAtPosition(bitmaps, capture, move.getY());
+            	bitboard = Bitboard.setPieceAtPosition(bitboard, capture, move.getY());
             }
             
-            bitmaps = Bitboard.setPieceAtPosition(bitmaps, current, move.getX());
+            bitboard = Bitboard.setPieceAtPosition(bitboard, current, move.getX());
             
             move.setScore(score);
         }
@@ -86,42 +86,42 @@ public class Search {
         return result;
     }
     
-    private int search(long[][] bitmaps, int color, int depth, int alpha, int beta) {
+    private int search(long[][] bitboard, int color, int depth, int alpha, int beta) {
         this.nodes++;
         
-        if (Evaluator.isCheck(bitmaps, color)) {
+        if (Evaluator.isCheck(bitboard, color)) {
             return -10000;
         }
         
         /* We are at a leaf, evaluate position. */
         if (depth <= 0) {
-            return Evaluator.evaluate(bitmaps, color);
+            return Evaluator.evaluate(bitboard, color);
         }
         
-        LinkedList<Move> availableMoves = MoveGenerator.generateMovesForColor(bitmaps, color);
+        LinkedList<Move> availableMoves = MoveGenerator.generateMovesForColor(bitboard, color);
         
         for (Move move : availableMoves) {
             Piece current, capture;
             
-            current = Bitboard.getPieceAtPosition(bitmaps, move.getX());
+            current = Bitboard.getPieceAtPosition(bitboard, move.getX());
             
-            bitmaps = Bitboard.unsetPieceAtPosition(bitmaps, current, move.getX());
+            bitboard = Bitboard.unsetPieceAtPosition(bitboard, current, move.getX());
             
             /* Remember any possible captures... */
-            capture = Bitboard.getPieceAtPosition(bitmaps, move.getY());
+            capture = Bitboard.getPieceAtPosition(bitboard, move.getY());
             
-            bitmaps = Bitboard.setPieceAtPosition(bitmaps, current, move.getY());
+            bitboard = Bitboard.setPieceAtPosition(bitboard, current, move.getY());
             
-            int score = -search(bitmaps, Search.invertColor(color), depth - 1, -beta, -alpha);
+            int score = -search(bitboard, Search.invertColor(color), depth - 1, -beta, -alpha);
             
-            bitmaps = Bitboard.unsetPieceAtPosition(bitmaps, current, move.getY());
+            bitboard = Bitboard.unsetPieceAtPosition(bitboard, current, move.getY());
             
             /* Ada tested a capture, make sure to put the piece back. */
             if (capture != null) {
-                bitmaps = Bitboard.setPieceAtPosition(bitmaps, capture, move.getY());
+            	bitboard = Bitboard.setPieceAtPosition(bitboard, capture, move.getY());
             }
             
-            bitmaps = Bitboard.setPieceAtPosition(bitmaps, current, move.getX());
+            bitboard = Bitboard.setPieceAtPosition(bitboard, current, move.getX());
             
             if (score >= beta) {
                 return beta;

@@ -1,7 +1,7 @@
 package com.divisiblebyzero.ada.player;
 
 //
-// ada.player.ComputerPlayer.java
+// ComputerPlayer.java
 // Ada Chess
 //
 // Created by Eric Czarny on August 21, 2009.
@@ -31,7 +31,7 @@ public class ComputerPlayer implements Player {
         
         public void run() {
             Search search = new Search(3);
-            Move move = search.searchForMove(this.board.getBitmaps(), this.color);
+            Move move = search.searchForMove(this.board.getBitboard(), this.color);
             
             this.board.makeMove(move);
         }

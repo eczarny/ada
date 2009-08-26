@@ -1,7 +1,7 @@
 package com.divisiblebyzero.chess.pieces;
 
 //
-// chess.pieces.Rook.java
+// Rook.java
 // Ada Chess
 //
 // Created by Eric Czarny on March 19, 2006.
@@ -15,8 +15,8 @@ import com.divisiblebyzero.chess.Position;
 public class Rook extends Piece {
     private static final long serialVersionUID = -5523276415522998967L;
 
-	public static long getAttackBitmap(long[][] bitmaps, Piece piece) {
-        long bitmap = Bitboard.getBitmapAtPosition(bitmaps, piece.getPosition());
+	public static long getAttackBitmap(long[][] bitboard, Piece piece) {
+        long bitmap = Bitboard.getBitmapAtPosition(bitboard, piece.getPosition());
         long result = 0;
         
         int rank = piece.getPosition().getRank() + 1;
@@ -26,7 +26,7 @@ public class Rook extends Piece {
         for (int i = 1; i < (8 - piece.getPosition().getRank()); i++) {
             result = result | (bitmap << (8 * i));
             
-            if (Bitboard.isPositionOccupied(bitmaps, new Position(rank, file))) {
+            if (Bitboard.isPositionOccupied(bitboard, new Position(rank, file))) {
                 break;
             }
             
@@ -40,7 +40,7 @@ public class Rook extends Piece {
         for (int i = 1; i < (piece.getPosition().getRank() + 1); i++) {
             result = result | (bitmap >>> (8 * i));
             
-            if (Bitboard.isPositionOccupied(bitmaps, new Position(rank, file))) {
+            if (Bitboard.isPositionOccupied(bitboard, new Position(rank, file))) {
                 break;
             }
             
@@ -54,7 +54,7 @@ public class Rook extends Piece {
         for (int i = 1; i < (8 - piece.getPosition().getFile()); i++) {
             result = result | (bitmap << (1 * i));
             
-            if (Bitboard.isPositionOccupied(bitmaps, new Position(rank, file))) {
+            if (Bitboard.isPositionOccupied(bitboard, new Position(rank, file))) {
                 break;
             }
             
@@ -68,7 +68,7 @@ public class Rook extends Piece {
         for (int i = 1; i < (piece.getPosition().getFile() + 1); i++) {
             result = result | (bitmap >>> (1 * i));
             
-            if (Bitboard.isPositionOccupied(bitmaps, new Position(rank, file))) {
+            if (Bitboard.isPositionOccupied(bitboard, new Position(rank, file))) {
                 break;
             }
             

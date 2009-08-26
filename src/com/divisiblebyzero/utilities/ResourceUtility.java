@@ -1,7 +1,7 @@
 package com.divisiblebyzero.utilities;
 
 //
-// utilities.Resource.java
+// Resource.java
 // Ada Chess
 //
 // Created by Eric Czarny on April 6, 2006.

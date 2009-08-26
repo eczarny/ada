@@ -1,7 +1,7 @@
 package com.divisiblebyzero.chess;
 
 //
-// chess.Bitboard.java
+// Bitboard.java
 // Ada Chess
 //
 // Created by Eric Czarny on February 26, 2006.
@@ -31,6 +31,7 @@ public class Bitboard implements Serializable {
     
     /* All of the important bitmaps used by the Bitboard. */
     private static class Bitmaps {
+    	
         /* Bitmaps for white pieces */
         private static final long[] WHITE_PIECES = {
                 0x1000000000000000L, /* KING   */
@@ -84,12 +85,12 @@ public class Bitboard implements Serializable {
         }
     }
     
-    public static long[][] generateBitmaps() {
-        long[][] bitmaps = new long[6][2];
+    public static long[][] generateBitboard() {
+        long[][] bitboard = new long[6][2];
         
-        for (int i = 0; i < bitmaps.length; i++) {
-            bitmaps[i][Piece.WHITE] = Bitmaps.WHITE_PIECES[i];
-            bitmaps[i][Piece.BLACK] = Bitmaps.BLACK_PIECES[i];
+        for (int i = 0; i < bitboard.length; i++) {
+        	bitboard[i][Piece.WHITE] = Bitmaps.WHITE_PIECES[i];
+        	bitboard[i][Piece.BLACK] = Bitmaps.BLACK_PIECES[i];
         }
         
         if (Bitboard.masks == null) {
@@ -100,43 +101,43 @@ public class Bitboard implements Serializable {
             }
         }
         
-        return bitmaps;
+        return bitboard;
     }
     
-    public static long getBitmap(long[][] bitmaps) {
+    public static long getBitmap(long[][] bitboard) {
         long result = 0;
         
-        for (int i = 0; i < bitmaps.length; i++) {
-            result = result | bitmaps[i][Piece.WHITE] | bitmaps[i][Piece.BLACK];
+        for (int i = 0; i < bitboard.length; i++) {
+            result = result | bitboard[i][Piece.WHITE] | bitboard[i][Piece.BLACK];
         }
         
         return result;
     }
     
-    public static long getBitmap(long[][] bitmaps, Piece piece) {
-        return getBitmap(bitmaps, piece.getColor(), piece.getType());
+    public static long getBitmap(long[][] bitboard, Piece piece) {
+        return getBitmap(bitboard, piece.getColor(), piece.getType());
     }
     
-    public static long getBitmap(long[][] bitmaps, int color, int type) {
-        return bitmaps[type][color];
+    public static long getBitmap(long[][] bitboard, int color, int type) {
+        return bitboard[type][color];
     }
     
-    public static long getBitmap(long[][] bitmaps, int color) {
+    public static long getBitmap(long[][] bitboard, int color) {
         long result = 0;
         
-        for (int i = 0; i < bitmaps.length; i++) {
-            result = result | bitmaps[i][color];
+        for (int i = 0; i < bitboard.length; i++) {
+            result = result | bitboard[i][color];
         }
         
         return result;
     }
     
-    public static long getBitmapAtPosition(long[][] bitmaps, Position position) {
-        return Bitboard.getBitmap(bitmaps) & Bitboard.getMaskAtPosition(position);
+    public static long getBitmapAtPosition(long[][] bitboard, Position position) {
+        return Bitboard.getBitmap(bitboard) & Bitboard.getMaskAtPosition(position);
     }
     
-    public static long getBitmapAtPosition(long[][] bitmaps, int color, Position position) {
-        long result = Bitboard.getBitmap(bitmaps, color) & Bitboard.getMaskAtPosition(position);
+    public static long getBitmapAtPosition(long[][] bitboard, int color, Position position) {
+        long result = Bitboard.getBitmap(bitboard, color) & Bitboard.getMaskAtPosition(position);
         
         return result;
     }
@@ -161,15 +162,15 @@ public class Bitboard implements Serializable {
         return result;
     }
     
-    public static int getColorFromBitmap(long[][] bitmaps, long bitmap) {
+    public static int getColorFromBitmap(long[][] bitboard, long bitmap) {
         int result = -1;
         
-        for (int i = 0; i < bitmaps.length; i++) {
-            if ((bitmaps[i][Piece.WHITE] & bitmap) != 0) {
+        for (int i = 0; i < bitboard.length; i++) {
+            if ((bitboard[i][Piece.WHITE] & bitmap) != 0) {
                 result = Piece.WHITE;
                 
                 break;
-            } else if ((bitmaps[i][Piece.BLACK] & bitmap) != 0) {
+            } else if ((bitboard[i][Piece.BLACK] & bitmap) != 0) {
                 result = Piece.BLACK;
                 
                 break;
@@ -179,15 +180,15 @@ public class Bitboard implements Serializable {
         return result;
     }
     
-    public static int getTypeFromBitmap(long[][] bitmaps, long bitmap) {
+    public static int getTypeFromBitmap(long[][] bitboard, long bitmap) {
         int result = -1;
         
-        for (int i = 0; i < bitmaps.length; i++) {
-            if ((bitmaps[i][Piece.WHITE] & bitmap) != 0) {
+        for (int i = 0; i < bitboard.length; i++) {
+            if ((bitboard[i][Piece.WHITE] & bitmap) != 0) {
                 result = i;
                 
                 break;
-            } else if ((bitmaps[i][Piece.BLACK] & bitmap) != 0) {
+            } else if ((bitboard[i][Piece.BLACK] & bitmap) != 0) {
                 result = i;
                 
                 break;
@@ -197,13 +198,13 @@ public class Bitboard implements Serializable {
         return result;
     }
     
-    public static Piece getPieceAtPosition(long[][] bitmaps, Position position) {
+    public static Piece getPieceAtPosition(long[][] bitboard, Position position) {
         Piece result = null;
         
-        if (Bitboard.isPositionOccupied(bitmaps, position)) {
-        	long bitmap = Bitboard.getBitmapAtPosition(bitmaps, position);
+        if (Bitboard.isPositionOccupied(bitboard, position)) {
+        	long bitmap = Bitboard.getBitmapAtPosition(bitboard, position);
         	
-            result = new Piece(Bitboard.getColorFromBitmap(bitmaps, bitmap), Bitboard.getTypeFromBitmap(bitmaps, bitmap));
+            result = new Piece(Bitboard.getColorFromBitmap(bitboard, bitmap), Bitboard.getTypeFromBitmap(bitboard, bitmap));
             
             result.setPosition(position);
         }
@@ -211,7 +212,7 @@ public class Bitboard implements Serializable {
         return result;
     }
     
-    public static long getAttackBitmap(long[][] bitmaps, Piece piece) {
+    public static long getAttackBitmap(long[][] bitboard, Piece piece) {
         long result = 0;
         
         if (piece == null) {
@@ -221,27 +222,27 @@ public class Bitboard implements Serializable {
         /* What piece are we looking for? */
         switch (piece.getType()) {
             case Piece.PAWN:
-                result = Pawn.getAttackBitmap(bitmaps, piece);
+                result = Pawn.getAttackBitmap(bitboard, piece);
                 
                 break;
             case Piece.KNIGHT:
-                result = Knight.getAttackBitmap(bitmaps, piece);
+                result = Knight.getAttackBitmap(bitboard, piece);
                 
                 break;
             case Piece.BISHOP:
-                result = Bishop.getAttackBitmap(bitmaps, piece);
+                result = Bishop.getAttackBitmap(bitboard, piece);
                 
                 break;
             case Piece.ROOK:
-                result = Rook.getAttackBitmap(bitmaps, piece);
+                result = Rook.getAttackBitmap(bitboard, piece);
                 
                 break;
             case Piece.QUEEN:
-                result = Queen.getAttackBitmap(bitmaps, piece);
+                result = Queen.getAttackBitmap(bitboard, piece);
                 
                 break;
             case Piece.KING:
-                result = King.getAttackBitmap(bitmaps, piece);
+                result = King.getAttackBitmap(bitboard, piece);
                 
                 break;
             default:
@@ -249,7 +250,7 @@ public class Bitboard implements Serializable {
         }
         
         /* Blocks squares held by a piece of the same color. */
-        result = result & ~Bitboard.getBitmap(bitmaps, piece.getColor());
+        result = result & ~Bitboard.getBitmap(bitboard, piece.getColor());
         
         return result;
     }
@@ -272,20 +273,20 @@ public class Bitboard implements Serializable {
         return result;
     }
     
-    public static long[][] setPieceAtPosition(long[][] bitmaps, Piece piece, Position position) {
-    	bitmaps[piece.getType()][piece.getColor()] = Bitboard.getBitmap(bitmaps, piece) | Bitboard.getMaskAtPosition(position);
+    public static long[][] setPieceAtPosition(long[][] bitboard, Piece piece, Position position) {
+    	bitboard[piece.getType()][piece.getColor()] = Bitboard.getBitmap(bitboard, piece) | Bitboard.getMaskAtPosition(position);
         
-        return bitmaps;
+        return bitboard;
     }
     
-    public static long[][] unsetPieceAtPosition(long[][] bitmaps, Piece piece, Position position) {
-    	bitmaps[piece.getType()][piece.getColor()] = Bitboard.getBitmap(bitmaps, piece) & ~Bitboard.getMaskAtPosition(position);
+    public static long[][] unsetPieceAtPosition(long[][] bitboard, Piece piece, Position position) {
+    	bitboard[piece.getType()][piece.getColor()] = Bitboard.getBitmap(bitboard, piece) & ~Bitboard.getMaskAtPosition(position);
         
-        return bitmaps;
+        return bitboard;
     }
     
-    public static boolean isPositionOccupied(long[][] bitmaps, Position position) {
-        return (Bitboard.getBitmap(bitmaps) & Bitboard.getMaskAtPosition(position)) != 0;
+    public static boolean isPositionOccupied(long[][] bitboard, Position position) {
+        return (Bitboard.getBitmap(bitboard) & Bitboard.getMaskAtPosition(position)) != 0;
     }
     
     public static boolean isPositionAttacked(long bitmap, Position position) {

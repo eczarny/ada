@@ -1,7 +1,7 @@
 package com.divisiblebyzero.network;
 
 //
-// network.Host.java
+// Host.java
 // Ada Chess
 //
 // Created by Eric Czarny on April 29, 2006.

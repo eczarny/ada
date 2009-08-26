@@ -1,7 +1,7 @@
 package com.divisiblebyzero.utilities;
 
 //
-// utilities.Localization.java
+// Localization.java
 // Ada Chess
 //
 // Created by Eric Czarny on November 18, 2007.

@@ -1,7 +1,7 @@
 package com.divisiblebyzero.ada.player;
 
 //
-// ada.player.Player.java
+// Player.java
 // Ada Chess
 //
 // Created by Eric Czarny on August 21, 2009.

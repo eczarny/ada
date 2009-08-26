@@ -1,7 +1,7 @@
 package com.divisiblebyzero.chess.ai;
 
 //
-// chess.ai.Evaluator.java
+// Evaluator.java
 // Ada Chess
 //
 // Created by Eric Czarny on October 28, 2006.
@@ -261,8 +261,8 @@ public class Evaluator {
         };
     }
     
-    public static boolean isCheck(long[][] bitmaps, int color) {
-        long king = Bitboard.getBitmap(bitmaps, color, Piece.KING);
+    public static boolean isCheck(long[][] bitboard, int color) {
+        long king = Bitboard.getBitmap(bitboard, color, Piece.KING);
         long result = 0;
         
         if (color == Piece.WHITE) {
@@ -276,14 +276,14 @@ public class Evaluator {
             	Position position = new Position(i, j);
             	Piece current = null;
             	
-            	if (!Bitboard.isPositionOccupied(bitmaps, position)) {
+            	if (!Bitboard.isPositionOccupied(bitboard, position)) {
             		continue;
             	}
             	
-            	current = Bitboard.getPieceAtPosition(bitmaps, position);
+            	current = Bitboard.getPieceAtPosition(bitboard, position);
                 
                 if (current.getColor() == color) {
-                    result = king & Bitboard.getAttackBitmap(bitmaps, current);
+                    result = king & Bitboard.getAttackBitmap(bitboard, current);
                     
                     if (result != 0) {
                         return true;
@@ -295,13 +295,13 @@ public class Evaluator {
         return false;
     }
     
-    public static int evaluate(long[][] bitmaps, int color) {
+    public static int evaluate(long[][] bitboard, int color) {
         int result = 0;
         
         /* Compute score on material and piece positioning. */
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
-                Piece current = Bitboard.getPieceAtPosition(bitmaps, new Position(i, j));
+                Piece current = Bitboard.getPieceAtPosition(bitboard, new Position(i, j));
                 
                 if ((current != null) && (current.getColor() == color)) {
                     int value = 0;
@@ -344,7 +344,7 @@ public class Evaluator {
                     }
                     
                     /* Control of center bonus. */
-                    if ((Bitboard.getAttackBitmap(bitmaps, current) & Regions.CENTER) != 0) {
+                    if ((Bitboard.getAttackBitmap(bitboard, current) & Regions.CENTER) != 0) {
                         value = value + 1000;
                     }
                     

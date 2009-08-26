@@ -1,7 +1,7 @@
 package com.divisiblebyzero.chess.pieces;
 
 //
-// chess.pieces.Knight.java
+// Knight.java
 // Ada Chess
 //
 // Created by Eric Czarny on March 19, 2006.
@@ -14,8 +14,8 @@ import com.divisiblebyzero.chess.Piece;
 public class Knight extends Piece {
     private static final long serialVersionUID = -8631562924470037688L;
 
-	public static long getAttackBitmap(long[][] bitmaps, Piece piece) {
-        long bitmap = Bitboard.getBitmapAtPosition(bitmaps, piece.getPosition());
+	public static long getAttackBitmap(long[][] bitboard, Piece piece) {
+        long bitmap = Bitboard.getBitmapAtPosition(bitboard, piece.getPosition());
         long result = 0;
         
         /* The set of squares below the Knight. */

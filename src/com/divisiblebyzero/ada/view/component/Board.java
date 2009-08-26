@@ -1,7 +1,7 @@
 package com.divisiblebyzero.ada.view.component;
 
 //
-// ada.view.Board.java
+// Board.java
 // Ada Chess
 //
 // Created by Eric Czarny on March 17, 2006.
@@ -33,7 +33,7 @@ public class Board extends JPanel {
     private static final long serialVersionUID = -4785349736776306753L;
     
     private Ada ada;
-    private long[][] bitmaps;
+    private long[][] bitboard;
     private Square[][] squares;
     private Pieces pieces;
     private Controller controller;
@@ -54,11 +54,11 @@ public class Board extends JPanel {
     }
     
     public Board(Ada ada) {
-        this.ada     = ada;
-        this.bitmaps = Bitboard.generateBitmaps();
-        this.pieces  = new Pieces();
-        this.color   = Piece.WHITE;
-        this.state   = UNDECIDED;
+        this.ada      = ada;
+        this.bitboard = Bitboard.generateBitboard();
+        this.pieces   = new Pieces();
+        this.color    = Piece.WHITE;
+        this.state    = UNDECIDED;
         
         this.initialize();
     }
@@ -163,8 +163,8 @@ public class Board extends JPanel {
         return this.state;
     }
     
-    public long[][] getBitmaps() {
-        return this.bitmaps;
+    public long[][] getBitboard() {
+        return this.bitboard;
     }
     
     public Piece getPieceAtPosition(Position position) {
@@ -203,27 +203,27 @@ public class Board extends JPanel {
         
         /* Are we capturing a piece? If so, remove it from the bitboard. */
         if (capturedPiece != null) {
-            this.bitmaps = Bitboard.unsetPieceAtPosition(this.bitmaps, capturedPiece, y);
+            this.bitboard = Bitboard.unsetPieceAtPosition(this.bitboard, capturedPiece, y);
         }
         
         /* Remove the piece from the bitboard... */
-        this.bitmaps = Bitboard.unsetPieceAtPosition(this.bitmaps, piece, x);
+        this.bitboard = Bitboard.unsetPieceAtPosition(this.bitboard, piece, x);
         
         /* And place it at the new position on the bitboard. */
-        this.bitmaps = Bitboard.setPieceAtPosition(this.bitmaps, piece, y);
+        this.bitboard = Bitboard.setPieceAtPosition(this.bitboard, piece, y);
         
-        if (Evaluator.isCheck(this.bitmaps, this.getColor())) {
+        if (Evaluator.isCheck(this.bitboard, this.getColor())) {
             Board.this.setState(Board.CHECK);
             
             /* Remove the piece from its new position on the bitboard... */
-            this.bitmaps = Bitboard.unsetPieceAtPosition(this.bitmaps, piece, y);
+            this.bitboard = Bitboard.unsetPieceAtPosition(this.bitboard, piece, y);
             
             /* And place it as its old position. */
-            this.bitmaps = Bitboard.setPieceAtPosition(this.bitmaps, piece, x);
+            this.bitboard = Bitboard.setPieceAtPosition(this.bitboard, piece, x);
             
             /* If we captured a piece we should put it back. */
             if (capturedPiece != null) {
-                this.bitmaps = Bitboard.setPieceAtPosition(this.bitmaps, capturedPiece, y);
+                this.bitboard = Bitboard.setPieceAtPosition(this.bitboard, capturedPiece, y);
             }
             
             return;
@@ -270,7 +270,7 @@ public class Board extends JPanel {
         super.paintComponent(g);
         
         /* Use the bitboard to discover all legal moves for the selected piece. */
-        long attacks = Bitboard.getAttackBitmap(this.bitmaps, this.controller.getSelectedPiece());
+        long attacks = Bitboard.getAttackBitmap(this.bitboard, this.controller.getSelectedPiece());
         
         for (int i = 0; i < this.squares.length; i++) {
             for (int j = 0; j < this.squares[i].length; j++) {

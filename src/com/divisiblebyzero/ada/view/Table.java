@@ -1,7 +1,7 @@
 package com.divisiblebyzero.ada.view;
 
 //
-// ada.view.Table.java
+// Table.java
 // Ada Chess
 //
 // Created by Eric Czarny on February 26, 2006.
