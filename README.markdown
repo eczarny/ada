@@ -21,7 +21,7 @@ and figurine notation.
 
 # License
 
-Copyright (c) 2009 Eric Czarny.
+Copyright (c) 2010 Eric Czarny.
 
 This  software  package  should  be  accompanied  by  a  LICENSE file, this file
 contains the license relevant to this distribution. If no LICENSE exists, please

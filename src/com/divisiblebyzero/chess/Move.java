@@ -7,7 +7,7 @@ import java.io.Serializable;
 // Ada Chess
 //
 // Created by Eric Czarny on April 30, 2006.
-// Copyright 2009 Divisible by Zero. All rights reserved.
+// Copyright 2010 Divisible by Zero. All rights reserved.
 //
 
 public class Move implements Serializable {
