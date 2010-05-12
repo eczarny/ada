@@ -31,6 +31,5 @@ class Application {
         }
         
         Application.launch();
-    	
     }
 }
