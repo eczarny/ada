@@ -26,7 +26,7 @@ public class Piece implements Serializable {
     
     /* Constants for piece resources. */
     private static final String EXTENSION = ".png";
-    private static final String PATH      = "resources/images/pieces/";
+    private static final String PATH      = "/images/pieces/";
     private static final String STYLE     = "alpha";
     
     /* Possible piece types. */
@@ -94,7 +94,7 @@ public class Piece implements Serializable {
             try {
                 this.image = this.getImage(STYLE, this.getIdentifier());
             } catch (IOException e) {
-                logger.error("Unable to load artwork from location: " + STYLE + "/" + this.getIdentifier(), e);
+                logger.error("Unable to load artwork from location: " + this.getImagePath(STYLE, this.getIdentifier()), e);
             }
         }
         

@@ -1,4 +1,8 @@
+.*
 .DS_Store
 *.jar
+bin/
+boot/
 classes/
 logs/
+target/

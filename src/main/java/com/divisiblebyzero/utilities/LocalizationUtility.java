@@ -36,7 +36,7 @@ public class LocalizationUtility {
                 locale = Locale.US;
             }
             
-            instance = new LocalizationUtility("LocalizedStrings", locale);
+            instance = new LocalizationUtility("i18n/LocalizedStrings", locale);
         }
         
         return instance;

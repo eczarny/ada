@@ -9,7 +9,6 @@ package com.divisiblebyzero.utilities;
 //
 
 import java.awt.Image;
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 
@@ -25,7 +24,7 @@ public class ResourceUtility {
     private static Logger logger = Logger.getLogger(ResourceUtility.class);
     
     public static Image getImage(String filename) throws IOException {
-        return ImageIO.read(new File(filename));
+    	return ImageIO.read(ResourceUtility.class.getResource(filename));
     }
     
     public static void playAudioFile(String filename) {
