@@ -28,7 +28,7 @@ public class Table extends JFrame {
     
     public Table(Ada ada) {
         super(LocalizationUtility.getInstance().getLocalizedString(
-                LocalizedConstants.Table.WINDOW_TITLE));
+                LocalizedConstants.TABLE_WINDOW_TITLE()));
         
         this.ada = ada;
         

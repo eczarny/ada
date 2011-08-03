@@ -1,7 +1,7 @@
 package com.divisiblebyzero.ada
 
 //
-// Ada.java
+// Ada.scala
 // Ada Chess
 //
 // Created by Eric Czarny on August 2, 2011.
