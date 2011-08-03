@@ -14,7 +14,7 @@ import java.awt.Toolkit;
 
 import javax.swing.JFrame;
 
-import com.divisiblebyzero.ada.common.Ada;
+import com.divisiblebyzero.ada.Ada;
 import com.divisiblebyzero.ada.common.i18n.LocalizedConstants;
 import com.divisiblebyzero.ada.view.component.Board;
 import com.divisiblebyzero.chess.Square;

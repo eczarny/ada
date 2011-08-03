@@ -48,7 +48,7 @@ object AdaBuild extends Build {
     file("."),
     settings = buildSettings ++ Seq(
       libraryDependencies ++= Seq(log4j),
-      mainClass in (Compile, run) := Some("com.divisiblebyzero.ada.Ada"),
+      mainClass in (Compile, run) := Some("com.divisiblebyzero.ada.Main"),
       fork in run := true
     )
   )

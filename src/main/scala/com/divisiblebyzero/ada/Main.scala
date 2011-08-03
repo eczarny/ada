@@ -14,7 +14,6 @@ import javax.swing.plaf.metal.MetalLookAndFeel
 
 import org.apache.log4j.Logger
 
-import com.divisiblebyzero.ada.common.Ada
 import com.divisiblebyzero.ada.common.Logging
 
 object Main extends Logging {

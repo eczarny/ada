@@ -19,7 +19,7 @@ import javax.swing.JPanel;
 
 import org.apache.log4j.Logger;
 
-import com.divisiblebyzero.ada.common.Ada;
+import com.divisiblebyzero.ada.Ada;
 import com.divisiblebyzero.ada.player.Player;
 import com.divisiblebyzero.chess.Bitboard;
 import com.divisiblebyzero.chess.Move;

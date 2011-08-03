@@ -14,7 +14,7 @@ import java.net.UnknownHostException;
 
 import org.apache.log4j.Logger;
 
-import com.divisiblebyzero.ada.common.Ada;
+import com.divisiblebyzero.ada.Ada;
 
 public class Client extends Thread {
     private Socket socket;
