@@ -12,14 +12,12 @@ import javax.swing.UIManager
 import javax.swing.UnsupportedLookAndFeelException
 import javax.swing.plaf.metal.MetalLookAndFeel
 
-import org.apache.log4j.Logger
-
 import com.divisiblebyzero.ada.common.Logging
 
 object Main extends Logging {
-  def launch(): Unit = new Ada()
+  def launch() { new Ada() }
 
-  def main(args: Array[String]): Unit = {
+  def main(args: Array[String]) {
     try {
       UIManager.setLookAndFeel(new MetalLookAndFeel())
     } catch {
