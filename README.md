@@ -10,9 +10,9 @@ academic credit.
 Building  and  running  Ada  is  really  easy,  just invoke the following at the
 command line:
 
-    $ ant run
+    $ sbt run
 
-If Ant is installed properly Ada should now be running.
+If SBT is installed properly Ada should now be running.
 
 # Acknowledgements
 
@@ -21,7 +21,7 @@ and figurine notation.
 
 # License
 
-Copyright (c) 2010 Eric Czarny.
+Copyright (c) 2011 Eric Czarny.
 
 This  software  package  should  be  accompanied  by  a  LICENSE file, this file
 contains the license relevant to this distribution. If no LICENSE exists, please
