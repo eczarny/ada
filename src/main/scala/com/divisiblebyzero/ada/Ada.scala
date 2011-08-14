@@ -16,10 +16,8 @@ class Ada {
   private val table = new Table(this)
   private val players = List(new HumanPlayer(), new ComputerPlayer())
 
-  def getTable(): Table = table
-
-  def getWhitePlayer(): Player = getPlayerForColor(Piece.Color.WHITE)
-  def getBlackPlayer(): Player = getPlayerForColor(Piece.Color.BLACK)
-
-  def getPlayerForColor(color: Int): Player = players(color)
+  def getTable = table
+  def getWhitePlayer = getPlayerForColor(Piece.Color.WHITE)
+  def getBlackPlayer = getPlayerForColor(Piece.Color.BLACK)
+  def getPlayerForColor(color: Int) = players(color)
 }
