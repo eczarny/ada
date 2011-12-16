@@ -1,13 +1,5 @@
 package com.divisiblebyzero.chess;
 
-//
-// Pieces.java
-// Ada Chess
-//
-// Created by Eric Czarny on March 23, 2006.
-// Copyright 2010 Divisible by Zero. All rights reserved.
-//
-
 import java.awt.MediaTracker;
 import java.io.Serializable;
 

@@ -1,13 +1,5 @@
 package com.divisiblebyzero.chess.ai;
 
-//
-// Evaluator.java
-// Ada Chess
-//
-// Created by Eric Czarny on October 28, 2006.
-// Copyright 2010 Divisible by Zero. All rights reserved.
-//
-
 import com.divisiblebyzero.chess.Bitboard;
 import com.divisiblebyzero.chess.Piece;
 import com.divisiblebyzero.chess.Position;
@@ -273,14 +265,14 @@ public class Evaluator {
         
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
-            	Position position = new Position(i, j);
-            	Piece current = null;
-            	
-            	if (!Bitboard.isPositionOccupied(bitboard, position)) {
-            		continue;
-            	}
-            	
-            	current = Bitboard.getPieceAtPosition(bitboard, position);
+                Position position = new Position(i, j);
+                Piece current = null;
+                
+                if (!Bitboard.isPositionOccupied(bitboard, position)) {
+                    continue;
+                }
+                
+                current = Bitboard.getPieceAtPosition(bitboard, position);
                 
                 if (current.getColor() == color) {
                     result = king & Bitboard.getAttackBitmap(bitboard, current);
@@ -370,7 +362,7 @@ public class Evaluator {
                             break;
                         default:
                             value = value + (Strengths.King[color][i][j] * 100);
-                        
+                            
                             break;
                     }
                     

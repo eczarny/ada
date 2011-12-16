@@ -1,13 +1,5 @@
 package com.divisiblebyzero.ada
 
-//
-// Ada.scala
-// Ada Chess
-//
-// Created by Eric Czarny on August 2, 2011.
-// Copyright 2011 Divisible by Zero. All rights reserved.
-//
-
 import com.divisiblebyzero.ada.player.{ ComputerPlayer, HumanPlayer, Player }
 import com.divisiblebyzero.ada.view.Table
 import com.divisiblebyzero.chess.Piece

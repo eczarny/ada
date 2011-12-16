@@ -2,14 +2,6 @@ package com.divisiblebyzero.chess;
 
 import java.io.Serializable;
 
-//
-// Move.java
-// Ada Chess
-//
-// Created by Eric Czarny on April 30, 2006.
-// Copyright 2010 Divisible by Zero. All rights reserved.
-//
-
 public class Move implements Serializable {
     private static final long serialVersionUID = 8308554798560064235L;
     

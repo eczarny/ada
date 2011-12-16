@@ -1,13 +1,5 @@
 package com.divisiblebyzero.ada.view
 
-//
-// Table.scala
-// Ada Chess
-//
-// Created by Eric Czarny on August 9, 2011.
-// Copyright 2011 Divisible by Zero. All rights reserved.
-//
-
 import java.awt.BorderLayout
 import java.awt.Container
 import java.awt.Toolkit

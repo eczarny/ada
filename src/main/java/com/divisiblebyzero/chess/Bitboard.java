@@ -1,13 +1,5 @@
 package com.divisiblebyzero.chess;
 
-//
-// Bitboard.java
-// Ada Chess
-//
-// Created by Eric Czarny on February 26, 2006.
-// Copyright 2010 Divisible by Zero. All rights reserved.
-//
-
 import java.io.Serializable;
 
 import com.divisiblebyzero.chess.pieces.*;
@@ -31,7 +23,7 @@ public class Bitboard implements Serializable {
     
     /* All of the important bitmaps used by the Bitboard. */
     private static class Bitmaps {
-    	
+        
         /* Bitmaps for white pieces */
         private static final long[] WHITE_PIECES = {
                 0x1000000000000000L, /* KING   */
@@ -202,8 +194,8 @@ public class Bitboard implements Serializable {
         Piece result = null;
         
         if (Bitboard.isPositionOccupied(bitboard, position)) {
-        	long bitmap = Bitboard.getBitmapAtPosition(bitboard, position);
-        	
+            long bitmap = Bitboard.getBitmapAtPosition(bitboard, position);
+            
             result = new Piece(Bitboard.getColorFromBitmap(bitboard, bitmap), Bitboard.getTypeFromBitmap(bitboard, bitmap));
             
             result.setPosition(position);
@@ -264,23 +256,23 @@ public class Bitboard implements Serializable {
     }
     
     public static long getMaskAtPosition(Position position) {
-    	long result = 0;
-    	
-    	if ((getIndexAtPosition(position) < 64) && (getIndexAtPosition(position) > -1)) {
+        long result = 0;
+        
+        if ((getIndexAtPosition(position) < 64) && (getIndexAtPosition(position) > -1)) {
             result = Bitboard.masks[getIndexAtPosition(position)];
         }
-    	
+        
         return result;
     }
     
     public static long[][] setPieceAtPosition(long[][] bitboard, Piece piece, Position position) {
-    	bitboard[piece.getType()][piece.getColor()] = Bitboard.getBitmap(bitboard, piece) | Bitboard.getMaskAtPosition(position);
+        bitboard[piece.getType()][piece.getColor()] = Bitboard.getBitmap(bitboard, piece) | Bitboard.getMaskAtPosition(position);
         
         return bitboard;
     }
     
     public static long[][] unsetPieceAtPosition(long[][] bitboard, Piece piece, Position position) {
-    	bitboard[piece.getType()][piece.getColor()] = Bitboard.getBitmap(bitboard, piece) & ~Bitboard.getMaskAtPosition(position);
+        bitboard[piece.getType()][piece.getColor()] = Bitboard.getBitmap(bitboard, piece) & ~Bitboard.getMaskAtPosition(position);
         
         return bitboard;
     }
@@ -294,7 +286,7 @@ public class Bitboard implements Serializable {
     }
     
     public static int getIndexAtPosition(Position position) {
-    	return (position.getRank() << 3) + position.getFile();
+        return (position.getRank() << 3) + position.getFile();
     }
     
     public static String getString(long bitmap) {

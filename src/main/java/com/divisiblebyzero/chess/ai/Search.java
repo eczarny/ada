@@ -1,13 +1,5 @@
 package com.divisiblebyzero.chess.ai;
 
-//
-// Search.java
-// Ada Chess
-//
-// Created by Eric Czarny on October 28, 2006.
-// Copyright 2010 Divisible by Zero. All rights reserved.
-//
-
 import java.util.LinkedList;
 
 import com.divisiblebyzero.chess.Bitboard;
@@ -51,7 +43,7 @@ public class Search {
             
             /* Ada tested a capture, make sure to put the piece back. */
             if (capture != null) {
-            	bitboard = Bitboard.setPieceAtPosition(bitboard, capture, move.getY());
+                bitboard = Bitboard.setPieceAtPosition(bitboard, capture, move.getY());
             }
             
             bitboard = Bitboard.setPieceAtPosition(bitboard, current, move.getX());

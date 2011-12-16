@@ -1,13 +1,5 @@
 package com.divisiblebyzero.network;
 
-//
-// Message.java
-// Ada Chess
-//
-// Created by Eric Czarny on April 29, 2006.
-// Copyright 2010 Divisible by Zero. All rights reserved.
-//
-
 import java.io.Serializable;
 
 import com.divisiblebyzero.chess.Move;

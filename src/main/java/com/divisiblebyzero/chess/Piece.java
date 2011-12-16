@@ -1,13 +1,5 @@
 package com.divisiblebyzero.chess;
 
-//
-// Piece.java
-// Ada Chess
-//
-// Created by Eric Czarny on February 27, 2006.
-// Copyright 2010 Divisible by Zero. All rights reserved.
-//
-
 import java.awt.Image;
 import java.io.IOException;
 import java.io.Serializable;
@@ -19,7 +11,7 @@ import com.divisiblebyzero.utilities.ResourceUtility;
 public class Piece implements Serializable {
     private static final long serialVersionUID = -890551245339740761L;
     
-	private transient Image image;
+    private transient Image image;
     private Position position;
     private int color;
     private int type;

@@ -1,13 +1,5 @@
 package com.divisiblebyzero.chess.pieces;
 
-//
-// Bishop.java
-// Ada Chess
-//
-// Created by Eric Czarny on March 19, 2006.
-// Copyright 2010 Divisible by Zero. All rights reserved.
-//
-
 import com.divisiblebyzero.chess.Bitboard;
 import com.divisiblebyzero.chess.Piece;
 import com.divisiblebyzero.chess.Position;
@@ -15,7 +7,7 @@ import com.divisiblebyzero.chess.Position;
 public class Bishop extends Piece {
     private static final long serialVersionUID = 1735367998231808538L;
 
-	public static long getAttackBitmap(long[][] bitboard, Piece piece) {
+    public static long getAttackBitmap(long[][] bitboard, Piece piece) {
         long bitmap = Bitboard.getBitmapAtPosition(bitboard, piece.getPosition());
         long result = 0;
         

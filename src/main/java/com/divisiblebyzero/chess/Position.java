@@ -1,19 +1,11 @@
 package com.divisiblebyzero.chess;
 
-//
-// Position.java
-// Ada Chess
-//
-// Created by Eric Czarny on February 28, 2006.
-// Copyright 2010 Divisible by Zero. All rights reserved.
-//
-
 import java.io.Serializable;
 
 public class Position implements Serializable {
     private static final long serialVersionUID = -9142730880358796774L;
     
-	private int rank, file;
+    private int rank, file;
     
     public Position() {
         this.rank = 0;

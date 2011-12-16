@@ -1,13 +1,5 @@
 package com.divisiblebyzero.utilities;
 
-//
-// Resource.java
-// Ada Chess
-//
-// Created by Eric Czarny on April 6, 2006.
-// Copyright 2010 Divisible by Zero. All rights reserved.
-//
-
 import java.awt.Image;
 import java.io.IOException;
 import java.net.URL;
@@ -24,7 +16,7 @@ public class ResourceUtility {
     private static Logger logger = Logger.getLogger(ResourceUtility.class);
     
     public static Image getImage(String filename) throws IOException {
-    	return ImageIO.read(ResourceUtility.class.getResource(filename));
+        return ImageIO.read(ResourceUtility.class.getResource(filename));
     }
     
     public static void playAudioFile(String filename) {

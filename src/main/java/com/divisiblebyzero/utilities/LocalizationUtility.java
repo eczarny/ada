@@ -1,13 +1,5 @@
 package com.divisiblebyzero.utilities;
 
-//
-// Localization.java
-// Ada Chess
-//
-// Created by Eric Czarny on November 18, 2007.
-// Copyright 2010 Divisible by Zero. All rights reserved.
-//
-
 import java.util.Locale;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;

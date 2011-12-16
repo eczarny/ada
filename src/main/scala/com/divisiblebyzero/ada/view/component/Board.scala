@@ -1,13 +1,5 @@
 package com.divisiblebyzero.ada.view.component
 
-//
-// Board.java
-// Ada Chess
-//
-// Created by Eric Czarny on March 17, 2006.
-// Copyright 2010 Divisible by Zero. All rights reserved.
-//
-
 import java.awt.Color
 import java.awt.Graphics
 import java.awt.MediaTracker

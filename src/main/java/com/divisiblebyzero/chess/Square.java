@@ -1,13 +1,5 @@
 package com.divisiblebyzero.chess;
 
-//
-// Square.java
-// Ada Chess
-//
-// Created by Eric Czarny on February 27, 2006.
-// Copyright 2010 Divisible by Zero. All rights reserved.
-//
-
 import java.awt.Color;
 import java.io.Serializable;
 

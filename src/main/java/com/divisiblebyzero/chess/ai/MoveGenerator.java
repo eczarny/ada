@@ -1,13 +1,5 @@
 package com.divisiblebyzero.chess.ai;
 
-//
-// Generator.java
-// Ada Chess
-//
-// Created by Eric Czarny on November 6, 2006.
-// Copyright 2010 Divisible by Zero. All rights reserved.
-//
-
 import java.util.LinkedList;
 
 import com.divisiblebyzero.chess.Bitboard;
