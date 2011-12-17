@@ -19,29 +19,6 @@ import com.divisiblebyzero.chess.Square
 import com.divisiblebyzero.chess.ai.Evaluator
 import com.divisiblebyzero.ada.common.Logging
 
-object Board {
-  val UNDECIDED: Int = 0
-  val CHECK: Int = 1
-  val CHECKMATE: Int = 2
-
-  private[component] def getCoordinate(offset: Int) = {
-    15 + ((Square.SIZE * (offset + 1)) - Square.SIZE)
-  }
-
-  private[component] def getRankOrFile(coordinate: Int) = {
-    ((coordinate + (Square.SIZE - 10)) / Square.SIZE) - 1
-  }
-
-  private[component] def getPosition(x: Int, y: Int) = {
-    new Position(getRankOrFile(y), getRankOrFile(x))
-  }
-
-  private[component] object Lock {
-    var locked = false
-    var color = 0
-  }
-}
-
 @SerialVersionUID(-4785349736776306753L)
 class Board extends JPanel with Logging {
   import Board._
@@ -122,7 +99,7 @@ class Board extends JPanel with Logging {
     }
 
     // Make sure that white can move first.
-    isLocked(Piece.Color.BLACK)
+    locked(Piece.Color.BLACK)
   }
 
   def isLocked: Boolean = {
@@ -133,26 +110,25 @@ class Board extends JPanel with Logging {
     Lock.locked && (Lock.color == color)
   }
 
-  def isLocked(locked: Boolean) {
+  private def locked(locked: Boolean) {
     Lock.locked = locked
     Lock.color = -1
   }
 
-  def isLocked(color: Int) {
+  private def locked(color: Int) {
     Lock.locked = true
     Lock.color = color
   }
+
+  def getState = state
 
   def setState(state: Int) {
     this.state = state
   }
 
-  def getState = state
-
   def getBitboard = bitboard
 
   def getPiece(rank: Int, file: Int) = squares(rank)(file).getPiece
-
   def getPieceAtPosition(position: Position) = squares(position.getRank)(position.getFile).getPiece
 
   def setPieceAtPosition(piece: Piece, position: Position) {
@@ -163,7 +139,7 @@ class Board extends JPanel with Logging {
     squares(position.getRank)(position.getFile).setPiece(null)
   }
 
-  private def getColor: Int = color
+  def getColor: Int = color
 
   def setColor(color: Int) {
     this.color = color
@@ -228,14 +204,14 @@ class Board extends JPanel with Logging {
     if (getColor == Piece.Color.WHITE) {
       val currentPlayer: Player = ada.getBlackPlayer
 
-      isLocked(true)
+      locked(true)
       setColor(Piece.Color.BLACK)
 
       currentPlayer.makeMove(this, Piece.Color.BLACK)
     } else {
       val currentPlayer: Player = ada.getWhitePlayer
 
-      isLocked(Piece.Color.BLACK)
+      locked(Piece.Color.BLACK)
       setColor(Piece.Color.WHITE)
 
       currentPlayer.makeMove(this, Piece.Color.WHITE)
@@ -406,9 +382,11 @@ class Board extends JPanel with Logging {
     }
 
     def mouseEntered(event: MouseEvent) {
+      
     }
 
     def mouseExited(event: MouseEvent) {
+      
     }
 
     def mouseDragged(event: MouseEvent) {
@@ -435,5 +413,28 @@ class Board extends JPanel with Logging {
     def mouseMoved(event: MouseEvent) {
       
     }
+  }
+}
+
+object Board {
+  val UNDECIDED: Int = 0
+  val CHECK: Int = 1
+  val CHECKMATE: Int = 2
+
+  private[component] def getCoordinate(offset: Int) = {
+    15 + ((Square.SIZE * (offset + 1)) - Square.SIZE)
+  }
+
+  private[component] def getRankOrFile(coordinate: Int) = {
+    ((coordinate + (Square.SIZE - 10)) / Square.SIZE) - 1
+  }
+
+  private[component] def getPosition(x: Int, y: Int) = {
+    new Position(getRankOrFile(y), getRankOrFile(x))
+  }
+
+  private[component] object Lock {
+    var locked = false
+    var color = 0
   }
 }

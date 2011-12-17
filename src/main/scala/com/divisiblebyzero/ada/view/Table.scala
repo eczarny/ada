@@ -41,7 +41,7 @@ class Table extends JFrame(LocalizationUtility.getInstance.getLocalizedString(Lo
                 (((Square.SIZE * 8) + 20) + 7), ((Square.SIZE * 9) - 7))
     }
 
-    val container: Container = this.getContentPane
+    val container: Container = getContentPane
 
     container.setLayout(new BorderLayout(10, 10))
 
